@@ -1,4 +1,4 @@
 import React from 'react'
 
-let test = <p>Hello World!</p>
+let test = React.createElement("p", null, "Hello World!")
 
