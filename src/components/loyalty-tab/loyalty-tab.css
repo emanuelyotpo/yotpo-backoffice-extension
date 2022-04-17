@@ -1,0 +1,17 @@
+li span {
+    font-weight: bold;
+}
+
+#loyaltyPlatform {
+    text-transform: capitalize;
+}
+
+#loader, #jsbin {
+    display: inline-block;
+}
+
+.loyalty {
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
+}

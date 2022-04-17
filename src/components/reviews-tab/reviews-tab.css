@@ -1,0 +1,20 @@
+li span, .MuiListItemText-primary {
+    font-weight: bold !important;
+}
+.MuiListItem-padding {
+    padding: 1px 16px !important;
+}
+ul {
+    list-style: none;
+}
+
+#platform {
+    text-transform: capitalize;
+}
+
+
+.reviews {
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
+}

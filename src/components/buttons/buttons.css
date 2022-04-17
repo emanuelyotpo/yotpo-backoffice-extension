@@ -1,0 +1,10 @@
+.buttons {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-evenly;
+    align-self: flex-end;
+    width: 100%;
+}
+Button {
+    display: inline-block;
+}

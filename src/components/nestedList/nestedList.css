@@ -1,0 +1,12 @@
+.MuiListItemButton-root.MuiListItemButton-gutters.MuiButtonBase-root.css-e0yuwi {
+    display: flex;
+    align-items: flex-start;
+}
+
+span.MuiTouchRipple-root.css-w0pj6f {
+    height: fit-content;
+}
+
+#moduleId, #loginURL, #registerURL{
+    padding-left: 25px !important;
+}

@@ -1,5 +1,46 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import '@fontsource/roboto/300.css';
+@import '@fontsource/roboto/400.css';
+@import '@fontsource/roboto/500.css';
+@import '@fontsource/roboto/700.css';
+
 body {
-    width: 400px;
-    height: 400px;
-    background-color: red;
+    width: 600px;
+    height: 600px;
+    font-family: 'Roboto';
 }
+
+.main {
+    height: 100%;
+}
+
+.layout {
+    height: 100%;
+}
+
+div#simple-tabpanel-0 {
+    height: 100%;
+}
+
+.MuiBox-root.css-8atqhb {
+    height: 100%;
+}
+
+.MuiBox-root.css-19kzrtu {
+    height: 92%;
+}
+
+p.MuiTypography-root.MuiTypography-body1.css-9l3uo3 {
+    height: 100%;
+}
+
+.logo {
+    height: 32px;
+    float: right;
+}
+.MuiBox-root.css-19kzrtu {
+    padding: 14px 24px;
+}
+
+
+
