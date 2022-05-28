@@ -7,6 +7,12 @@ span.MuiTouchRipple-root.css-w0pj6f {
     height: fit-content;
 }
 
-#moduleId, #loginURL, #registerURL{
-    padding-left: 25px !important;
+.loyalty-instance-list-item {
+    width: fit-content !important;
+    display: inline-block !important;
+}
+
+.nested-list {
+    display: flex;
+    flex-flow: column;
 }

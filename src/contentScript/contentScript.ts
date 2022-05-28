@@ -1,9 +1,10 @@
-function findAppkey() {
+// Reviews
+function getReviewsDataFromPage() {
   let pattern = /staticw2.yotpo.com.(\w*)/
   let n: any
   let appkey: any
   let bottomline: any
-  let id: any
+  let productId: any
   let isAppKeyInstalled: boolean
 
   n = document.querySelector("script[src*='//staticw2.yotpo.com']")
@@ -12,12 +13,12 @@ function findAppkey() {
           .querySelector("script[src*='//staticw2.yotpo.com']")
           .getAttribute('src')
       )
-    : undefined
+    : undefined    
 
   if (!n) {
     appkey = 'No App Key Here'
     bottomline = '-----'
-    id = '-----'
+    productId = '-----'
     isAppKeyInstalled = false
   } else {
     appkey = n[1]
@@ -28,11 +29,11 @@ function findAppkey() {
       bottomline = 'Star Ratings Are Installed!'
     }
     if (document.querySelectorAll('.yotpo-main-widget').length !== 0) {
-      id = document
+      productId = document
         .querySelectorAll('.yotpo-main-widget')[0]
         .getAttribute('data-product-id')
     } else {
-      id = '-----'
+      productId = '-----'
     }
   }
 
@@ -61,14 +62,16 @@ function findAppkey() {
   let details = {
     appkey: appkey,
     bottomline: bottomline,
-    id: id,
+    productId: productId,
     isAppKeyInstalled: isAppKeyInstalled,
     platform: platform(),
   }
+
   return details
 }
 
-function findGuid() {
+// Loyalty
+function getLoyaltyDataFromPage() {
   let n: any
   let guid: any
   let customerIdentification: any
@@ -79,11 +82,13 @@ function findGuid() {
 
   n = document.querySelector(
     "script[src*='//cdn-widgetsrepository.yotpo.com/v1/loader']"
-  ) ? document
-  .querySelector(
-    "script[src*='//cdn-widgetsrepository.yotpo.com/v1/loader']"
   )
-  .getAttribute('src') : undefined
+    ? document
+        .querySelector(
+          "script[src*='//cdn-widgetsrepository.yotpo.com/v1/loader']"
+        )
+        .getAttribute('src')
+    : undefined
 
   if (!n) {
     guid = 'No GUID Here'
@@ -127,6 +132,96 @@ function findGuid() {
   return details
 }
 
+// VMS
+function getVMSDataFromPage() {
+  let pattern = /staticw2.yotpo.com.(\w*)/
+  let n: any
+  let vmsAppkey: any
+  let galleryId: any
+  let vmsProductId: any
+  let isAppKeyInstalled: boolean
+
+  n = document.querySelector("script[src*='//staticw2.yotpo.com']")
+    ? pattern.exec(
+        document
+          .querySelector("script[src*='//staticw2.yotpo.com']")
+          .getAttribute('src')
+      )
+    : undefined
+
+  if (!n) {
+    vmsAppkey = 'No App Key Here'
+    vmsProductId = '-----'
+    galleryId = '-----'
+    isAppKeyInstalled = false
+  } else {
+    vmsAppkey = n[1]
+    isAppKeyInstalled = true
+    if (document.querySelectorAll('.yotpo-pictures-widget').length) {
+      galleryId = document
+        .querySelectorAll('.yotpo-pictures-widget')[0]
+        .getAttribute('data-gallery-id')
+      if (
+        document
+          .querySelectorAll('.yotpo-pictures-widget')[0]
+          .getAttribute('data-product-id')
+      ) {
+        vmsProductId = document
+          .querySelectorAll('.yotpo-pictures-widget')[0]
+          .getAttribute('data-product-id')
+      } else {
+        vmsProductId = '-----'
+      }
+    } else {
+      galleryId = '-----'
+    }
+  }
+  let details = {
+    isAppKeyInstalled,
+    vmsAppkey,
+    vmsProductId,
+    galleryId,
+  }
+
+  return details
+}
+
+function getSMSDataFromPage() {
+  let pattern = /forms.smsbump.com.(\w*)/
+  let n: any
+  let userId: any
+  let formId: any
+  let isSMSScriptInstalled: boolean
+  n = document.querySelector("script[src*='//forms.smsbump.com/']")
+    ? pattern.exec(
+        document
+          .querySelector("script[src*='//forms.smsbump.com/']")
+          .getAttribute('src')
+      )
+    : undefined
+  if (!n) {
+    userId = 'No User ID Here'
+    formId = 'No Form ID Here'
+    isSMSScriptInstalled = false
+  } else {
+    userId = n[1]
+    formId = getStringBetween(n.input, 'form_', '.js')
+    isSMSScriptInstalled = true
+  }
+
+  let details = {
+    userId: userId,
+    formId: formId,
+    isSMSScriptInstalled: isSMSScriptInstalled,
+  }
+  return details
+}
+
+function getStringBetween(str: string, start: string, end: string) {
+  const result = str.match(new RegExp(start + '(.*)' + end))
+  return result[1]
+}
+
 function docReady(fn: any) {
   if (
     document.readyState === 'complete' ||
@@ -143,13 +238,22 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     case 'go':
       try {
         docReady(function () {
-          findAppkey()
-          findGuid()
+          getReviewsDataFromPage()
+          getLoyaltyDataFromPage()
+          getVMSDataFromPage()
+          getSMSDataFromPage()
         })
-        let reviewsData = findAppkey()
-        let loyaltyData = findGuid()
+        let reviewsData = getReviewsDataFromPage()
+        let loyaltyData = getLoyaltyDataFromPage()
+        let vmsData = getVMSDataFromPage()
+        let smsData = getSMSDataFromPage()
         sendResponse({
-          data: { reviewsData: reviewsData, loyaltyData: loyaltyData },
+          data: {
+            reviewsData: reviewsData,
+            loyaltyData: loyaltyData,
+            vmsData: vmsData,
+            smsData: smsData,
+          },
         })
       } catch (error) {
         console.log(error)

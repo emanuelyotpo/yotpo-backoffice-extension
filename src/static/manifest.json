@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "SE Extension",
     "description": "Guarenteed to make your life better!",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "icons": {
         "16": "icon.png",
         "48": "icon.png",
@@ -10,7 +10,7 @@
     },
     "action": {
         "default_popup": "popup.html",
-        "default_title": "React Extension",
+        "default_title": "SE Extension",
         "default_icon": "icon.png"
     },
     "options_page": "options.html",
@@ -28,11 +28,12 @@
         }
     ],
     "permissions": [
-        "contextMenus",
         "search",
         "tabs",
         "activeTab",
-        "storage"
+        "storage",
+        "identity",
+        "identity.email"
     ],
     "host_permissions": [
         "https://cdn-widgetsrepository.yotpo.com/v1/loader/*"

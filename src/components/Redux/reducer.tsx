@@ -1,11 +1,13 @@
-import React from 'react'
-import { fetchReviewsData } from '../../utils/api'
+import { IJS } from '../../models/IJs'
+import { ITabData } from '../../models/ITabData'
 import {
-  getGroupedReviews,
-  getSyndicatedReviews,
-} from '../../utils/reviewsFunctions'
+  campaignsForList,
+  instancesForList,
+  redemptionsForList,
+  vipTiersForList,
+} from '../../utils/loyaltyFunctions'
 import { Action } from './action'
-import { ActionType } from './action-types'
+import { ActionType } from './actionTypes'
 import { AppData } from './AppData'
 
 export function reduce(
@@ -15,118 +17,287 @@ export function reduce(
   const newAppData = { ...oldAppData }
 
   switch (action.type) {
+    case ActionType.SetUser:
+      newAppData.isYotpoUser = action.payload
+      break
+
+    case ActionType.SetSiteDomain:
+      newAppData.siteDomain = action.payload.host
+      break
+
+    case ActionType.SetStoredOptions:
+      newAppData.js = action.payload.js
+      newAppData.js.forEach((jsEnv: IJS) => {
+        if (jsEnv.isDefault) {
+          newAppData.defaultJs = jsEnv.url
+        }
+      })
+
+      let optionsTabs = action.payload.tabs
+      newAppData.tabs.forEach((tabA: ITabData) => {
+        optionsTabs.forEach((tabB: ITabData) => {
+          if (tabA.value === tabB.value) {
+            tabB.tab = tabA.tab
+          }
+        })
+      })
+      for (let index = 0; index <= optionsTabs.length - 1; index++) {
+        optionsTabs[index].i = index
+      }
+      newAppData.tabs = optionsTabs
+      break
+
     case ActionType.SetInitialReviewsData:
       newAppData.appkey = action.payload.appkey
-      newAppData.reviewsPlatform = action.payload.platform
-      newAppData.productId = action.payload.id
-      newAppData.isBottomLineInstalled = action.payload.bottomline
+      newAppData.productId = action.payload.productId
+      newAppData.reviewsData = [...newAppData.reviewsData]
+      for (let entry in action.payload) {
+        newAppData.reviewsData.forEach(
+          (data: { key: string; value: any; id: string }) => {
+            if (data.id === entry) {
+              data.value = action.payload[entry]
+            }
+          }
+        )
+      }
+      newAppData.reviewsCodeToCopy = `
+      <script type="text/javascript" src="//staticw2.yotpo.com/${action.payload.appkey}/widget.js" async></script>
+  
+      <div class="yotpo bottomLine"
+          data-product-id="${action.payload.productId}">
+      </div>	
+      <div class="yotpo yotpo-main-widget"
+          data-product-id="${action.payload.productId}">
+      </div>`
       break
 
     case ActionType.SetMoreReviewsData:
-      newAppData.productName = action.payload.products[0].name
-      newAppData.productImageURL = action.payload.products[0].image_url
-      newAppData.totalReviews = action.payload.bottomline.total_review
-      newAppData.avgScore = action.payload.bottomline.average_score
-      newAppData.customQuestionsDetails = Object.values(
-        action.payload.bottomline.custom_fields_bottomline
-      )
-      newAppData.customQuestionsSlugs = Object.keys(
-        action.payload.bottomline.custom_fields_bottomline
-      )
-      break
-
-    case ActionType.SetGroupedReviews:
-      newAppData.groupedReviews = ...newAppData.groupedReviews
-      let reviewsData = action.payload
-      let page = 1
-      let totalPages = Math.round(
-        reviewsData.pagination.total / reviewsData.pagination.per_page
-      )
-      if (!totalPages) {
-        fetchReviewsData(newAppData.appkey, newAppData.productId, page)
-          .then((data) => {
-            newAppData.groupedReviews =
-              newAppData.groupedReviews + getGroupedReviews(data)
-            console.log(getGroupedReviews(data))
-            console.log(newAppData.groupedReviews)
-          })
-          .catch((error) => console.log(error))
-      } else {
-        while (page < totalPages) {
-          fetchReviewsData(newAppData.appkey, newAppData.productId, page)
-            .then((data) => {
-              newAppData.groupedReviews =
-                newAppData.groupedReviews + getGroupedReviews(data)
-            })
-            .catch((error) => console.log(error))
-          page++
-        }
+      newAppData.reviewsData = [...newAppData.reviewsData]
+      for (let entry in action.payload) {
+        newAppData.reviewsData.forEach(
+          (data: { key: string; value: any; id: string }) => {
+            if (data.id === entry) {
+              data.value = action.payload[entry]
+            }
+          }
+        )
       }
       break
 
-    case ActionType.SetSyndicatedReviews:
-      // newAppData.groupedReviews = ...groupedReviews
-
-      // reviewsData = action.payload
-      // page = 1
-      // totalPages = Math.round(
-      //   reviewsData.pagination.total / reviewsData.pagination.per_page
-      // )
-      // if (!totalPages) {
-      //   fetchReviewsData(newAppData.appkey, newAppData.productId, page)
-      //     .then((data) => {
-      //       newAppData.groupedReviews = getSyndicatedReviews(data)
-      //       console.log(getGroupedReviews(data))
-      //       console.log(newAppData.groupedReviews)
-      //     })
-      //     .catch((error) => console.log(error))
-      // } else {
-      //   while (page < totalPages) {
-      //     fetchReviewsData(newAppData.appkey, newAppData.productId, page)
-      //       .then((data) => {
-      //         // console.log('data: ', data)
-      //         newAppData.groupedReviews =
-      //           newAppData.groupedReviews + getSyndicatedReviews(data)
-      //       })
-      //       .catch((error) => console.log(error))
-      //     page++
-      //   }
-      // }
-
+    case ActionType.SetGroupedAndSyndicatedReviewCount:
+      newAppData.reviewsData = [...newAppData.reviewsData]
+      for (let entry in action.payload) {
+        newAppData.reviewsData.forEach(
+          (data: { key: string; value: any; id: string }) => {
+            if (data.id === entry) {
+              data.value = action.payload[entry]
+            }
+          }
+        )
+      }
       break
 
     case ActionType.SetLoyaltyData:
       newAppData.guid = action.payload.guid
-      newAppData.customerEmail = action.payload.customerEmail
-      newAppData.customerId = action.payload.customerId
-      newAppData.customerTags = action.payload.customerTags
+      newAppData.loyaltyData = [...newAppData.loyaltyData]
+      for (let entry in action.payload) {
+        newAppData.loyaltyData.forEach(
+          (data: { key: string; value: any; id: string }) => {
+            if (data.id === entry) {
+              data.value = action.payload[entry]
+            }
+          }
+        )
+      }
+      newAppData.loyaltyCodeToCopy = `<script src="https://cdn-widgetsrepository.yotpo.com/v1/loader/${action.payload.guid}" async></script>
+        <div id="swell-customer-identification"
+             data-authenticated="true"
+             data-email="${action.payload.customerEmail}"
+             data-id="${action.payload.customerId}"
+             data-tags="${action.payload.customerTags}"
+             style="display:none;">
+         </div>
+         <div id="yotpo-loyalty-checkout-data"
+             cart-subtotal-cents="-----">
+         </div>
+         <div id="yotpo-loyalty-cart-data">
+         </div>
 
+         <!-- Instances -->
+         `
       break
+
     case ActionType.SetMoreLoyaltyData:
-      newAppData.instances = action.payload.instances
-      newAppData.merchantId =
-        action.payload.instances[0].static_content.merchantId
+      for (let entry in action.payload.instances[0].static_content) {
+        newAppData.loyaltyData.forEach(
+          (data: { key: string; value: any; id: string }) => {
+            if (data.id === entry) {
+              data.value =
+                action.payload.instances[0].static_content[entry]
+                  .charAt(0)
+                  .toUpperCase() +
+                action.payload.instances[0].static_content[entry].slice(1)
+            }
+          }
+        )
+      }
 
-      let allLoyaltyPlatforms = newAppData.instances.map(
-        (instance) => instance.static_content.platformName
-      )
-      let loyaltyPlatformsSet = new Set()
-      allLoyaltyPlatforms.forEach((platformName) =>
-        loyaltyPlatformsSet.add(platformName)
-      )
+      newAppData.activeInstances = []
+      newAppData.inactiveInstances = []
 
-      newAppData.loyaltyPlatforms = Array.from(loyaltyPlatformsSet).join(' ')
-      newAppData.activeInstances = newAppData.instances.filter((instance) => {
-        return instance.active === true
-      })
-      newAppData.inactiveInstances = newAppData.instances.filter((instance) => {
-        return instance.active === false
-      })
+      for (let instance of action.payload.instances) {
+        if (instance.static_content.companyName) {
+          newAppData.companyName = instance.static_content.companyName
+        }
+        if (instance.active && !instance.parent_instance_id) {
+          newAppData.activeInstances.push(instance)
+        } else if (!instance.active && !instance.parent_instance_id) {
+          newAppData.inactiveInstances.push(instance)
+        }
+      }
+
+      newAppData.activeInstances = instancesForList(newAppData.activeInstances)
+      newAppData.inactiveInstances = instancesForList(
+        newAppData.inactiveInstances
+      )
+      newAppData.activeInstancesForCopy = [...newAppData.activeInstancesForCopy]
       newAppData.activeInstances.forEach(function (value, key) {
-        newAppData.instancesForCopy.push(
-          key + ' : ' + value.id + ' (' + value.name + ')'
+        newAppData.activeInstancesForCopy.push({
+          id: value.widget_instance_id,
+          type: value.widget_type_name,
+          name: value.instance_name,
+        })
+      })
+      newAppData.activeInstancesForCopy.forEach((instance) => {
+        newAppData.loyaltyCodeToCopy = newAppData.loyaltyCodeToCopy.concat(
+          '\n' +
+            `<!-- ${instance.name + ' (' + instance.type + ')'} -->
+        <div class="yotpo-widget-instance"
+            data-yotpo-instance-id="${instance.id}">
+        </div>` +
+            '\n'
         )
       })
+      break
+
+    case ActionType.SetLoyaltyCampaigns:
+      newAppData.activeCampaigns = []
+      newAppData.inactiveCampaigns = []
+      for (let campaign of action.payload) {
+        if (campaign.active) {
+          newAppData.activeCampaigns.push(campaign)
+        } else if (!campaign.active) {
+          newAppData.inactiveCampaigns.push(campaign)
+        }
+      }
+      newAppData.activeCampaigns = campaignsForList(newAppData.activeCampaigns)
+      newAppData.inactiveCampaigns = campaignsForList(
+        newAppData.inactiveCampaigns
+      )
+      break
+
+    case ActionType.SetLoyaltyRedemptions:
+      newAppData.redemptions = [...newAppData.redemptions]
+      newAppData.redemptions = redemptionsForList(action.payload)
+      break
+
+    case ActionType.SetLoyaltyVipTiers:
+      newAppData.vipTiers = vipTiersForList(action.payload)
+      break
+
+    case ActionType.SetVMSData:
+      newAppData.vmsData = [...newAppData.vmsData]
+      newAppData.vmsAppkey = action.payload.vmsAppkey
+      for (let entry in action.payload) {
+        newAppData.vmsData.forEach(
+          (data: { key: string; value: any; id: string }) => {
+            if (data.id === entry) {
+              data.value = action.payload[entry]
+            }
+          }
+        )
+      }
+
+      newAppData.vmsCodeToCopy = `
+      <script type="text/javascript" src="//staticw2.yotpo.com/${action.payload.vmsAppkey}/widget.js">
+      </script>
+    <!-- Custom Gallery -->
+      <div class="yotpo yotpo-pictures-widget"
+        data-gallery-id="${action.payload.galleryId}">
+      </div>
+
+    <!-- Product Gallery -->
+      <div class="yotpo yotpo-pictures-widget"
+      data-gallery-id="${action.payload.galleryId}"
+        data-product-id="${action.payload.vmsProductId}">
+      </div>
+      `
+      break
+
+    case ActionType.SetMoreVMSData:
+      for (let entry in action.payload) {
+        newAppData.vmsData.forEach(
+          (data: { key: string; value: any; id: string }) => {
+            if (data.id === entry) {
+              data.value = action.payload[entry]
+            }
+          }
+        )
+      }
+      break
+
+    case ActionType.SetSMSData:
+      for (let entry in action.payload) {
+        newAppData.smsData.forEach(
+          (data: { key: string; value: any; id: string }) => {
+            if (data.id === entry) {
+              data.value = action.payload[entry]
+            }
+          }
+        )
+      }
+      newAppData.smsCodeToCopy = `
+      <div>
+        <script src="https://forms.smsbump.com/${action.payload.userId}/form_${action.payload.formId}.js"></script>
+      </div>
+      `
+      break
+
+    case ActionType.UpdateDataManually:
+      let fieldToUpdate = action.payload.field
+      newAppData[fieldToUpdate] = action.payload.newValue
+
+      newAppData.reviewsData.forEach(
+        (data: { key: string; value: any; id: string }) => {
+          if (data.id === action.payload.field) {
+            data.value = action.payload.newValue
+          }
+        }
+      )
+
+      newAppData.loyaltyData.forEach(
+        (data: { key: string; value: any; id: string }) => {
+          if (data.id === action.payload.field) {
+            data.value = action.payload.newValue
+          }
+        }
+      )
+
+      newAppData.vmsData.forEach(
+        (data: { key: string; value: any; id: string }) => {
+          if (data.id === action.payload.field) {
+            data.value = action.payload.newValue
+          }
+        }
+      )
+
+      newAppData.smsData.forEach(
+        (data: { key: string; value: any; id: string }) => {
+          if (data.id === action.payload.field) {
+            data.value = action.payload.newValue
+          }
+        }
+      )
 
       break
   }

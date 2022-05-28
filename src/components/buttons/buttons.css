@@ -1,10 +1,15 @@
+.btn.action {
+    margin: 2.5px 5px;
+}
+
 .buttons {
     display: flex;
-    flex-flow: row;
-    justify-content: space-evenly;
-    align-self: flex-end;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-self: center;
     width: 100%;
-}
-Button {
-    display: inline-block;
+    position: fixed;
+    bottom: 0;
+    background-color: white;
+    padding-bottom: 10px;
 }

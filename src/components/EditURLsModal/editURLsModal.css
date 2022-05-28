@@ -8,3 +8,13 @@ input:hover {
     background-color: #d3d3d3;
     cursor: pointer;
 }
+
+.MuiBox-root {
+    border-radius: 25px;
+    border: none !important;
+}
+
+.edit-static-content-button {
+    display: inline;
+}
+

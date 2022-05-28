@@ -4,7 +4,10 @@
         "module": "es6",
         "target": "es6",
         "moduleResolution": "node",
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "lib": [
+            "es5", "es6", "dom", "dom.iterable"
+        ]
     },
     "include": ["src/**/*", "src/**/*.tsx"],
     "exclude": ["node_modules"]

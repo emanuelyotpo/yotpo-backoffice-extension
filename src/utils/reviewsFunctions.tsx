@@ -1,5 +1,5 @@
-import { useSelector } from 'react-redux'
-import { AppData } from '../components/Redux/AppData'
+import { IGroupedAndSyndicatedCountResponse } from '../models/IGroupedAndSyndicatedCountResponse'
+import { fetchReviewsData } from './api'
 
 export function richSnippetsResultsConnector() {
   chrome.tabs.query(
@@ -14,18 +14,38 @@ export function richSnippetsResultsConnector() {
   )
 }
 
-export function setGroupedReviews(data: any){
-  
-}
+export async function getGroupedAndSyndicatedReviewsCounts(
+  appkey: string,
+  productId: string,
+  pages: number,
+  perPage: number
+): Promise<IGroupedAndSyndicatedCountResponse> {
+  let groupedReviewsCount = 0
+  let syndicatedReviewsCount = 0
+  let totalPages = Math.ceil(pages / perPage)
+  let page = 1
+  do {
+    try {
+      const resp = await fetchReviewsData(appkey, productId, page);
 
-export function getGroupedReviews(data: any) {
-  let groupedReviews = data.response.grouping_data
-  let groupedReviewsLength = Object.keys(groupedReviews).length
-  return groupedReviewsLength
-}
+      let result = resp;
+      let groupingData = Object.keys(result.response.grouping_data);
+      let groupedReviewsLength = groupingData.length;
+      groupedReviewsCount = groupedReviewsCount + groupedReviewsLength;
 
-export function getSyndicatedReviews(data: any) {
-  let syndicatedReviews = data.response.syndication_data
-  let syndicatedReviewsLength = Object.keys(syndicatedReviews).length
-  return syndicatedReviewsLength
+      if (result.response.syndication_data) {
+        let syndicatedReviews = Object.keys(result.response.syndication_data);
+        let syndicatedReviewsLength = syndicatedReviews.length;
+        syndicatedReviewsCount =
+          syndicatedReviewsCount + syndicatedReviewsLength;
+      };
+      page++
+    } catch (err) {
+      console.error(err)
+    }
+  } while (page <= totalPages);
+  return {
+    groupedReviewsCount,
+    syndicatedReviewsCount,
+  }
 }

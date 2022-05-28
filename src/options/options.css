@@ -1,9 +1,15 @@
-@import '@fontsource/roboto/300.css';
-@import '@fontsource/roboto/400.css';
-@import '@fontsource/roboto/500.css';
-@import '@fontsource/roboto/700.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 body {
     background-color: #f5f5f5;
-    font-family: 'Roboto';
+    font-family: 'Inter', sans-serif !important;
+}
+
+.grabbable {
+    font-size: 18px;
+    border: 1px solid black;
+    width: 90px;
+    text-align: center;
+    margin-bottom: 10px;
+    padding: 5px;
 }

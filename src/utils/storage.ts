@@ -1,51 +1,57 @@
-export interface LocalStorage {
-  userFavoriteTab?: string[]
-  options?: LocalStorageOptions
+export interface SyncStorage {
+  options?: SyncStorageOptions
 }
 
-export interface LocalStorageOptions {
-  userFavoriteTab: string
-  options: string
+export interface SyncStorageOptions {
+  tabs: any[]
+  js: any[]
 }
 
-export type LocalStorageKeys = keyof LocalStorage
+export type SyncStorageKeys = keyof SyncStorage
 
-export function setFavoriteTab(userFavoriteTab: string[]): Promise<void> {
-  const vals: LocalStorage = {
-    userFavoriteTab,
-  }
-  return new Promise((resolve) => {
-    chrome.storage.local.set(vals, () => {
-      resolve()
-    })
-  })
-}
-
-export function getFavoriteTab(): Promise<string[]> {
-  const keys: LocalStorageKeys[] = ['userFavoriteTab']
-  return new Promise((resolve) => {
-    chrome.storage.local.get(keys, (res: LocalStorage) => {
-      resolve(res.userFavoriteTab ?? [])
-    })
-  })
-}
-
-export function setStoredOptions(options: LocalStorageOptions): Promise<void> {
-  const vals: LocalStorage = {
+export function setStoredOptions(options: SyncStorageOptions): Promise<void> {
+  const vals: SyncStorage = {
     options,
   }
   return new Promise((resolve) => {
-    chrome.storage.local.set(vals, () => {
+    chrome.storage.sync.set(vals, () => {
       resolve()
     })
   })
 }
 
-export function getStoredOptions(): Promise<LocalStorageOptions> {
-  const keys: LocalStorageKeys[] = ['options']
+export function getStoredOptions(): Promise<SyncStorageOptions> {
+  const keys: SyncStorageKeys[] = ['options']
   return new Promise((resolve) => {
-    chrome.storage.local.get(keys, (res: LocalStorage) => {
+    chrome.storage.sync.get(keys, (res: SyncStorage) => {
       resolve(res.options)
     })
   })
+}
+
+export function moveArrayItemToNewIndex(
+  array: any[],
+  old_index: number,
+  new_index: number
+) {
+  if (new_index >= array.length) {
+    var k = new_index - array.length + 1
+    while (k--) {
+      array.push(undefined)
+    }
+  }
+  array.splice(new_index, 0, array.splice(old_index, 1)[0])
+
+  return array
+}
+
+export function setDefaultJs(array: any[], value: string) {
+  for (let i = 0; i < array.length; i++) {
+    if (array[i].value === value) {
+      array[i].isDefault = true
+    } else {
+      array[i].isDefault = false
+    }
+  }
+  return array
 }
