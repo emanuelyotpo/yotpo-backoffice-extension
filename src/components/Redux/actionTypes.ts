@@ -1,17 +1,17 @@
 export enum ActionType {
-    SetUser,
     SetStoredOptions,
     SetSiteDomain,
-    SetInitialReviewsData,
+    SetInitialData,
     SetMoreReviewsData,
-    SetLoyaltyData,
     SetMoreLoyaltyData,
-    SetGroupedAndSyndicatedReviewCount,
+    setReviewsCountsAndData,
     UpdateDataManually,
-    SetVMSData,
     SetMoreVMSData,
-    SetSMSData,
     SetLoyaltyCampaigns,
     SetLoyaltyRedemptions,
-    SetLoyaltyVipTiers
+    SetLoyaltyVipTiers,
+    SetInstalledLoylatyModules,
+    SetIsUpdateAllURLsModalOpen,
+    AddAccount,
+    RemoveAccount
 }

@@ -2,28 +2,20 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import './popup.css'
 import Layout from '../components/layout/layout'
-import { Provider, useDispatch, useSelector } from 'react-redux'
+import { Provider } from 'react-redux'
 import { store } from '../components/Redux/store'
-import { ThemeProvider, createTheme } from '@mui/material/styles'
-import { AppData } from '../components/Redux/AppData'
+import '@yotpo-common/react-b2b-components/themes/theme.css';
+import { YotpoAlert } from '@yotpo-common/react-b2b-components/alert';
 
 export default function App() {
-  const theme = createTheme({
-    typography: {
-      fontFamily: `"Inter", sans-serif`,
-      fontSize: 14,
-      fontWeightLight: 300,
-      fontWeightRegular: 400,
-      fontWeightMedium: 500,
-    },
-  })
 
   return (
-    <ThemeProvider theme={theme}>
-      <Provider store={store}>
-        <Layout />
-      </Provider>
-    </ThemeProvider>
+    <React.StrictMode>
+        <Provider store={store}>
+        <YotpoAlert/>
+          <Layout/>
+        </Provider>
+    </React.StrictMode>
   )
 }
 

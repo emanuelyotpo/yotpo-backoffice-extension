@@ -1,18 +1,7 @@
-.MuiListItemButton-root.MuiListItemButton-gutters.MuiButtonBase-root.css-e0yuwi {
-    display: flex;
-    align-items: flex-start;
+.installed {
+    color: green;
 }
 
-span.MuiTouchRipple-root.css-w0pj6f {
-    height: fit-content;
-}
-
-.loyalty-instance-list-item {
-    width: fit-content !important;
-    display: inline-block !important;
-}
-
-.nested-list {
-    display: flex;
-    flex-flow: column;
+.collapsible {
+    margin: 5px;
 }

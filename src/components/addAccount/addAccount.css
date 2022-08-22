@@ -1,0 +1,18 @@
+.add-account {
+    display: flex;
+    flex-flow: row nowrap;
+    padding: 0 10px;
+}
+
+.add-account yotpo-button {
+    margin-top: 0px;
+}
+
+.add-account yotpo-input,
+.add-account yotpo-dropdown {
+    padding-right: 5px;
+}
+
+.add-account yotpo-input {
+    width: 190px;
+}

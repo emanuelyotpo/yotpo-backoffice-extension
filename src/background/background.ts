@@ -1,12 +1,44 @@
+import { YotpoProducts } from '@yotpo-common/react-b2b-components/enums'
 import { setStoredOptions } from '../utils/storage'
 
+// Set Options on install
 chrome.runtime.onInstalled.addListener(() => {
   setStoredOptions({
     tabs: [
-      { label: 'Reviews', value: 'reviews', i: 0, tab: `<ReviewsTab />` },
-      { label: 'Loyalty', value: 'loyalty', i: 1, tab: `<LoyaltyTab />` },
-      { label: 'VMS', value: 'vms', i: 2, tab: `<VMSTab />` },
-      { label: 'SMS', value: 'sms', i: 3, tab: `<SMSTab />` },
+      {
+        id: 1,
+        label: 'Reviews',
+        value: 'reviews',
+        product: YotpoProducts.reviews,
+        tab: `<ReviewsTab />`,
+      },
+      {
+        id: 2,
+        label: 'Loyalty',
+        value: 'loyalty',
+        product: YotpoProducts.loyalty,
+        tab: `<LoyaltyTab />`,
+      },
+      {
+        id: 3,
+        label: 'VMS',
+        value: 'vms',
+        product: YotpoProducts.vugc,
+        tab: `<VMSTab />`,
+      },
+      {
+        id: 4,
+        label: 'SMS',
+        value: 'sms',
+        product: YotpoProducts.smsbump,
+        tab: `<SMSTab />`,
+      },
+      {
+        id: 5,
+        label: 'Accounts',
+        value: 'accounts',
+        tab: `<AccountsTab />`,
+      },
     ],
     js: [
       { name: 'JS.do', url: 'https://js.do/', value: 'jsdo', isDefault: true },
@@ -23,9 +55,11 @@ chrome.runtime.onInstalled.addListener(() => {
         isDefault: false,
       },
     ],
+    accounts: []
   })
 })
 
+// Listen to messages from the main popup
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   switch (message.init) {
     case 'go':
@@ -37,14 +71,17 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   return true
 })
 
-// send a message to the content script
+// send a message to the content script and return data collected from the page
 let sendToContent = (data: any) => {
-  chrome.windows.getCurrent((w) => {
-    chrome.tabs.query({ active: true, windowId: w.id }, (tabs) => {
-      let tabId = tabs[0].id
-      chrome.tabs.sendMessage(tabId, { init: 'go' }, (response: any) => {
-        data(response.data)
+  // chrome.windows.getLastFocused((win) => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    if (tabs.length > 0) {
+      chrome.tabs.sendMessage(tabs[0].id, { init: 'go' }, (response: any) => {
+        if (response) {
+          data(response.data)
+        }
       })
-    })
+    }
   })
+  // })
 }

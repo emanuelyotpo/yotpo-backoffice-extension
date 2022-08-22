@@ -1,0 +1,10 @@
+.draggble-container {
+    display: flex;
+    width: fit-content;
+}
+
+.grabbable:not(.grabbable:nth-child(4)) {
+    margin-right: 5px;
+    border-right: 1px solid black;
+    padding-right: 5px;
+}

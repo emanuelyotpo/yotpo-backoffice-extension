@@ -1,3 +1,21 @@
-.MuiListItemText-root.css-1tsvksn {
-    min-height: 10px;
+yotpo-icon {
+    cursor: pointer;
+}
+
+.entry-name {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+#customGalleryIds {
+    flex-flow: row wrap;
+}
+
+.entry-data {
+    flex-grow: 1;
+}
+
+.entry-name {
+    margin: 5px 0;
 }

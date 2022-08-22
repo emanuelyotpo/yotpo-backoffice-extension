@@ -9,12 +9,14 @@ input:hover {
     cursor: pointer;
 }
 
-.MuiBox-root {
-    border-radius: 25px;
-    border: none !important;
-}
-
 .edit-static-content-button {
     display: inline;
 }
 
+.modal-buttons {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-evenly;
+    align-self: flex-end;
+    width: 100%;
+}

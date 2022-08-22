@@ -1,0 +1,18 @@
+h1 {
+    text-align: center;
+}
+
+yotpo-logo {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+}
+
+yotpo-radio {
+    margin-bottom: 5px;
+    display: block;
+}
+
+.options-save-button {
+    display: grid;
+}

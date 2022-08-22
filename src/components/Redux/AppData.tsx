@@ -8,18 +8,19 @@ import LoyaltyTab from '../loyaltyTab/loyaltyTab'
 import ReviewsTab from '../reviewsTab/reviewsTab'
 import SMSTab from '../smsTab/smsTab'
 import VMSTab from '../vmsTab/vmsTab'
-
+import { YotpoProducts } from '@yotpo-common/react-b2b-components/enums'
+import { ICustomQuestion } from '../../models/ICustomQuestion'
+import { IAccount } from '../../models/IAccount'
+import AccountsTab from '../accountsTab/accountsTab'
 export class AppData {
-  // User
-  isYotpoUser: boolean = false
 
   // Reviews
-  appkey: string = ''
+  appKey: string = ''
   productId: string = ''
 
   //Loyalty
   guid: string = ''
-  merchantId: string = ''
+  merchantId: number = undefined
   companyName: string = ''
   loyaltyPlatforms: string = ''
   customerEmail: string = ''
@@ -27,7 +28,6 @@ export class AppData {
   customerTags: string = ''
 
   // VMS
-  vmsAppkey: string = ''
   galleryId: string = ''
   vmsProductId: string = ''
   productImagesCount: number = 0
@@ -37,22 +37,54 @@ export class AppData {
   formId: number
 
   // Extension Data
-
   siteDomain: string = ''
+  siteHref: string = ''
+  isUpdateAllURLsModalOpen: boolean = false
 
   options: SyncStorageOptions = {
     tabs: [],
     js: [],
+    accounts: []
   }
 
   tabs: ITabData[] = [
-    { label: 'Reviews', value: 'reviews', i: 0, tab: <ReviewsTab /> },
-    { label: 'Loyalty', value: 'loyalty', i: 1, tab: <LoyaltyTab /> },
-    { label: 'VMS', value: 'vms', i: 2, tab: <VMSTab /> },
-    { label: 'SMS', value: 'sms', i: 3, tab: <SMSTab /> },
+    {
+      id: 1,
+      label: 'Reviews',
+      value: 'reviews',
+      product: YotpoProducts.reviews,
+      tab: <ReviewsTab />,
+    },
+    {
+      id: 2,
+      label: 'Loyalty',
+      value: 'loyalty',
+      product: YotpoProducts.loyalty,
+      tab: <LoyaltyTab />,
+    },
+    {
+      id: 3,
+      label: 'VMS',
+      value: 'vms',
+      product: YotpoProducts.vugc,
+      tab: <VMSTab />,
+    },
+    {
+      id: 4,
+      label: 'SMS',
+      value: 'sms',
+      product: YotpoProducts.smsbump,
+      tab: <SMSTab />,
+    },
+    {
+      id: 5,
+      label: 'Accounts',
+      value: 'accounts',
+      tab: <AccountsTab />,
+    },
   ]
   js: IJS[] = [
-    { name: 'JS.do', url: 'https://js.do/', value: 'jsdo', isDefault: false },
+    { name: 'JS.do', url: 'https://js.do/', value: 'jsdo', isDefault: true },
     {
       name: 'JS Bin',
       url: 'https://jsbin.com/',
@@ -67,13 +99,16 @@ export class AppData {
     },
   ]
 
+  accounts: IAccount[] = []
+
   defaultJs: string = ''
 
   reviewsData: IData[] = [
-    { key: 'App Key', value: '', id: 'appkey' },
+    { key: 'App Key', value: '', id: 'appKey' },
     { key: 'Platform', value: '', id: 'platform' },
-    { key: 'Stars', value: '', id: 'bottomline' },
+    { key: 'Stars Widget', value: '', id: 'isStarRatingsInstalled' },
     { key: 'Product ID', value: '', id: 'productId' },
+    { key: 'Widget Version', value: '', id: 'reviewsWidgetVersion' },
     { key: 'Product Name', value: '', id: 'productName' },
     { key: 'Image URL', value: '', id: 'productImageURL' },
     { key: 'Average Score', value: '', id: 'avgScore' },
@@ -86,15 +121,20 @@ export class AppData {
     { key: 'GUID', value: '', id: 'guid' },
     { key: 'Merchant ID', value: '', id: 'merchantId' },
     { key: 'Platform', value: '', id: 'platformName' },
-    { key: 'Customer Identification', value: '', id: 'customerIdentification' },
+    {
+      key: 'Customer Identification',
+      value: '',
+      id: 'isCustomerIdentificationInstalled',
+    },
     { key: 'Customer Email', value: '', id: 'customerEmail' },
     { key: 'Customer ID', value: '', id: 'customerId' },
     { key: 'Customer Tags', value: '', id: 'customerTags' },
   ]
 
   vmsData: IData[] = [
-    { key: 'App Key', value: '', id: 'vmsAppkey' },
-    { key: 'Gallery ID', value: '', id: 'galleryId' },
+    { key: 'App Key', value: '', id: 'appKey' },
+    { key: 'Custom Gallery IDs', value: '', id: 'customGalleryIds' },
+    { key: 'Product Gallery ID', value: '', id: 'productGalleryId' },
     { key: 'Product ID', value: '', id: 'vmsProductId' },
     { key: 'Product Images', value: '', id: 'productImages' },
   ]
@@ -102,14 +142,21 @@ export class AppData {
   smsData: IData[] = [
     { key: 'User ID', value: '', id: 'userId' },
     { key: 'Form ID', value: '', id: 'formId' },
+    { key: 'Shopify URL', value: '', id: 'myShopifyUrl' },
   ]
 
+  accountsData: IData[] = []
+
+  // Reviews Custom Fields Aggregation
+  customFieldsAggregation: ICustomQuestion[] = []
+
   // Loyalty Instances, Campaigns, Redemptions & VIP tiers
-  activeInstances: any[] = []
-  inactiveInstances: any[] = []
+  activeInstances: object = {}
+  childActiveInstances: object = {}
+  inactiveInstances: object = {}
+  installedInstances: Set<any> = new Set()
   activeInstancesForCopy: any[] = []
-  activeCampaigns: any[] = []
-  inactiveCampaigns: any[] = []
+  campaigns: any[] = []
   redemptions: any[] = []
   vipTiers: any[] = []
 
@@ -128,7 +175,7 @@ export class AppData {
       target: '_blank',
     },
     {
-      description: 'INSPECT IN CLEAN ENVIRONMENT',
+      description: 'Inspect In Clean Environment',
       func: 'inspectClean',
       href: `https://js.do/`,
       target: '_blank',
@@ -139,31 +186,39 @@ export class AppData {
 
   loyaltyButtons: IButton[] = [
     {
-      description: 'LOADER LINK',
+      description: 'Loader Link',
+      func: 'loader',
       href: `https://cdn-widgetsrepository.yotpo.com/v1/loader/`,
       target: '_blank',
       toolTip: 'Loader Link',
     },
     {
-      description: 'Backoffice',
+      description: 'Backoffice', 
       func: 'backoffice',
       toolTip: 'Open in Backoffice',
-      href: `https://backoffice.yotpo.com/#/stores/`,
+      href: `https://backoffice.yotpo.com/#/stores?search=`,
       target: '_blank',
     },
     {
-      description: 'Update URLs',
+      description: 'Edit URLs',
       func: 'updateURLs',
       toolTip: 'Update all login & registration URLs',
     },
     {
-      description: 'INSPECT IN CLEAN ENVIRONMENT',
+      description: 'Inspect In Clean Environment',
       func: 'inspectClean',
       href: `https://js.do/`,
       target: '_blank',
       toolTip:
         'Press CTRL+V or CMD+V to paste the relevant code once the new tab is opened.',
     },
+    // {
+    //   description: 'Calculate Data Imports',
+    //   func: 'calculateData',
+    //   href: `https://yotpo-stool.s3.amazonaws.com/Solution-Engineers/data_import_calculator/index.html`,
+    //   target: '_blank',
+    //   toolTip: 'Calculate when you should start importing data.',
+    // },
   ]
 
   vmsButtons: IButton[] = [
@@ -171,11 +226,11 @@ export class AppData {
       description: 'Backoffice',
       func: 'backoffice',
       toolTip: 'Open in Backoffice',
-      href: `https://backoffice.yotpo.com/#/stores/`,
+      href: `https://backoffice.yotpo.com/#/stores?search=`,
       target: '_blank',
     },
     {
-      description: 'INSPECT IN CLEAN ENVIRONMENT',
+      description: 'Inspect In Clean Environment',
       func: 'inspectClean',
       href: `https://js.do/`,
       target: '_blank',
@@ -189,11 +244,11 @@ export class AppData {
       description: 'Backoffice',
       func: 'backoffice',
       toolTip: 'Open in Backoffice',
-      href: `https://backoffice.yotpo.com/#/stores/`,
+      href: `https://backoffice.yotpo.com/#/stores?search=`,
       target: '_blank',
     },
     {
-      description: 'INSPECT IN CLEAN ENVIRONMENT',
+      description: 'Inspect In Clean Environment',
       func: 'inspectClean',
       href: `https://js.do/`,
       target: '_blank',

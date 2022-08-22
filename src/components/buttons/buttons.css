@@ -1,15 +1,11 @@
-.btn.action {
-    margin: 2.5px 5px;
+yotpo-button {
+    margin: 2px;
+}
+
+yotpo-tooltip {
+    display: inline-block;
 }
 
 .buttons {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    align-self: center;
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    background-color: white;
-    padding-bottom: 10px;
+    text-align: center;
 }

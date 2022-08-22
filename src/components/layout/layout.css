@@ -1,8 +1,5 @@
-p.MuiTypography-root.MuiTypography-body1 {
-    height: 100%;
-}
-
 .data {
     overflow-y: scroll;
-    height: 85%;
+    height: 470px;
+    margin: 10px;
 }

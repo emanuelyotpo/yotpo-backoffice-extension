@@ -1,32 +1,9 @@
-@import 'bootstrap/dist/css/bootstrap.min.css';
-
-@font-face {
-    font-family: 'Graphie';
-    src: url("https://use.typekit.net/myj0cfi.css");
-}
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
-
 body {
     width: 600px;
     height: 600px;
-    font-family: 'Inter', sans-serif !important;
 }
 
-.popup, .layout, #simple-tabpanel-0, #simple-tabpanel-1, #simple-tabpanel-2, #simple-tabpanel-3, .MuiBox-root.css-8atqhb, p.MuiTypography-root.MuiTypography-body1{
+.popup,
+.layout {
     height: 100%;
-}
-
-.MuiBox-root.css-19kzrtu {
-    height: 92%;
-}
-
-.logo {
-    height: 32px;
-    float: right;
-    margin: 5px;
-}
-
-.MuiBox-root.css-19kzrtu {
-    padding: 14px 24px;
 }

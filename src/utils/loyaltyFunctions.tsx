@@ -3,48 +3,90 @@ import {
   fetchLoyaltyInstancesData,
   fetchSingleLoyaltyInstanceData,
 } from './api'
+import _ from 'lodash'
+import React from 'react'
+import EditStaticContent from '../components/editStaticContent/editStaticContent'
 
-export function instancesForList(insancesArray: any[]) {
-  insancesArray.forEach((instance: any) => {
-    instance.id = instance.widget_instance_id
-    instance.key = instance.widget_type_name
-    instance.value = instance.instance_name
-    instance.type = 'loyaltyInstance'
-    instance.loginUrl = 
-      instance.static_content.storeLoginUrl ||
-      instance.static_content.storeAccountLoginUrl ||
-      'N/A'
-    instance.registrationUrl =
-      instance.static_content.storeRegistrationUrl ||
-      instance.static_content.storeAccountRegistrationUrl ||
-      'N/A'
+export function instancesForList(guid: string, instancesArray: any[]) {
+  let convertedInstancesArray = []
+  instancesArray.forEach((instance: any) => {
+    if (instance.parent_instance_id) {
+      convertedInstancesArray.push({
+        id: instance.widget_instance_id,
+        type: instance.widget_type_name,
+        parent_id: instance.parent_instance_id,
+        active: instance.active,
+        static_content: (
+          <EditStaticContent
+            instance={{
+              id: instance.widget_instance_id,
+              guid,
+            }}
+          />
+        ),
+      })
+    } else {
+      convertedInstancesArray.push({
+        id: instance.widget_instance_id,
+        type: instance.widget_type_name,
+        active: instance.active,
+        static_content: (
+          <EditStaticContent
+            instance={{
+              id: instance.widget_instance_id,
+              guid,
+            }}
+          />
+        )
+      })
+    }
   })
-  return insancesArray
+  
+  instancesArray = convertedInstancesArray
+  return instancesArray
 }
 export function campaignsForList(campaignsArray: any[]) {
-  campaignsArray.forEach((campaign: any) => {
-    campaign.key = campaign.type
-    campaign.value = campaign.id
-    campaign.type = 'loyaltyCampaign'
-  })
+  let convertedCampaignsArray = []
+  campaignsArray.forEach((campaign: any) =>
+    convertedCampaignsArray.push({
+      id: campaign.id,
+      type: campaign.type,
+      active: campaign.active,
+      reward_points: campaign.reward_points,
+    })
+  )
+  campaignsArray = convertedCampaignsArray
   return campaignsArray
 }
 
 export function redemptionsForList(redemptionsArray: any[]) {
-  redemptionsArray.forEach((redemption: any) => {
-    redemption.key = redemption.discount_type
-    redemption.value = redemption.name
-    redemption.type = 'loyaltyCampaign'
-  })
+  let convertedRedemptionsArray = []
+  redemptionsArray.forEach((redemption: any) =>
+    convertedRedemptionsArray.push({
+      id: redemption.id,
+      type: redemption.discount_type,
+      name: redemption.name,
+      cost_in_points: redemption.cost_in_points,
+      discount_rate_cents: redemption.discount_rate_cents,
+      active: redemption.is_offline,
+    })
+  )
+  redemptionsArray = convertedRedemptionsArray
   return redemptionsArray
 }
 
 export function vipTiersForList(vipTiersArray: any[]) {
-  vipTiersArray.forEach((vipTier: any) => {
-    vipTier.key = vipTier.rank
-    vipTier.value = vipTier.name
-    vipTier.type = 'loyaltyVipTier'
-  })
+  let convertedVIPArray = []
+  vipTiersArray.forEach((vipTier: any) =>
+    convertedVIPArray.push({
+      rank: vipTier.rank,
+      id: vipTier.id,
+      name: vipTier.name,
+      points_multiplier: vipTier.points_multiplier,
+      reward_points: vipTier.reward_points,
+    })
+  )
+  vipTiersArray = convertedVIPArray
   return vipTiersArray
 }
 
@@ -53,49 +95,64 @@ export function editAllLoyaltyInstanceStaticContent(
   loginURL: string,
   registrationURL: string
 ) {
-  fetchLoyaltyInstancesData(guid).then((response) => {
-    let instances: Array<any> = response.instances
-    instances.forEach((instance: any) => {
-      let staticContent: any
-      fetchSingleLoyaltyInstanceData(guid, instance.widget_instance_id)
-        .then((response) => {
-          staticContent = response.instance.static_content
-          if (
-            !staticContent.storeAccountLoginUrl &&
-            !staticContent.storeAccountRegistrationUrl &&
-            !staticContent.storeLoginUrl &&
-            !staticContent.storeRegistrationUrl
-          ) {
-            return
-          } else if (
+  try {
+    fetchLoyaltyInstancesData(guid).then((response) => {
+      let instances: Array<any> = response.instances
+      instances.forEach((instance: any) => {
+        let staticContent: any
+        fetchSingleLoyaltyInstanceData(guid, instance.widget_instance_id).then(
+          (response) => {
+            staticContent = response.instance.static_content
+
             staticContent.storeAccountLoginUrl &&
             staticContent.storeAccountRegistrationUrl
-          ) {
-            staticContent.storeAccountLoginUrl = loginURL
-            staticContent.storeAccountRegistrationUrl = registrationURL
-          } else if (
-            staticContent.storeLoginUrl &&
-            staticContent.storeRegistrationUrl
-          ) {
-            staticContent.storeLoginUrl = loginURL
-            staticContent.storeRegistrationUrl = registrationURL
-          } else if (staticContent.storeAccountLoginUrl) {
-            staticContent.storeAccountLoginUrl = loginURL
-          } else if (staticContent.storeAccountRegistrationUrl) {
-            staticContent.storeAccountRegistrationUrl = registrationURL
-          } else if (staticContent.storeLoginUrl) {
-            staticContent.storeLoginUrl = loginURL
-          } else if (staticContent.storeRegistrationUrl) {
-            staticContent.storeRegistrationUrl = registrationURL
-          }
+              ? ((staticContent.storeAccountLoginUrl = loginURL),
+                (staticContent.storeAccountRegistrationUrl = registrationURL))
+              : staticContent.storeAccountLoginUrl === '' &&
+                staticContent.storeAccountRegistrationUrl === ''
+              ? ((staticContent.storeAccountLoginUrl = loginURL),
+                (staticContent.storeAccountRegistrationUrl = registrationURL))
+              : staticContent.storeLoginUrl &&
+                staticContent.storeRegistrationUrl
+              ? ((staticContent.storeLoginUrl = loginURL),
+                (staticContent.storeRegistrationUrl = registrationURL))
+              : staticContent.storeLoginUrl === '' &&
+                staticContent.storeRegistrationUrl === ''
+              ? ((staticContent.storeLoginUrl = loginURL),
+                (staticContent.storeRegistrationUrl = registrationURL))
+              : staticContent.storeAccountLoginUrl
+              ? (staticContent.storeAccountLoginUrl = loginURL)
+              : staticContent.storeAccountLoginUrl === ''
+              ? (staticContent.storeAccountLoginUrl = loginURL)
+              : staticContent.storeAccountRegistrationUrl
+              ? (staticContent.storeAccountRegistrationUrl = registrationURL)
+              : staticContent.storeAccountRegistrationUrl === ''
+              ? (staticContent.storeAccountRegistrationUrl = registrationURL)
+              : staticContent.storeLoginUrl
+              ? (staticContent.storeLoginUrl = loginURL)
+              : staticContent.storeLoginUrl === ''
+              ? (staticContent.storeLoginUrl = loginURL)
+              : staticContent.storeRegistrationUrl
+              ? (staticContent.storeRegistrationUrl = registrationURL)
+              : staticContent.storeRegistrationUrl === ''
+              ? (staticContent.storeRegistrationUrl = registrationURL)
+              : staticContent = staticContent
 
-          editSingleLoyaltyInstanceStaticContent(
-            guid,
-            instance.widget_instance_id,
-            staticContent
-          )
-        })
-        .catch((error) => console.log(error))
+            editSingleLoyaltyInstanceStaticContent(
+              guid,
+              instance.widget_instance_id,
+              staticContent
+            )
+          }
+        )
+      })
     })
-  })
+  } catch (error) {
+    return error
+  }
+}
+
+export function orderChildInstances(instanceArray: any) {
+  const instances = _.groupBy(instanceArray, (obj) => obj.parent_instance_id)
+  return instances
 }

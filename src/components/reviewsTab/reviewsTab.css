@@ -1,9 +1,7 @@
-li span, .MuiListItemText-primary {
+li span {
     font-weight: bold !important;
 }
-.MuiListItem-padding {
-    padding: 1px 16px !important;
-}
+
 ul {
     list-style: none;
 }

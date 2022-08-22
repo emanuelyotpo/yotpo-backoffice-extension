@@ -1,47 +1,44 @@
-import { Button, Tooltip } from '@mui/material'
 import React, { Key } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { IButton } from '../../models/IButton'
 import { AppData } from '../Redux/AppData'
-import UpdateAllURLsModal from '../UpdateAllURLsModal/UpdateAllURLsModal'
 import './buttons.css'
 import copyToClipboard from 'copy-to-clipboard'
 import { richSnippetsResultsConnector } from '../../utils/reviewsFunctions'
+import { YotpoButton } from '@yotpo-common/react-b2b-components/button'
+import { YotpoTooltip } from '@yotpo-common/react-b2b-components/tooltip'
+import { ActionType } from '../Redux/actionTypes'
 
-export default function Buttons(props: any) {
+export default function Buttons(props: {
+  buttons: IButton[]
+  codeToCopy: string
+}) {
+  let dispatch = useDispatch()
+  let isUpdateAllURLsModalOpen = useSelector(
+    (state: AppData) => state.isUpdateAllURLsModalOpen
+  )
   let guid = useSelector((state: AppData) => state.guid)
   let defaultJs = useSelector((state: AppData) => state.defaultJs)
-  let backofficeSerachValue: string
-  let buttons: IButton[] = []
-  let reviewsCodeToCopy = useSelector(
-    (state: AppData) => state.reviewsCodeToCopy
-  )
-  let loyaltyCodeToCopy = useSelector(
-    (state: AppData) => state.loyaltyCodeToCopy
-  )
-  let vmsCodeToCopy = useSelector((state: AppData) => state.vmsCodeToCopy)
-  let smsCodeToCopy = useSelector((state: AppData) => state.smsCodeToCopy)
 
-  if (props.buttons === 'reviews') {
-    buttons = useSelector((state: AppData) => state.reviewsButtons)
-    backofficeSerachValue = useSelector((state: AppData) => state.appkey)
-  }
-  if (props.buttons === 'loyalty') {
-    buttons = useSelector((state: AppData) => state.loyaltyButtons)
-    backofficeSerachValue = useSelector((state: AppData) => state.companyName) + guid
-  }
-  if (props.buttons === 'vms') {
-    buttons = useSelector((state: AppData) => state.vmsButtons)
-    backofficeSerachValue = useSelector((state: AppData) => state.vmsAppkey)
-  }
-  if (props.buttons === 'sms') {
-    buttons = useSelector((state: AppData) => state.smsButtons)
-    backofficeSerachValue = useSelector((state: AppData) => state.siteDomain)
+  let backofficeSerachValue: string = useSelector(
+    (state: AppData) => state.appKey
+  )
+    ? useSelector((state: AppData) => state.appKey)
+    : useSelector((state: AppData) => state.siteDomain)
+
+  let backofficeUrl: string = useSelector((state: AppData) => state.appKey)
+    ? `https://backoffice.yotpo.com/#/stores/`
+    : `https://backoffice.yotpo.com/#/stores?search=`
+
+  let openURLsModal = () => {
+    dispatch({
+      type: ActionType.SetIsUpdateAllURLsModalOpen,
+    })
   }
 
   return (
     <div className="buttons">
-      {buttons.map(
+      {props.buttons.map(
         (
           button: {
             description: string
@@ -53,47 +50,33 @@ export default function Buttons(props: any) {
           index: Key | null | undefined
         ) => (
           <>
-            {button.func === 'updateURLs' ? (
-              <Tooltip title={button.toolTip}>
-                <UpdateAllURLsModal />
-              </Tooltip>
-            ) : (
-              <Tooltip title={button.toolTip}>
-                <Button
-                  key={index}
-                  variant="outlined"
-                  className="btn action"
-                  onClick={() => {
-                    props.buttons === 'reviews' &&
-                    button.func === 'richSnippets'
-                      ? richSnippetsResultsConnector()
-                      : props.buttons === 'reviews' &&
-                        button.func === 'inspectClean'
-                      ? copyToClipboard(reviewsCodeToCopy)
-                      : props.buttons === 'loyalty' &&
-                        button.func === 'inspectClean'
-                      ? copyToClipboard(loyaltyCodeToCopy)
-                      : props.buttons === 'vms' &&
-                        button.func === 'inspectClean'
-                      ? copyToClipboard(vmsCodeToCopy)
-                      : props.buttons === 'sms' &&
-                        button.func === 'inspectClean'
-                      ? copyToClipboard(smsCodeToCopy)
-                      : undefined
-                  }}
-                  href={
-                    button.func === 'inspectClean'
-                      ? defaultJs
-                      : button.func === 'backoffice'
-                      ? button.href + backofficeSerachValue
-                      : button.href
-                  }
-                  target={button.target}
-                >
-                  {button.description}
-                </Button>
-              </Tooltip>
-            )}
+            <YotpoTooltip
+              text={button.toolTip}
+              visibilityEnabled={!isUpdateAllURLsModalOpen}
+            >
+              <YotpoButton
+                key={index}
+                onClick={() => {
+                  button.func === 'updateURLs'
+                    ? openURLsModal()
+                    : button.func === 'richSnippets'
+                    ? richSnippetsResultsConnector()
+                    : button.func === 'inspectClean'
+                    ? (copyToClipboard(props.codeToCopy),
+                      window.open(defaultJs, '_blank'))
+                    : button.func === 'backoffice'
+                    ? window.open(
+                        backofficeUrl + backofficeSerachValue,
+                        '_blank'
+                      )
+                    : button.func === 'loader'
+                    ? window.open(button.href + guid, '_blank')
+                    : window.open(button.href, '_blank')
+                }}
+              >
+                {button.description}
+              </YotpoButton>
+            </YotpoTooltip>
           </>
         )
       )}

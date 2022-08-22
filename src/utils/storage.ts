@@ -1,10 +1,15 @@
+import { IAccount } from "../models/IAccount"
+import { IJS } from "../models/IJs"
+import { ITabData } from "../models/ITabData"
+
 export interface SyncStorage {
   options?: SyncStorageOptions
 }
 
 export interface SyncStorageOptions {
-  tabs: any[]
-  js: any[]
+  tabs: ITabData[]
+  js: IJS[]
+  accounts: IAccount[]
 }
 
 export type SyncStorageKeys = keyof SyncStorage
@@ -45,7 +50,7 @@ export function moveArrayItemToNewIndex(
   return array
 }
 
-export function setDefaultJs(array: any[], value: string) {
+export function setDefaultJs(array: IJS[], value: string) {
   for (let i = 0; i < array.length; i++) {
     if (array[i].value === value) {
       array[i].isDefault = true
@@ -53,5 +58,6 @@ export function setDefaultJs(array: any[], value: string) {
       array[i].isDefault = false
     }
   }
+  
   return array
 }

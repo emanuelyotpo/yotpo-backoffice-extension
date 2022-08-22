@@ -1,21 +1,26 @@
 export async function fetchReviewsData(
-  appkey: string,
+  appKey: string,
   productId: string,
   page?: number
 ): Promise<any> {
+  if (!appKey && !productId) {
+    return
+  }
   const res = await fetch(
-    `https://api-cdn.yotpo.com/v1/widget/${appkey}/products/${productId}/reviews.json?per_page=150?page=${page}`
+    `https://api-cdn.yotpo.com/v1/widget/${appKey}/products/${productId}/reviews.json?per_page=150?page=${page}`
   )
   if (!res.ok) {
     throw new Error('Not found')
   }
+  
   const data: any = await res.json()
+  
   return data
 }
 
 export async function fetchLoyaltyInstancesData(guid: string): Promise<any> {
   const res = await fetch(
-    `http://widgetsrepository.us-east-1.yotpo.xyz/v1/${guid}/widget_instances`
+    `https://widgetsrepository-service-default.yotpo.xyz/v1/${guid}/widget_instances`
   )
   if (!res.ok) {
     throw new Error('Not found')
@@ -29,7 +34,7 @@ export async function fetchSingleLoyaltyInstanceData(
   instanceId: number
 ): Promise<any> {
   const res = await fetch(
-    `http://widgetsrepository.us-east-1.yotpo.xyz/v1/${guid}/widget_instances/${instanceId}`
+    `https://widgetsrepository-service-default.yotpo.xyz/v1/${guid}/widget_instances/${instanceId}`
   )
   if (!res.ok) {
     throw new Error('Not found')
@@ -49,8 +54,9 @@ export async function editSingleLoyaltyInstanceStaticContent(
       static_content: staticContent,
     },
   }
+
   const res = await fetch(
-    `http://widgetsrepository.us-east-1.yotpo.xyz/v1/${guid}/widget_instances/${instanceId}`,
+    `https://widgetsrepository-service-default.yotpo.xyz/v1/${guid}/widget_instances/${instanceId}`,
     {
       method: 'PUT',
       headers: {
@@ -66,12 +72,9 @@ export async function editSingleLoyaltyInstanceStaticContent(
   return data
 }
 
-export async function fetchLoyaltyCampaignsData(
-  guid: string,
-  merchantId: number
-): Promise<any> {
+export async function fetchLoyaltyCampaignsData(guid: string): Promise<any> {
   const res = await fetch(
-    `https://loyalty.yotpo.com/api/public/v1/campaigns?guid=${guid}&merchant_id=${merchantId}`
+    `https://loyalty.yotpo.com/api/public/v1/campaigns?guid=${guid}`
   )
   if (!res.ok) {
     throw new Error('Not found')
@@ -102,13 +105,25 @@ export async function fetchLoyaltyVipTiersData(guid: string): Promise<any> {
   return data
 }
 
-export async function fetchVMSData(appkey: string, productId: string) {
+export async function fetchVMSData(appKey: string, productId: string) {
+  if (!appKey && !productId) {
+    throw new Error('No App Key and/or Product ID')
+  }
   const res = await fetch(
-    `https://api.yotpo.com/v1/widget/${appkey}/albums/product/${productId}?per_page=56`
+    `https://api.yotpo.com/v1/widget/${appKey}/albums/product/${productId}?per_page=56`
   )
   if (!res.ok) {
     throw new Error('Not found')
   }
   const data: any = await res.json()
+  return data
+}
+
+export async function fetchSiteHTML(siteURL: any) {
+  const res = await fetch(`${siteURL}`)
+  if (!res.ok) {
+    throw new Error('Not found')
+  }
+  const data: any = await res.text()
   return data
 }

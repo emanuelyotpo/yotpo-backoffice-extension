@@ -60,7 +60,7 @@ module.exports = {
 
 function getHtmlPlugins(chunks) {
     return chunks.map(chunk => new HtmlPlugin({
-        title: 'SE Extension',
+        title: 'Yotpo Backoffice',
         filename: `${chunk}.html`,
         chunks: [chunk]
     }))
