@@ -392,7 +392,6 @@ export function reduce(
 
     case ActionType.UpdateDataManually:
       let fieldToUpdate = action.payload.field
-      newAppData[fieldToUpdate] = [...newAppData[fieldToUpdate]]
       newAppData[fieldToUpdate] = action.payload.newValue
 
       newAppData.reviewsData = [...newAppData.reviewsData]

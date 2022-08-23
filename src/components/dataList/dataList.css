@@ -6,6 +6,8 @@ yotpo-icon {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
+    margin: 5px 0;
+    height: 30px;
 }
 
 #customGalleryIds {
@@ -14,8 +16,4 @@ yotpo-icon {
 
 .entry-data {
     flex-grow: 1;
-}
-
-.entry-name {
-    margin: 5px 0;
 }

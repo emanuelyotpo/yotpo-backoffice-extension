@@ -28,7 +28,7 @@ export default function DataList(props: any) {
   useEffect(() => {}, [props.data])
   return (
     <>
-      <div className="yotpo-theme-light">
+      <div>
         {props.data.map(
           (
             data: {

@@ -27,13 +27,13 @@ export default function SearchableComponenet(props: { data: any }) {
       return
     }
 
-      dispatch({
-        type: ActionType.UpdateDataManually,
-        payload: {
-          field: dataId,
-          newValue: event.target.value,
-        },
-      })
+    dispatch({
+      type: ActionType.UpdateDataManually,
+      payload: {
+        field: dataId,
+        newValue: event.target.value,
+      },
+    })
   }
 
   return (
@@ -56,18 +56,20 @@ export default function SearchableComponenet(props: { data: any }) {
         </>
       ) : (
         <>
-          <YotpoInput
-            className="searchable-input"
-            type={YotpoInputType.text}
-            clearable={true}
-            placeholder={props.data.value}
-            onYotpoChange={(event) => handleChange(props.data.id, event)}
-            onKeyPress={(event) => {
-              if (event.key === 'Enter' || event.key === 'Escape') {
-                toggleInput()
-              }
-            }}
-          />
+          <span className="yotpo-text-large yotpo-text-primary yotpo-text-bold entry-data">
+            <YotpoInput
+              className="searchable-input"
+              type={YotpoInputType.text}
+              clearable={true}
+              placeholder={props.data.value}
+              onYotpoChange={(event) => handleChange(props.data.id, event)}
+              onKeyPress={(event) => {
+                if (event.key === 'Enter' || event.key === 'Escape') {
+                  toggleInput()
+                }
+              }}
+            />
+          </span>
         </>
       )}
     </>
