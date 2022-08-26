@@ -1,61 +1,72 @@
 import { YotpoProducts } from '@yotpo-common/react-b2b-components/enums'
-import { setStoredOptions } from '../utils/storage'
+import { getStoredOptions, setStoredOptions } from '../utils/storage'
 
 // Set Options on install
 chrome.runtime.onInstalled.addListener(() => {
-  setStoredOptions({
-    tabs: [
-      {
-        id: 1,
-        label: 'Reviews',
-        value: 'reviews',
-        product: YotpoProducts.reviews,
-        tab: `<ReviewsTab />`,
-      },
-      {
-        id: 2,
-        label: 'Loyalty',
-        value: 'loyalty',
-        product: YotpoProducts.loyalty,
-        tab: `<LoyaltyTab />`,
-      },
-      {
-        id: 3,
-        label: 'VMS',
-        value: 'vms',
-        product: YotpoProducts.vugc,
-        tab: `<VMSTab />`,
-      },
-      {
-        id: 4,
-        label: 'SMS',
-        value: 'sms',
-        product: YotpoProducts.smsbump,
-        tab: `<SMSTab />`,
-      },
-      {
-        id: 5,
-        label: 'Accounts',
-        value: 'accounts',
-        tab: `<AccountsTab />`,
-      },
-    ],
-    js: [
-      { name: 'JS.do', url: 'https://js.do/', value: 'jsdo', isDefault: true },
-      {
-        name: 'JS Bin',
-        url: 'https://jsbin.com/',
-        value: 'jsbin',
-        isDefault: false,
-      },
-      {
-        name: 'JS Fiddle',
-        url: 'https://jsfiddle.net/',
-        value: 'jsfiddle',
-        isDefault: false,
-      },
-    ],
-    accounts: []
+  getStoredOptions().then((storedOptions) => {
+    if (storedOptions) {
+      setStoredOptions(storedOptions)
+    } else {
+      setStoredOptions({
+        tabs: [
+          {
+            id: 1,
+            label: 'Reviews',
+            value: 'reviews',
+            product: YotpoProducts.reviews,
+            tab: `<ReviewsTab />`,
+          },
+          {
+            id: 2,
+            label: 'Loyalty',
+            value: 'loyalty',
+            product: YotpoProducts.loyalty,
+            tab: `<LoyaltyTab />`,
+          },
+          {
+            id: 3,
+            label: 'VMS',
+            value: 'vms',
+            product: YotpoProducts.vugc,
+            tab: `<VMSTab />`,
+          },
+          {
+            id: 4,
+            label: 'SMS',
+            value: 'sms',
+            product: YotpoProducts.smsbump,
+            tab: `<SMSTab />`,
+          },
+          {
+            id: 5,
+            label: 'Accounts',
+            value: 'accounts',
+            tab: `<AccountsTab />`,
+          },
+        ],
+        js: [
+          {
+            name: 'JS.do',
+            url: 'https://js.do/',
+            value: 'jsdo',
+            isDefault: true,
+          },
+          {
+            name: 'JS Bin',
+            url: 'https://jsbin.com/',
+            value: 'jsbin',
+            isDefault: false,
+          },
+          {
+            name: 'JS Fiddle',
+            url: 'https://jsfiddle.net/',
+            value: 'jsfiddle',
+            isDefault: false,
+          },
+        ],
+        accounts: [],
+      })
+    }
   })
 })
 

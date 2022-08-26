@@ -25,6 +25,11 @@ export default function DataTable(props: { data: any }) {
           key={index}
           slot="columns"
           alignment={YotpoAlignment.left}
+          // size={
+          //   tableColumn === 'id' || tableColumn === 'rank'
+          //     ? YotpoTableCellSize.tiny
+          //     : YotpoTableCellSize.stretch
+          // }
         >
           {tableColumn.toUpperCase().replace(/_/g, ' ')}
         </YotpoTableHeaderCell>
@@ -36,6 +41,11 @@ export default function DataTable(props: { data: any }) {
               <YotpoTableCell
                 className={tableColumn}
                 alignment={YotpoAlignment.left}
+                // size={
+                //   tableColumn === 'id' || tableColumn === 'rank'
+                //     ? YotpoTableCellSize.tiny
+                //     : YotpoTableCellSize.stretch
+                // }
               >
                 {tableRecord[tableColumn]}
                 {tableColumn === 'active' ? (

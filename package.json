@@ -1,7 +1,7 @@
 {
-  "name": "se-extension",
+  "name": "yotpo-backoffice-extension",
   "version": "1.0.0",
-  "description": "Extenssion for Yotpo SEs",
+  "description": "Yotpo Backoffice Extenssion",
   "main": "index.js",
   "scripts": {
     "start": "webpack --watch --progress --config webpack.dev.js",
