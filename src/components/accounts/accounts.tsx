@@ -86,7 +86,7 @@ export default function Accounts() {
             </YotpoTableCell>
 
             <YotpoTableCell
-              size={YotpoTableCellSize.large}
+              size={YotpoTableCellSize.stretch}
               alignment={YotpoAlignment.left}
               onClick={() => openBackoffice(account.key, account.type)}
             >
@@ -94,7 +94,7 @@ export default function Accounts() {
             </YotpoTableCell>
             <YotpoTableCell
               size={YotpoTableCellSize.tiny}
-              alignment={YotpoAlignment.right}
+              alignment={YotpoAlignment.center}
             >
               <YotpoIconButton
                 color={YotpoColor.destructive}
