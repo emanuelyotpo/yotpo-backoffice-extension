@@ -13,5 +13,6 @@ export enum ActionType {
     SetInstalledLoylatyModules,
     SetIsUpdateAllURLsModalOpen,
     AddAccount,
-    RemoveAccount
+    RemoveAccount,
+    SetLoyaltyInstances
 }

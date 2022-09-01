@@ -108,31 +108,34 @@ export default function LoyaltyTab() {
     >
       <div className="data">
         <DataList data={loyaltyData} />
-
-        {activeInstances['null'] && (
-          <NestedList
-            data={activeInstances['null']}
-            listTitle="Parent Active Instances"
-          />
+        {guid && (
+          <>
+            {activeInstances['null'] && (
+              <NestedList
+                data={activeInstances['null']}
+                listTitle="Parent Active Instances"
+              />
+            )}
+            {activeChildInstancesForList && (
+              <NestedList
+                data={activeChildInstancesForList}
+                listTitle="Child Active Instances"
+              />
+            )}
+            {inactiveInstances['null'] && (
+              <NestedList
+                data={inactiveInstances['null']}
+                listTitle="Parent Inactive Instances"
+              />
+            )}
+            {campaigns && <NestedList data={campaigns} listTitle="Campaigns" />}
+            {redemptions && (
+              <NestedList data={redemptions} listTitle="Redemptions" />
+            )}
+            {vipTiers && <NestedList data={vipTiers} listTitle="VIP Tiers" />}
+            <UpdateAllURLsModal />
+          </>
         )}
-        {activeChildInstancesForList && (
-          <NestedList
-            data={activeChildInstancesForList}
-            listTitle="Child Active Instances"
-          />
-        )}
-        {inactiveInstances['null'] && (
-          <NestedList
-            data={inactiveInstances['null']}
-            listTitle="Parent Inactive Instances"
-          />
-        )}
-        {campaigns && <NestedList data={campaigns} listTitle="Campaigns" />}
-        {redemptions && (
-          <NestedList data={redemptions} listTitle="Redemptions" />
-        )}
-        {vipTiers && <NestedList data={vipTiers} listTitle="VIP Tiers" />}
-        {guid && <UpdateAllURLsModal />}
       </div>
       <Buttons buttons={buttons} codeToCopy={codeToCopy}></Buttons>
     </div>

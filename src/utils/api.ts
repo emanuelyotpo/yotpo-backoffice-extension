@@ -1,20 +1,20 @@
 export async function fetchReviewsData(
   appKey: string,
   productId: string,
-  page?: number
+  page: number
 ): Promise<any> {
   if (!appKey && !productId) {
     return
   }
   const res = await fetch(
-    `https://api-cdn.yotpo.com/v1/widget/${appKey}/products/${productId}/reviews.json?per_page=150?page=${page}`
+    `https://api-cdn.yotpo.com/v1/widget/${appKey}/products/${productId}/reviews.json?per_page=150&page=${page}`
   )
   if (!res.ok) {
     throw new Error('Not found')
   }
-  
+
   const data: any = await res.json()
-  
+
   return data
 }
 

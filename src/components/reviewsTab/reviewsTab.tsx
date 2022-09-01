@@ -27,7 +27,7 @@ export default function ReviewsTab() {
 
   let setReviewsData = (appKey: string, productId: string) => {
     if (appKey && productId) {
-      fetchReviewsData(appKey, productId)
+      fetchReviewsData(appKey, productId, 1)
         .then((data) => {
           if (!data.response.products[0]) {
             dispatch({

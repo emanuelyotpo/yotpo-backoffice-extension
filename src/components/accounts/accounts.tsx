@@ -43,11 +43,12 @@ export default function Accounts() {
     setStoredOptions(options).then(() => {
       toastAlert(
         {
-            alertTitle: 'Removed',
-            status: YotpoStatus.success,
-            icon: true
+          alertTitle: 'Removed',
+          status: YotpoStatus.success,
+          icon: true,
         },
-        () => {})
+        () => {}
+      )
     })
   }
 
@@ -58,8 +59,18 @@ export default function Accounts() {
           <YotpoTableHeaderCell
             key={index}
             slot="columns"
-            size={YotpoTableCellSize.stretch}
-            alignment={YotpoAlignment.center}
+            size={
+              tableColumn === 'Name'
+                ? YotpoTableCellSize.small
+                : tableColumn === 'Delete'
+                ? YotpoTableCellSize.tiny
+                : YotpoTableCellSize.stretch
+            }
+            alignment={
+              tableColumn === 'Delete'
+                ? YotpoAlignment.right
+                : YotpoAlignment.left
+            }
           >
             {tableColumn.toUpperCase().replace(/_/g, ' ')}
           </YotpoTableHeaderCell>
@@ -67,7 +78,7 @@ export default function Accounts() {
         {tableRecords.map((account, index) => (
           <YotpoTableRow key={index} className="accounts-row">
             <YotpoTableCell
-              size={YotpoTableCellSize.stretch}
+              size={YotpoTableCellSize.small}
               alignment={YotpoAlignment.left}
               onClick={() => openBackoffice(account.key, account.type)}
             >
@@ -75,14 +86,15 @@ export default function Accounts() {
             </YotpoTableCell>
 
             <YotpoTableCell
-              size={YotpoTableCellSize.stretch}
-              alignment={YotpoAlignment.center}
+              size={YotpoTableCellSize.large}
+              alignment={YotpoAlignment.left}
+              onClick={() => openBackoffice(account.key, account.type)}
             >
               {account.key}
             </YotpoTableCell>
             <YotpoTableCell
-              size={YotpoTableCellSize.stretch}
-              alignment={YotpoAlignment.center}
+              size={YotpoTableCellSize.tiny}
+              alignment={YotpoAlignment.right}
             >
               <YotpoIconButton
                 color={YotpoColor.destructive}

@@ -269,6 +269,7 @@ export function reduce(
 
       newAppData.activeInstances = []
       newAppData.inactiveInstances = []
+
       newAppData.activeInstances = activeInstancesWithChildren
       newAppData.inactiveInstances = inactiveInstancesWithChildren
 
@@ -299,7 +300,6 @@ export function reduce(
           newAppData.inactiveInstances[key]
         )
       })
-
 
       newAppData.loyaltyCodeToCopy = `
       <script src="https://cdn-widgetsrepository.yotpo.com/v1/loader/${newAppData.guid}" async></script>
@@ -375,6 +375,13 @@ export function reduce(
           })
         })
       }
+
+      // newAppData.instances = {}
+      // newAppData.instances = {
+      //   ...newAppData.activeInstances,
+      //   ...newAppData.inactiveInstances,
+      // }
+      // console.log(newAppData.instances)
       break
 
     case ActionType.SetMoreVMSData:

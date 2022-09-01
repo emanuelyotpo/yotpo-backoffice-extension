@@ -37,11 +37,11 @@ export function instancesForList(guid: string, instancesArray: any[]) {
               guid,
             }}
           />
-        )
+        ),
       })
     }
   })
-  
+
   instancesArray = convertedInstancesArray
   return instancesArray
 }
@@ -67,7 +67,7 @@ export function redemptionsForList(redemptionsArray: any[]) {
       type: redemption.discount_type,
       name: redemption.name,
       cost_in_points: redemption.cost_in_points,
-      discount_rate_cents: redemption.discount_rate_cents,
+      rate_in_cents: redemption.discount_rate_cents,
       active: redemption.is_offline,
     })
   )
@@ -136,7 +136,7 @@ export function editAllLoyaltyInstanceStaticContent(
               ? (staticContent.storeRegistrationUrl = registrationURL)
               : staticContent.storeRegistrationUrl === ''
               ? (staticContent.storeRegistrationUrl = registrationURL)
-              : staticContent = staticContent
+              : (staticContent = staticContent)
 
             editSingleLoyaltyInstanceStaticContent(
               guid,

@@ -25,13 +25,15 @@ export default function DataTable(props: { data: any }) {
           key={index}
           slot="columns"
           alignment={YotpoAlignment.left}
-          // size={
-          //   tableColumn === 'id' || tableColumn === 'rank'
-          //     ? YotpoTableCellSize.tiny
-          //     : YotpoTableCellSize.stretch
-          // }
+          size={
+            tableColumn === 'id' || tableColumn === 'rank'
+              ? YotpoTableCellSize.tiny
+              : tableColumn === 'type'
+              ? YotpoTableCellSize.medium
+              : YotpoTableCellSize.small
+          }
         >
-          {tableColumn.toUpperCase().replace(/_/g, ' ')}
+          {tableColumn.replace(/_/g, ' ')}
         </YotpoTableHeaderCell>
       ))}
       {tableRecords.map((tableRecord: any, index: Key | null | undefined) => (
@@ -41,11 +43,13 @@ export default function DataTable(props: { data: any }) {
               <YotpoTableCell
                 className={tableColumn}
                 alignment={YotpoAlignment.left}
-                // size={
-                //   tableColumn === 'id' || tableColumn === 'rank'
-                //     ? YotpoTableCellSize.tiny
-                //     : YotpoTableCellSize.stretch
-                // }
+                size={
+                  tableColumn === 'id' || tableColumn === 'rank'
+                    ? YotpoTableCellSize.tiny
+                    : tableColumn === 'type'
+                    ? YotpoTableCellSize.medium
+                    : YotpoTableCellSize.small
+                }
               >
                 {tableRecord[tableColumn]}
                 {tableColumn === 'active' ? (

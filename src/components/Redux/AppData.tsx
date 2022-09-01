@@ -13,7 +13,6 @@ import { ICustomQuestion } from '../../models/ICustomQuestion'
 import { IAccount } from '../../models/IAccount'
 import AccountsTab from '../accountsTab/accountsTab'
 export class AppData {
-
   // Reviews
   appKey: string = ''
   productId: string = ''
@@ -44,7 +43,7 @@ export class AppData {
   options: SyncStorageOptions = {
     tabs: [],
     js: [],
-    accounts: []
+    accounts: [],
   }
 
   tabs: ITabData[] = [
@@ -133,10 +132,10 @@ export class AppData {
 
   vmsData: IData[] = [
     { key: 'App Key', value: '', id: 'appKey' },
-    { key: 'Custom Gallery IDs', value: '', id: 'customGalleryIds' },
     { key: 'Product Gallery ID', value: '', id: 'productGalleryId' },
     { key: 'Product ID', value: '', id: 'vmsProductId' },
     { key: 'Product Images', value: '', id: 'productImages' },
+    { key: 'Custom Gallery IDs', value: '', id: 'customGalleryIds' },
   ]
 
   smsData: IData[] = [
@@ -156,6 +155,7 @@ export class AppData {
   inactiveInstances: object = {}
   installedInstances: Set<any> = new Set()
   activeInstancesForCopy: any[] = []
+  instances: object = {}
   campaigns: any[] = []
   redemptions: any[] = []
   vipTiers: any[] = []
@@ -193,7 +193,7 @@ export class AppData {
       toolTip: 'Loader Link',
     },
     {
-      description: 'Backoffice', 
+      description: 'Backoffice',
       func: 'backoffice',
       toolTip: 'Open in Backoffice',
       href: `https://backoffice.yotpo.com/#/stores?search=`,
