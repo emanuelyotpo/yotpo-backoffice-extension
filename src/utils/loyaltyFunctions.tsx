@@ -6,6 +6,7 @@ import {
 import _ from 'lodash'
 import React from 'react'
 import EditStaticContent from '../components/editStaticContent/editStaticContent'
+import ChildrenInstancesModal from '../components/childrenInstancesModal/childrenInstancesModal'
 
 export function instancesForList(guid: string, instancesArray: any[]) {
   let convertedInstancesArray = []
@@ -30,6 +31,7 @@ export function instancesForList(guid: string, instancesArray: any[]) {
         id: instance.widget_instance_id,
         type: instance.widget_type_name,
         active: instance.active,
+        children: [],
         static_content: (
           <EditStaticContent
             instance={{

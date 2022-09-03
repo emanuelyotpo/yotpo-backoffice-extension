@@ -14,41 +14,23 @@ import {
   fetchSiteHTML,
 } from '../../utils/api'
 import { ActionType } from '../Redux/actionTypes'
-import UpdateAllURLsModal from '../UpdateAllURLsModal/UpdateAllURLsModal'
 import { toastAlert } from '@yotpo-common/react-b2b-components/alert'
 import { YotpoStatus } from '@yotpo-common/react-b2b-components/enums'
 import { IButton } from '../../models/IButton'
 
 export default function LoyaltyTab() {
   let guid = useSelector((state: AppData) => state.guid)
-  let merchantId = useSelector((state: AppData) => state.merchantId)
   let siteHref = useSelector((state: AppData) => state.siteHref)
   let loyaltyData: IData[] = useSelector((state: AppData) => state.loyaltyData)
   let buttons: IButton[] = useSelector((state: AppData) => state.loyaltyButtons)
   let codeToCopy: string = useSelector(
     (state: AppData) => state.loyaltyCodeToCopy
   )
-
-  let activeInstances = useSelector((state: AppData) => state.activeInstances)
-  let childActiveInstances = useSelector(
-    (state: AppData) => state.childActiveInstances
-  )
-  let inactiveInstances = useSelector(
-    (state: AppData) => state.inactiveInstances
-  )
-
+  let instances = useSelector((state: AppData) => state.instances)
   let campaigns = useSelector((state: AppData) => state.campaigns)
   let redemptions = useSelector((state: AppData) => state.redemptions)
   let vipTiers = useSelector((state: AppData) => state.vipTiers)
-  let activeInstancesKeys = Object.keys(activeInstances)
-  let activeChildInstancesForList = []
-  activeInstancesKeys.forEach((key: any) => {
-    if (key !== 'null') {
-      for (let i = 0; i < activeInstances[key].length; i++) {
-        activeChildInstancesForList.push(activeInstances[key][i])
-      }
-    }
-  })
+
   let dispatch = useDispatch()
 
   let setLoyaltyData = () => {
@@ -110,30 +92,14 @@ export default function LoyaltyTab() {
         <DataList data={loyaltyData} />
         {guid && (
           <>
-            {activeInstances['null'] && (
-              <NestedList
-                data={activeInstances['null']}
-                listTitle="Parent Active Instances"
-              />
-            )}
-            {activeChildInstancesForList && (
-              <NestedList
-                data={activeChildInstancesForList}
-                listTitle="Child Active Instances"
-              />
-            )}
-            {inactiveInstances['null'] && (
-              <NestedList
-                data={inactiveInstances['null']}
-                listTitle="Parent Inactive Instances"
-              />
+            {instances['null'] && (
+              <NestedList data={instances['null']} listTitle="Instances" />
             )}
             {campaigns && <NestedList data={campaigns} listTitle="Campaigns" />}
             {redemptions && (
               <NestedList data={redemptions} listTitle="Redemptions" />
             )}
             {vipTiers && <NestedList data={vipTiers} listTitle="VIP Tiers" />}
-            <UpdateAllURLsModal />
           </>
         )}
       </div>

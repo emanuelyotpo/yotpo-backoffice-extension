@@ -21,10 +21,9 @@ import { toastAlert } from '@yotpo-common/react-b2b-components/alert'
 
 export default function EditStaticContent(props: any) {
   let guid = useSelector((state: AppData) => state.guid)
-  const [open, setOpen] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
   const handleOpen = () => setModalOpen(true)
-  const handleModalHide = () => {
+  const handleModalHide = (event: any) => {
     setModalOpen(false)
   }
 
@@ -47,7 +46,7 @@ export default function EditStaticContent(props: any) {
     handleSave()
   }
   const onSecondaryActionClicked = (event: any) => {
-    handleModalHide()
+    handleModalHide('')
   }
 
   const handleSave = () => {
@@ -58,7 +57,7 @@ export default function EditStaticContent(props: any) {
         staticContent
       ).then((response) => {
         setToggle(false)
-        handleModalHide()
+        handleModalHide('')
         toastAlert(
           {
             alertTitle: 'Saved',
@@ -115,7 +114,7 @@ export default function EditStaticContent(props: any) {
       <YotpoModal
         open={modalOpen}
         modalTitle={`Static Content for ${props.instance.id}`}
-        onYotpoHide={(event: Event) => handleModalHide}
+        onYotpoHide={(event) => handleModalHide(event)}
         onYotpoMainAction={(event: Event) => onMainActionClicked(event)}
         onYotpoSecondaryAction={(event: Event) =>
           onSecondaryActionClicked(event)

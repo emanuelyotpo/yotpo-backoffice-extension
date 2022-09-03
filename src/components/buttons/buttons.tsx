@@ -8,6 +8,7 @@ import { richSnippetsResultsConnector } from '../../utils/reviewsFunctions'
 import { YotpoButton } from '@yotpo-common/react-b2b-components/button'
 import { YotpoTooltip } from '@yotpo-common/react-b2b-components/tooltip'
 import { ActionType } from '../Redux/actionTypes'
+import UpdateAllURLsModal from '../UpdateAllURLsModal/UpdateAllURLsModal'
 
 export default function Buttons(props: {
   buttons: IButton[]
@@ -30,12 +31,6 @@ export default function Buttons(props: {
     ? `https://backoffice.yotpo.com/#/stores/`
     : `https://backoffice.yotpo.com/#/stores?search=`
 
-  let openURLsModal = () => {
-    dispatch({
-      type: ActionType.SetIsUpdateAllURLsModalOpen,
-    })
-  }
-
   return (
     <div className="buttons">
       {props.buttons.map(
@@ -48,37 +43,41 @@ export default function Buttons(props: {
             toolTip: string
           },
           index: Key | null | undefined
-        ) => (
-          <>
-            <YotpoTooltip
-              text={button.toolTip}
-              visibilityEnabled={!isUpdateAllURLsModalOpen}
-            >
-              <YotpoButton
-                key={index}
-                onClick={() => {
-                  button.func === 'updateURLs'
-                    ? openURLsModal()
-                    : button.func === 'richSnippets'
-                    ? richSnippetsResultsConnector()
-                    : button.func === 'inspectClean'
-                    ? (copyToClipboard(props.codeToCopy),
-                      window.open(defaultJs, '_blank'))
-                    : button.func === 'backoffice'
-                    ? window.open(
-                        backofficeUrl + backofficeSerachValue,
-                        '_blank'
-                      )
-                    : button.func === 'loader'
-                    ? window.open(button.href + guid, '_blank')
-                    : window.open(button.href, '_blank')
-                }}
-              >
-                {button.description}
-              </YotpoButton>
-            </YotpoTooltip>
-          </>
-        )
+        ) => {
+          if (button.func === 'updateURLs') {
+            return <UpdateAllURLsModal />
+          } else {
+            return (
+              <>
+                <YotpoTooltip
+                  text={button.toolTip}
+                  visibilityEnabled={!isUpdateAllURLsModalOpen}
+                >
+                  <YotpoButton
+                    key={index}
+                    onClick={() => {
+                      button.func === 'richSnippets'
+                        ? richSnippetsResultsConnector()
+                        : button.func === 'inspectClean'
+                        ? (copyToClipboard(props.codeToCopy),
+                          window.open(defaultJs, '_blank'))
+                        : button.func === 'backoffice'
+                        ? window.open(
+                            backofficeUrl + backofficeSerachValue,
+                            '_blank'
+                          )
+                        : button.func === 'loader'
+                        ? window.open(button.href + guid, '_blank')
+                        : window.open(button.href, '_blank')
+                    }}
+                  >
+                    {button.description}
+                  </YotpoButton>
+                </YotpoTooltip>
+              </>
+            )
+          }
+        }
       )}
     </div>
   )

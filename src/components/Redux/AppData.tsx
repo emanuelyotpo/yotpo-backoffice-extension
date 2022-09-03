@@ -200,17 +200,17 @@ export class AppData {
       target: '_blank',
     },
     {
-      description: 'Edit URLs',
-      func: 'updateURLs',
-      toolTip: 'Update all login & registration URLs',
-    },
-    {
       description: 'Inspect In Clean Environment',
       func: 'inspectClean',
       href: `https://js.do/`,
       target: '_blank',
       toolTip:
         'Press CTRL+V or CMD+V to paste the relevant code once the new tab is opened.',
+    },
+    {
+      description: 'Edit URLs',
+      func: 'updateURLs',
+      toolTip: 'Update all login & registration URLs',
     },
     // {
     //   description: 'Calculate Data Imports',

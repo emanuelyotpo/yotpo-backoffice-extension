@@ -1,3 +1,4 @@
+import React from 'react'
 import { ICustomQuestion } from '../../models/ICustomQuestion'
 import { IJS } from '../../models/IJs'
 import { ITabData } from '../../models/ITabData'
@@ -8,6 +9,7 @@ import {
   redemptionsForList,
   vipTiersForList,
 } from '../../utils/loyaltyFunctions'
+import ChildrenInstancesModal from '../childrenInstancesModal/childrenInstancesModal'
 import { Action } from './action'
 import { ActionType } from './actionTypes'
 import { AppData } from './AppData'
@@ -226,10 +228,7 @@ export function reduce(
       break
 
     case ActionType.SetMoreLoyaltyData:
-      newAppData.activeInstancesForCopy = []
-
-      let activeInstances = []
-      let inactiveInstances = []
+      let instances = []
 
       for (let entry in action.payload.instances[0].static_content) {
         newAppData.loyaltyData.forEach(
@@ -257,48 +256,27 @@ export function reduce(
           })
           newAppData.merchantId = instance.static_content.merchantId
         }
-        if (instance.active) {
-          activeInstances.push(instance)
-        } else if (!instance.active) {
-          inactiveInstances.push(instance)
-        }
+        instances.push(instance)
       }
 
-      let activeInstancesWithChildren = orderChildInstances(activeInstances)
-      let inactiveInstancesWithChildren = orderChildInstances(inactiveInstances)
-
-      newAppData.activeInstances = []
-      newAppData.inactiveInstances = []
-
-      newAppData.activeInstances = activeInstancesWithChildren
-      newAppData.inactiveInstances = inactiveInstancesWithChildren
-
-      let activeInstancesKeys = Object.keys(newAppData.activeInstances)
-      let inactiveInstancesKeys = Object.keys(newAppData.inactiveInstances)
-
-      activeInstancesKeys.forEach((key: any) => {
-        newAppData.activeInstances[key] = instancesForList(
+      let orderedInstances = orderChildInstances(instances)
+      newAppData.instances = []
+      newAppData.instances = orderedInstances
+      let insatncesKeys = Object.keys(newAppData.instances)
+      insatncesKeys.forEach((key: any) => {
+        newAppData.instances[key] = instancesForList(
           newAppData.guid,
-          newAppData.activeInstances[key]
+          newAppData.instances[key]
         )
-        if (key === 'null') {
-          newAppData.activeInstances[key].forEach(function (
-            value: any,
-            key: any
-          ) {
-            newAppData.activeInstancesForCopy.push({
-              id: value.id,
-              type: value.type,
-            })
+      })
+      newAppData.activeInstancesForCopy = []
+      newAppData.instances['null'].forEach((value: any, key: any) => {
+        if (value.active) {
+          newAppData.activeInstancesForCopy.push({
+            id: value.id,
+            type: value.type,
           })
         }
-      })
-
-      inactiveInstancesKeys.forEach((key: any) => {
-        newAppData.inactiveInstances[key] = instancesForList(
-          newAppData.guid,
-          newAppData.inactiveInstances[key]
-        )
       })
 
       newAppData.loyaltyCodeToCopy = `
@@ -347,10 +325,11 @@ export function reduce(
 
     case ActionType.SetInstalledLoylatyModules:
       newAppData.installedInstances = new Set()
-      newAppData.activeInstances = { ...newAppData.activeInstances }
-      let activeInstancesKeysForInstalledInstancesList = Object.keys(
-        newAppData.activeInstances
+      newAppData.instances = { ...newAppData.instances }
+      let instancesKeysForInstalledInstancesList = Object.keys(
+        newAppData.instances
       )
+
       let parser = new DOMParser()
       let doc = parser.parseFromString(action.payload, 'text/html')
       let installedInstances = doc.querySelectorAll('.yotpo-widget-instance')
@@ -359,15 +338,15 @@ export function reduce(
         newAppData.installedInstances.add(Number(instanceId))
       })
       if (newAppData.installedInstances.size === 0) {
-        activeInstancesKeysForInstalledInstancesList.forEach((key: any) => {
-          newAppData.activeInstances[key].forEach((instance: any) => {
+        instancesKeysForInstalledInstancesList.forEach((key: any) => {
+          newAppData.instances[key].forEach((instance: any) => {
             instance.installed = false
           })
         })
       } else {
         newAppData.installedInstances.forEach((instanceId) => {
-          activeInstancesKeysForInstalledInstancesList.forEach((key: any) => {
-            newAppData.activeInstances[key].forEach((instance: any) => {
+          instancesKeysForInstalledInstancesList.forEach((key: any) => {
+            newAppData.instances[key].forEach((instance: any) => {
               instance.id === instanceId
                 ? (instance.installed = true)
                 : (instance.installed = false)
@@ -375,13 +354,19 @@ export function reduce(
           })
         })
       }
-
-      // newAppData.instances = {}
-      // newAppData.instances = {
-      //   ...newAppData.activeInstances,
-      //   ...newAppData.inactiveInstances,
-      // }
-      // console.log(newAppData.instances)
+      newAppData.instances['null'].forEach((value: any) => {
+        instancesKeysForInstalledInstancesList.forEach((key: any) => {
+          if (parseInt(key) === value.id) {
+            newAppData.instances[key].forEach((instance: any) => {
+              value.children.push(instance)
+            })
+          }
+        })
+        value.children_modules = (
+          <ChildrenInstancesModal children={value.children} id={value.id} />
+        )
+      })
+      console.log(newAppData.instances)
       break
 
     case ActionType.SetMoreVMSData:
