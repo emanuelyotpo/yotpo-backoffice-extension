@@ -1,7 +1,5 @@
 import { fetchReviewsData } from './api'
 import _ from 'lodash'
-import { toastAlert } from '@yotpo-common/react-b2b-components/alert'
-import { YotpoStatus } from '@yotpo-common/react-b2b-components/enums'
 
 export function richSnippetsResultsConnector() {
   chrome.tabs.query(

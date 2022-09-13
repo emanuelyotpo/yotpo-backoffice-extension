@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Yotpo Backoffice",
     "description": "Guarenteed to make your life better!",
-    "version": "1.5.3",
+    "version": "1.5.4",
     "icons": {
         "16": "icon.png",
         "48": "icon.png",

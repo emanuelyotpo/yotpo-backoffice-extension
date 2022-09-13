@@ -22,7 +22,7 @@ function getDataFromPage() {
 
   scripts = document.querySelectorAll(
     "script[src*='//cdn-widgetsrepository.yotpo.com/v1/loader']"
-  )  
+  )
 
   for (let i = 0; i < scripts.length; i++) {
     if (scripts[i].src) {
@@ -59,8 +59,27 @@ function getDataFromPage() {
             .getAttribute('href')
         : undefined
 
-      if (s) {
-        let unstrippedVersion = s.substring(s.lastIndexOf('?') + 1, s.length)
+      let scripts = document.querySelectorAll(
+        "link[href*='//staticw2.yotpo.com']"
+      )
+      let cssLink = undefined
+
+      for (let i = 0; i < scripts.length; i++) {
+        for (let ii = 0; ii < scripts[i].attributes.length; ii++) {
+          if (
+            scripts[i].attributes[ii].name === 'type' &&
+            scripts[i].attributes[ii].value === 'text/css'
+          ) {
+            cssLink = scripts[i].getAttribute('href')
+          }
+        }
+      }
+
+      if (cssLink) {
+        let unstrippedVersion = cssLink.substring(
+          cssLink.lastIndexOf('?') + 1,
+          cssLink.length
+        )
         reviewsWidgetVersion = unstrippedVersion.substring(
           unstrippedVersion.lastIndexOf('=') + 1,
           unstrippedVersion.length
@@ -204,7 +223,7 @@ function getDataFromPage() {
   } else {
     myShopifyUrl = undefined
   }
-  
+
   return {
     appKey: appKey,
     isStarRatingsInstalled: isStarRatingsInstalled,
