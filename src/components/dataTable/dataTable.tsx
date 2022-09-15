@@ -28,7 +28,14 @@ export default function DataTable(props: { data: any }) {
             <YotpoTableHeaderCell
               key={index}
               slot="columns"
-              alignment={YotpoAlignment.left}
+              alignment={
+                tableColumn === 'id' ||
+                tableColumn === 'rank' ||
+                tableColumn === 'type' ||
+                tableColumn === 'name'
+                  ? YotpoAlignment.left
+                  : YotpoAlignment.center
+              }
               size={
                 tableColumn === 'id' || tableColumn === 'rank'
                   ? YotpoTableCellSize.tiny
@@ -52,7 +59,14 @@ export default function DataTable(props: { data: any }) {
                 return (
                   <YotpoTableCell
                     className={tableColumn}
-                    alignment={YotpoAlignment.left}
+                    alignment={
+                      tableColumn === 'id' ||
+                      tableColumn === 'rank' ||
+                      tableColumn === 'type' ||
+                      tableColumn === 'name'
+                        ? YotpoAlignment.left
+                        : YotpoAlignment.center
+                    }
                     size={
                       tableColumn === 'id' || tableColumn === 'rank'
                         ? YotpoTableCellSize.tiny

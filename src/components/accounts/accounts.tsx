@@ -29,6 +29,12 @@ export default function Accounts() {
     (state: AppData) => state.options.accounts
   )
 
+  tableRecords.sort(function (a, b) {
+    var textA = a.accountName.toUpperCase()
+    var textB = b.accountName.toUpperCase()
+    return textA < textB ? -1 : textA > textB ? 1 : 0
+  })
+
   let openBackoffice = (key: string, type: string) => {
     let a = 'https://backoffice.yotpo.com/#/stores?search=' + key
     type === 'orgKey' ? (a = a + '&byOrgKey=true') : a

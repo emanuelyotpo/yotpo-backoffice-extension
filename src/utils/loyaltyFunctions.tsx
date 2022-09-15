@@ -6,7 +6,6 @@ import {
 import _ from 'lodash'
 import React from 'react'
 import EditStaticContent from '../components/editStaticContent/editStaticContent'
-import ChildrenInstancesModal from '../components/childrenInstancesModal/childrenInstancesModal'
 
 export function instancesForList(guid: string, instancesArray: any[]) {
   let convertedInstancesArray = []
@@ -15,7 +14,6 @@ export function instancesForList(guid: string, instancesArray: any[]) {
       convertedInstancesArray.push({
         id: instance.widget_instance_id,
         type: instance.widget_type_name,
-        parent_id: instance.parent_instance_id,
         active: instance.active,
         static_content: (
           <EditStaticContent
@@ -84,8 +82,8 @@ export function vipTiersForList(vipTiersArray: any[]) {
       rank: vipTier.rank,
       id: vipTier.id,
       name: vipTier.name,
-      points_multiplier: vipTier.points_multiplier,
-      reward_points: vipTier.reward_points,
+      multiplier: vipTier.points_multiplier,
+      entry_reward: vipTier.reward_points,
     })
   )
   vipTiersArray = convertedVIPArray
@@ -106,40 +104,21 @@ export function editAllLoyaltyInstanceStaticContent(
           (response) => {
             staticContent = response.instance.static_content
 
-            staticContent.storeAccountLoginUrl &&
-            staticContent.storeAccountRegistrationUrl
-              ? ((staticContent.storeAccountLoginUrl = loginURL),
-                (staticContent.storeAccountRegistrationUrl = registrationURL))
-              : staticContent.storeAccountLoginUrl === '' &&
-                staticContent.storeAccountRegistrationUrl === ''
-              ? ((staticContent.storeAccountLoginUrl = loginURL),
-                (staticContent.storeAccountRegistrationUrl = registrationURL))
-              : staticContent.storeLoginUrl &&
-                staticContent.storeRegistrationUrl
-              ? ((staticContent.storeLoginUrl = loginURL),
-                (staticContent.storeRegistrationUrl = registrationURL))
-              : staticContent.storeLoginUrl === '' &&
-                staticContent.storeRegistrationUrl === ''
-              ? ((staticContent.storeLoginUrl = loginURL),
-                (staticContent.storeRegistrationUrl = registrationURL))
-              : staticContent.storeAccountLoginUrl
-              ? (staticContent.storeAccountLoginUrl = loginURL)
-              : staticContent.storeAccountLoginUrl === ''
-              ? (staticContent.storeAccountLoginUrl = loginURL)
-              : staticContent.storeAccountRegistrationUrl
-              ? (staticContent.storeAccountRegistrationUrl = registrationURL)
-              : staticContent.storeAccountRegistrationUrl === ''
-              ? (staticContent.storeAccountRegistrationUrl = registrationURL)
-              : staticContent.storeLoginUrl
-              ? (staticContent.storeLoginUrl = loginURL)
-              : staticContent.storeLoginUrl === ''
-              ? (staticContent.storeLoginUrl = loginURL)
-              : staticContent.storeRegistrationUrl
-              ? (staticContent.storeRegistrationUrl = registrationURL)
-              : staticContent.storeRegistrationUrl === ''
-              ? (staticContent.storeRegistrationUrl = registrationURL)
-              : (staticContent = staticContent)
-
+            for (let property in staticContent) {
+              if (property === 'storeAccountLoginUrl') {
+                staticContent[property] = loginURL
+              }
+              else if (property === 'storeAccountRegistrationUrl') {
+                staticContent[property] = registrationURL
+              }
+              else if (property === 'storeLoginUrl') {
+                staticContent[property] = loginURL
+              }
+              else if (property === 'storeRegistrationUrl') {
+                staticContent[property] = registrationURL
+              }
+            }
+            
             editSingleLoyaltyInstanceStaticContent(
               guid,
               instance.widget_instance_id,

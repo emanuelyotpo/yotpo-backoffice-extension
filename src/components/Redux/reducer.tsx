@@ -366,7 +366,6 @@ export function reduce(
           <ChildrenInstancesModal children={value.children} id={value.id} />
         )
       })
-      console.log(newAppData.instances)
       break
 
     case ActionType.SetMoreVMSData:

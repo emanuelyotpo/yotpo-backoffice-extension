@@ -62,15 +62,31 @@ function getDataFromPage() {
       let scripts = document.querySelectorAll(
         "link[href*='//staticw2.yotpo.com']"
       )
+      let stylesTags = document.querySelectorAll(
+        "style[data-href*='//staticw2.yotpo.com']"
+      )
+
       let cssLink = undefined
 
-      for (let i = 0; i < scripts.length; i++) {
-        for (let ii = 0; ii < scripts[i].attributes.length; ii++) {
-          if (
-            scripts[i].attributes[ii].name === 'type' &&
-            scripts[i].attributes[ii].value === 'text/css'
-          ) {
-            cssLink = scripts[i].getAttribute('href')
+      if (scripts.length > 0) {
+        for (let i = 0; i < scripts.length; i++) {
+          for (let ii = 0; ii < scripts[i].attributes.length; ii++) {
+            if (
+              scripts[i].attributes[ii].name === 'type' &&
+              scripts[i].attributes[ii].value === 'text/css'
+            ) {
+              cssLink = scripts[i].getAttribute('href')
+            }
+          }
+        }
+      }
+
+      if (stylesTags.length > 0) {
+        for (let i = 0; i < stylesTags.length; i++) {
+          for (let ii = 0; ii < stylesTags[i].attributes.length; ii++) {
+            if (String(stylesTags[i].attributes[ii].name) === 'data-href') {
+              cssLink = stylesTags[i].attributes[ii].value
+            }
           }
         }
       }
