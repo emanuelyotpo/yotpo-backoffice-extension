@@ -107,6 +107,7 @@ export class AppData {
     { key: 'Platform', value: '', id: 'platform' },
     { key: 'Stars Widget', value: '', id: 'isStarRatingsInstalled' },
     { key: 'Product ID', value: '', id: 'productId' },
+    { key: 'Widget Release Version', value: '', id: 'widgetRelease' },
     { key: 'Widget Version', value: '', id: 'reviewsWidgetVersion' },
     { key: 'Product Name', value: '', id: 'productName' },
     { key: 'Image URL', value: '', id: 'productImageURL' },

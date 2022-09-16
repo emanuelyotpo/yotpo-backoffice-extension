@@ -19,6 +19,7 @@ function getDataFromPage() {
   let isCustomerIdentificationInstalled: any
   let reviewsWidgetVersion: any
   let myShopifyUrl: any
+  let widgetRelease: any
 
   scripts = document.querySelectorAll(
     "script[src*='//cdn-widgetsrepository.yotpo.com/v1/loader']"
@@ -32,6 +33,7 @@ function getDataFromPage() {
       )
       if (a.length === 40) {
         appKey = a
+        widgetRelease = 'V3'
         reviewsWidgetVersion = undefined
       } else if (a.length === 22) {
         guid = a
@@ -53,11 +55,7 @@ function getDataFromPage() {
 
     if (n) {
       appKey = n[1]
-      let s = document.querySelector("link[href*='//staticw2.yotpo.com']")
-        ? document
-            .querySelector("link[href*='//staticw2.yotpo.com']")
-            .getAttribute('href')
-        : undefined
+      widgetRelease = 'V2'
 
       let scripts = document.querySelectorAll(
         "link[href*='//staticw2.yotpo.com']"
@@ -242,6 +240,7 @@ function getDataFromPage() {
 
   return {
     appKey: appKey,
+    widgetRelease: widgetRelease,
     isStarRatingsInstalled: isStarRatingsInstalled,
     productId: productId,
     platform: platform(),
