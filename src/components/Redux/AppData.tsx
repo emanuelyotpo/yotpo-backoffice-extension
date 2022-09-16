@@ -260,7 +260,7 @@ export class AppData {
 
   // Copies
   reviewsCodeToCopy: string = `
-    <script type="text/javascript" src="//staticw2.yotpo.com/No App Key Here/widget.js">
+    <script type="text/javascript" src="//staticw2.yotpo.com/appKey/widget.js">
     </script>
 
     <div class="yotpo bottomLine"
@@ -291,7 +291,7 @@ export class AppData {
       </div>`
 
   vmsCodeToCopy: string = `
-      <script type="text/javascript" src="//staticw2.yotpo.com/No App Key Here/widget.js">
+      <script type="text/javascript" src="//staticw2.yotpo.com/appKey/widget.js">
       </script>
       <!-- Custom Gallery -->
       <div class="yotpo yotpo-pictures-widget"
