@@ -3,6 +3,16 @@ function getDataFromPage() {
   let patternSMS = /forms.smsbump.com.(\w*)/
   let nSMS: any
   let appKey: any
+  let isReviewsWidgetV2Installed: boolean
+  let isReviewsWidgetV3Installed: boolean
+  let isStarRatingsV2Installed: boolean
+  let isStarRatingsV3Installed: boolean
+  let isReviewsCarouselInstalled: boolean
+  let isQandAButtonInstalled: boolean
+  let isQandAWidgetInstalled: boolean
+  let isReviewHighlightsInstalled: boolean
+  let isReviewsBadgeInstalled: boolean
+  let isSEOPageInstalled: boolean
   let isStarRatingsInstalled: any
   let productId: any
   let guid: any
@@ -33,7 +43,6 @@ function getDataFromPage() {
       )
       if (a.length === 40) {
         appKey = a
-        widgetRelease = 'V3'
         reviewsWidgetVersion = undefined
       } else if (a.length === 22) {
         guid = a
@@ -55,72 +64,120 @@ function getDataFromPage() {
 
     if (n) {
       appKey = n[1]
-      widgetRelease = 'V2'
-
-      let scripts = document.querySelectorAll(
-        "link[href*='//staticw2.yotpo.com']"
-      )
-      let stylesTags = document.querySelectorAll(
-        "style[data-href*='//staticw2.yotpo.com']"
-      )
-
-      let cssLink = undefined
-
-      if (scripts.length > 0) {
-        for (let i = 0; i < scripts.length; i++) {
-          for (let ii = 0; ii < scripts[i].attributes.length; ii++) {
-            if (
-              scripts[i].attributes[ii].name === 'type' &&
-              scripts[i].attributes[ii].value === 'text/css'
-            ) {
-              cssLink = scripts[i].getAttribute('href')
-            }
-          }
-        }
-      }
-
-      if (stylesTags.length > 0) {
-        for (let i = 0; i < stylesTags.length; i++) {
-          for (let ii = 0; ii < stylesTags[i].attributes.length; ii++) {
-            if (String(stylesTags[i].attributes[ii].name) === 'data-href') {
-              cssLink = stylesTags[i].attributes[ii].value
-            }
-          }
-        }
-      }
-
-      if (cssLink) {
-        let unstrippedVersion = cssLink.substring(
-          cssLink.lastIndexOf('?') + 1,
-          cssLink.length
-        )
-        reviewsWidgetVersion = unstrippedVersion.substring(
-          unstrippedVersion.lastIndexOf('=') + 1,
-          unstrippedVersion.length
-        )
-      } else {
-        reviewsWidgetVersion = undefined
-      }
     }
   }
 
   if (appKey) {
+    let scripts = document.querySelectorAll(
+      "link[href*='//staticw2.yotpo.com']"
+    )
+    let stylesTags = document.querySelectorAll(
+      "style[data-href*='//staticw2.yotpo.com']"
+    )
+
+    let cssLink = undefined
+
+    if (scripts.length > 0) {
+      for (let i = 0; i < scripts.length; i++) {
+        for (let ii = 0; ii < scripts[i].attributes.length; ii++) {
+          if (
+            scripts[i].attributes[ii].name === 'type' &&
+            scripts[i].attributes[ii].value === 'text/css'
+          ) {
+            cssLink = scripts[i].getAttribute('href')
+          }
+        }
+      }
+    }
+
+    if (stylesTags.length > 0) {
+      for (let i = 0; i < stylesTags.length; i++) {
+        for (let ii = 0; ii < stylesTags[i].attributes.length; ii++) {
+          if (String(stylesTags[i].attributes[ii].name) === 'data-href') {
+            cssLink = stylesTags[i].attributes[ii].value
+          }
+        }
+      }
+    }
+
+    if (cssLink) {
+      let unstrippedVersion = cssLink.substring(
+        cssLink.lastIndexOf('?') + 1,
+        cssLink.length
+      )
+      reviewsWidgetVersion = unstrippedVersion.substring(
+        unstrippedVersion.lastIndexOf('=') + 1,
+        unstrippedVersion.length
+      )
+    } else {
+      reviewsWidgetVersion = undefined
+    }
+
+    isReviewsWidgetV2Installed =
+      document.querySelectorAll('.yotpo-main-widget').length > 0
+    isReviewsWidgetV3Installed =
+      document.querySelectorAll('#yotpo-reviews-main-widget').length > 0
+    isStarRatingsV2Installed =
+      document.querySelectorAll('.yotpo.bottomLine').length > 0
+    isStarRatingsV3Installed =
+      document.querySelectorAll('#yotpo-reviews-star-ratings-widget').length > 0
+    isReviewsCarouselInstalled =
+      document.querySelectorAll('.yotpo-reviews-carousel').length > 0
+    isQandAButtonInstalled =
+      document.querySelectorAll('.yotpo.QABottomLine').length > 0
+    isQandAWidgetInstalled =
+      document.querySelectorAll('.yotpo-main-widget[data-mode=questions]')
+        .length > 0
+    isReviewHighlightsInstalled =
+      document.querySelectorAll('.yotpo-shoppers-say').length > 0
+    isReviewsBadgeInstalled =
+      document.querySelectorAll('.yotpo-badge').length > 0
+    isSEOPageInstalled =
+      document.querySelectorAll('#yotpo-testimonials-custom-tab').length > 0
+
     isStarRatingsInstalled =
-      document.querySelectorAll('#yotpo-reviews-star-ratings-widget').length >
-        0 || document.querySelectorAll('.yotpo.bottomLine').length > 0
+      isStarRatingsV2Installed || isStarRatingsV3Installed
         ? 'Installed'
         : 'Not Installed'
 
-    productId =
-      document.querySelectorAll('#yotpo-reviews-main-widget').length > 0
-        ? document
-            .querySelectorAll('#yotpo-reviews-main-widget')[0]
-            .parentElement.getAttribute('data-yotpo-product-id')
-        : document.querySelectorAll('.yotpo-main-widget').length > 0
-        ? document
-            .querySelectorAll('.yotpo-main-widget')[0]
-            .getAttribute('data-product-id')
-        : undefined
+    productId = isReviewsWidgetV3Installed
+      ? document
+          .querySelectorAll('#yotpo-reviews-main-widget')[0]
+          .parentElement.getAttribute('data-yotpo-product-id')
+      : isReviewsWidgetV2Installed
+      ? document
+          .querySelectorAll('.yotpo-main-widget')[0]
+          .getAttribute('data-product-id')
+      : undefined
+
+    let v2Widgets = false
+    let v3Widgets = false
+
+    if (
+      isReviewsWidgetV2Installed ||
+      isStarRatingsV2Installed ||
+      isReviewsCarouselInstalled ||
+      isQandAButtonInstalled ||
+      isReviewHighlightsInstalled ||
+      isReviewsBadgeInstalled ||
+      isSEOPageInstalled ||
+      isQandAWidgetInstalled
+    ) {
+      v2Widgets = true
+    }
+    if (isReviewsWidgetV3Installed || isStarRatingsV3Installed) {
+      v3Widgets = true
+    }
+
+    if (v2Widgets && !v3Widgets) {
+      widgetRelease = 'V2'
+    } else if (!v2Widgets && v3Widgets) {
+      widgetRelease = 'V3'
+    } else if (v2Widgets && v3Widgets) {
+      widgetRelease = 'V2 & V3'
+    } else {
+      widgetRelease = undefined
+    }
 
     if (document.querySelectorAll('.yotpo-pictures-widget').length) {
       let galleries = document.querySelectorAll('.yotpo-pictures-widget')
@@ -139,7 +196,7 @@ function getDataFromPage() {
       vmsProductId = undefined
     }
   } else {
-    isStarRatingsInstalled = 'Not Installed'
+    isStarRatingsInstalled = undefined
     productId = undefined
   }
 
