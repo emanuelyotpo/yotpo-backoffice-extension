@@ -52,7 +52,7 @@ export default function VMSTab() {
       <div className="data">
         <DataList data={vmsData} />
       </div>
-      <Buttons buttons={buttons} codeToCopy={codeToCopy}></Buttons>
+      <Buttons buttons={buttons} codeToCopy={codeToCopy} redirectUri={'https://visual.yotpo.com/'}></Buttons>
     </div>
   )
 }

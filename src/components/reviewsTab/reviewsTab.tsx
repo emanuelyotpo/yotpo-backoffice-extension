@@ -110,7 +110,7 @@ export default function ReviewsTab() {
           />
         )}
       </div>
-      <Buttons buttons={buttons} codeToCopy={codeToCopy}></Buttons>
+      <Buttons buttons={buttons} codeToCopy={codeToCopy} redirectUri={'https://reviews.yotpo.com/'}></Buttons>
     </div>
   )
 }

@@ -103,7 +103,7 @@ export default function LoyaltyTab() {
           </>
         )}
       </div>
-      <Buttons buttons={buttons} codeToCopy={codeToCopy}></Buttons>
+      <Buttons buttons={buttons} codeToCopy={codeToCopy} redirectUri={'https://loyalty-app.yotpo.com/'}></Buttons>
     </div>
   )
 }

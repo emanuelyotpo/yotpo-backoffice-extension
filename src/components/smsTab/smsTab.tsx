@@ -18,7 +18,7 @@ export default function SMSTab() {
       <div className="data">
       <DataList data={smsData} />
       </div>
-      <Buttons buttons={buttons} codeToCopy={codeToCopy}></Buttons>
+      <Buttons buttons={buttons} codeToCopy={codeToCopy} redirectUri={'https://smsbump.yotpo.com/sms/'}></Buttons>
     </div>
   )
 }

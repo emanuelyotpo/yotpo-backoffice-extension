@@ -13,23 +13,20 @@ import UpdateAllURLsModal from '../UpdateAllURLsModal/UpdateAllURLsModal'
 export default function Buttons(props: {
   buttons: IButton[]
   codeToCopy: string
+  redirectUri: string
 }) {
-  let dispatch = useDispatch()
   let isUpdateAllURLsModalOpen = useSelector(
     (state: AppData) => state.isUpdateAllURLsModalOpen
   )
   let guid = useSelector((state: AppData) => state.guid)
+  let appKey = useSelector((state: AppData) => state.appKey)
+  let siteDomain = useSelector((state: AppData) => state.siteDomain)
+  let redirectUri = props.redirectUri
   let defaultJs = useSelector((state: AppData) => state.defaultJs)
 
-  let backofficeSerachValue: string = useSelector(
-    (state: AppData) => state.appKey
-  )
-    ? useSelector((state: AppData) => state.appKey)
-    : useSelector((state: AppData) => state.siteDomain)
-
-  let backofficeUrl: string = useSelector((state: AppData) => state.appKey)
-    ? `https://backoffice.yotpo.com/#/stores/`
-    : `https://backoffice.yotpo.com/#/stores?search=`
+  let backofficeUrl: string = appKey
+    ? `https://backoffice.yotpo.com/#/stores/${appKey}/login?redirectUri=${redirectUri}`
+    : `https://backoffice.yotpo.com/#/stores?search=${siteDomain}`
 
   return (
     <div className="buttons">
@@ -62,10 +59,7 @@ export default function Buttons(props: {
                         ? (copyToClipboard(props.codeToCopy),
                           window.open(defaultJs, '_blank'))
                         : button.func === 'backoffice'
-                        ? window.open(
-                            backofficeUrl + backofficeSerachValue,
-                            '_blank'
-                          )
+                        ? window.open(backofficeUrl, '_blank')
                         : button.func === 'loader'
                         ? window.open(button.href + guid, '_blank')
                         : window.open(button.href, '_blank')
