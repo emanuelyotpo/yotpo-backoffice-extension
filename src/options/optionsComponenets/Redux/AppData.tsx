@@ -9,6 +9,7 @@ import { ITabData } from '../../../models/ITabData'
 import { SyncStorageOptions } from '../../../utils/storage'
 import { IAccount } from '../../../models/IAccount'
 import AccountsTab from '../../../components/accountsTab/accountsTab'
+import SubscriptionTab from '../../../components/subscriptionsTab/subscriptionsTab'
 
 let tabs: ITabData[] = [
   {
@@ -41,6 +42,13 @@ let tabs: ITabData[] = [
   },
   {
     id: 5,
+    label: 'Subscription',
+    value: 'subscription',
+    product: YotpoProducts.subscriptions,
+    tab: <SubscriptionTab />,
+  },
+  {
+    id: 6,
     label: 'Accounts',
     value: 'accounts',
     tab: <AccountsTab />,

@@ -33,6 +33,9 @@ export default function AddAccount() {
   }
 
   const handleAddAccount = () => {
+    if (!accountName || !key || !type) {
+      return
+    }
     dispatch({
       type: ActionType.AddAccount,
       payload: { accountName: accountName, key: key, type: type },
@@ -40,11 +43,12 @@ export default function AddAccount() {
     setStoredOptions(options).then(() => {
       toastAlert(
         {
-            alertTitle: 'Saved',
-            status: YotpoStatus.success,
-            icon: true
+          alertTitle: 'Saved',
+          status: YotpoStatus.success,
+          icon: true,
         },
-        () => {})
+        () => {}
+      )
       accountNameRef.current.value = ''
       keyRef.current.value = ''
       typeRef.current.value = ''
@@ -57,36 +61,41 @@ export default function AddAccount() {
   return (
     <>
       <div className="add-account">
-        <YotpoInput
-          helpText="Account Name"
-          name="accountName"
-          ref={accountNameRef}
-          onYotpoChange={(e: Event) => handleAccountNameChange(e)}
-          clearable={true}
-          value={accountName}
-        ></YotpoInput>
-        <YotpoInput
-          helpText="Search Key"
-          name="key"
-          ref={keyRef}
-          onYotpoChange={(e: Event) => handleOrgKeyChange(e)}
-          clearable={true}
-          value={key}
-        ></YotpoInput>
-        <YotpoDropdown
-          clearable
-          helpText="Search Key Type"
-          onYotpoSelect={(e: Event) => handleTypeChange(e)}
-          ref={typeRef}
-        >
-          <YotpoList>
-            <YotpoListItem label="Org Key" value="orgKey"></YotpoListItem>
-            <YotpoListItem label="App Key" value="appKey"></YotpoListItem>
-            <YotpoListItem label="Domain" value="domain"></YotpoListItem>
-            <YotpoListItem label="Email" value="email"></YotpoListItem>
-          </YotpoList>
-        </YotpoDropdown>
-        <YotpoButton onClick={() => handleAddAccount()}>Add</YotpoButton>
+        <form>
+          <YotpoInput
+            helpText="Account Name"
+            name="accountName"
+            ref={accountNameRef}
+            onYotpoChange={(e: Event) => handleAccountNameChange(e)}
+            clearable={true}
+            value={accountName}
+            required={true}
+          ></YotpoInput>
+          <YotpoInput
+            helpText="Search Key"
+            name="key"
+            ref={keyRef}
+            onYotpoChange={(e: Event) => handleOrgKeyChange(e)}
+            clearable={true}
+            value={key}
+            required={true}
+          ></YotpoInput>
+          <YotpoDropdown
+            clearable
+            helpText="Search Key Type"
+            onYotpoSelect={(e: Event) => handleTypeChange(e)}
+            ref={typeRef}
+            required={true}
+          >
+            <YotpoList>
+              <YotpoListItem label="Org Key" value="orgKey"></YotpoListItem>
+              <YotpoListItem label="App Key" value="appKey"></YotpoListItem>
+              <YotpoListItem label="Domain" value="domain"></YotpoListItem>
+              <YotpoListItem label="Email" value="email"></YotpoListItem>
+            </YotpoList>
+          </YotpoDropdown>
+          <YotpoButton onClick={() => handleAddAccount()}>Add</YotpoButton>
+        </form>
       </div>
     </>
   )

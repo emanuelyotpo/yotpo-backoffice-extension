@@ -48,12 +48,6 @@ export default function Layout() {
               <YotpoTab key={index} label={tabInfo.label} slot="tab" selected>
                 <span>{tabInfo.label}</span>
               </YotpoTab>
-              {/* <YotpoProductLogo
-                productName={tabInfo.product}
-                size={YotpoSize.large}
-                bgColor={YotpoProductLogoBackGroundColor.white}
-                showProductName={false}
-              ></YotpoProductLogo> */}
             </>
           ))}
         {tabs
@@ -61,12 +55,6 @@ export default function Layout() {
           .map((tabInfo, index) => (
             <>
               <YotpoTab key={index} label={tabInfo.label} slot="tab"></YotpoTab>
-              {/* <YotpoProductLogo
-                productName={tabInfo.product}
-                size={YotpoSize.large}
-                bgColor={YotpoProductLogoBackGroundColor.white}
-                showProductName={false}
-              ></YotpoProductLogo> */}
             </>
           ))}
 

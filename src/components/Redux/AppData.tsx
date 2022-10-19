@@ -12,6 +12,8 @@ import { YotpoProducts } from '@yotpo-common/react-b2b-components/enums'
 import { ICustomQuestion } from '../../models/ICustomQuestion'
 import { IAccount } from '../../models/IAccount'
 import AccountsTab from '../accountsTab/accountsTab'
+import SubscriptionTab from '../subscriptionsTab/subscriptionsTab'
+
 export class AppData {
   // Reviews
   appKey: string = ''
@@ -77,6 +79,13 @@ export class AppData {
     },
     {
       id: 5,
+      label: 'Subscription',
+      value: 'subscription',
+      product: YotpoProducts.subscriptions,
+      tab: <SubscriptionTab />,
+    },
+    {
+      id: 6,
       label: 'Accounts',
       value: 'accounts',
       tab: <AccountsTab />,
@@ -145,6 +154,21 @@ export class AppData {
     { key: 'Shopify URL', value: '', id: 'myShopifyUrl' },
   ]
 
+  subscriptionData: IData[] = [
+    { key: 'App Key', value: '', id: 'appKey' },
+    { key: 'Product Handle', value: '', id: 'productHandle' },
+    {
+      key: 'Add To Cart Widget(product page)',
+      value: '',
+      id: 'subscriptionsProductPageInstanceID',
+    },
+    {
+      key: 'My Account Widget',
+      value: '',
+      id: 'subscriptionsMyAccountInstanceID',
+    },
+  ]
+
   accountsData: IData[] = []
 
   // Reviews Custom Fields Aggregation
@@ -169,7 +193,7 @@ export class AppData {
       toolTip: 'Test Rich Snippets',
     },
     {
-      description: 'Backoffice',
+      description: 'B2B',
       func: 'backoffice',
       toolTip: 'Open in Backoffice',
       href: `https://backoffice.yotpo.com/#/stores/`,
@@ -194,10 +218,10 @@ export class AppData {
       toolTip: 'Loader Link',
     },
     {
-      description: 'Backoffice',
+      description: 'B2B',
       func: 'backoffice',
       toolTip: 'Open in Backoffice',
-      href: `https://backoffice.yotpo.com/#/stores?search=`,
+      href: `https://backoffice.yotpo.com/#/stores/`,
       target: '_blank',
     },
     {
@@ -224,10 +248,10 @@ export class AppData {
 
   vmsButtons: IButton[] = [
     {
-      description: 'Backoffice',
+      description: 'B2B',
       func: 'backoffice',
       toolTip: 'Open in Backoffice',
-      href: `https://backoffice.yotpo.com/#/stores?search=`,
+      href: `https://backoffice.yotpo.com/#/stores/`,
       target: '_blank',
     },
     {
@@ -242,10 +266,28 @@ export class AppData {
 
   smsButtons: IButton[] = [
     {
-      description: 'Backoffice',
+      description: 'B2B',
       func: 'backoffice',
       toolTip: 'Open in Backoffice',
-      href: `https://backoffice.yotpo.com/#/stores?search=`,
+      href: `https://backoffice.yotpo.com/#/stores/`,
+      target: '_blank',
+    },
+    {
+      description: 'Inspect In Clean Environment',
+      func: 'inspectClean',
+      href: `https://js.do/`,
+      target: '_blank',
+      toolTip:
+        'Press CTRL+V or CMD+V to paste the relevant code once the new tab is opened.',
+    },
+  ]
+
+  subscriptionButtons: IButton[] = [
+    {
+      description: 'B2B',
+      func: 'backoffice',
+      toolTip: 'Open in Backoffice',
+      href: `https://backoffice.yotpo.com/#/stores/`,
       target: '_blank',
     },
     {
@@ -309,5 +351,9 @@ export class AppData {
       <div>
         <script src="https://forms.smsbump.com/userId/form_formId.js"></script>
       </div>
+      `
+
+  subscriptionCodeToCopy: string = `
+    <script src="https://cdn-widgetsrepository.yotpo.com/v1/loader/appKey" async></script>
       `
 }

@@ -127,8 +127,19 @@ export function reduce(
           }
         )
       }
+
+      newAppData.subscriptionData = [...newAppData.subscriptionData]
+      for (let entry in action.payload) {
+        newAppData.subscriptionData.forEach(
+          (data: { key: string; value: any; id: string }) => {
+            if (data.id === entry) {
+              data.value = action.payload[entry]
+            }
+          }
+        )
+      }
+
       newAppData.reviewsCodeToCopy = `<script type="text/javascript" src="//staticw2.yotpo.com/${action.payload.appKey}/widget.js" async></script>
-      
           <div class="yotpo bottomLine"
               data-product-id="${action.payload.productId}">
           </div>	
@@ -179,6 +190,21 @@ export function reduce(
          <div>
            <script src="https://forms.smsbump.com/${action.payload.userId}/form_${action.payload.formId}.js"></script>
          </div>
+         `
+
+      newAppData.subscriptionCodeToCopy = `
+      <script src="https://cdn-widgetsrepository.yotpo.com/v1/loader/${action.payload.appKey}" async></script>
+      <div class="yotpo-widget-instance"
+          data-yotpo-instance-id="instanceID"
+          product-handle="{{product.handle}}"
+          widget-type="SubscriptionsAddToCartWidget"
+          full-format-product-price="{{ product.price | money }}">
+        </div>
+
+      <div class="yotpo-widget-instance"
+          data-yotpo-instance-id="instanceID"
+          widget-type="SubscriptionsCustomerPortal">
+        </div>
          `
 
       break
@@ -379,6 +405,69 @@ export function reduce(
           }
         )
       }
+      break
+
+    case ActionType.SetMoreSubscriptionData:
+      newAppData.subscriptionData = [...newAppData.subscriptionData]
+      let subscriptionParser = new DOMParser()
+      let subscriptionDoc = subscriptionParser.parseFromString(
+        action.payload.data,
+        'text/html'
+      )
+      let installedSubscriptionInstances = subscriptionDoc.querySelectorAll(
+        '.yotpo-widget-instance'
+      )
+      newAppData.subscriptionCodeToCopy = `<script src="https://cdn-widgetsrepository.yotpo.com/v1/loader/${action.payload.appKey}" async></script>`
+
+      installedSubscriptionInstances.forEach((instance) => {
+        if (
+          instance.getAttribute('widget-type') ===
+          'SubscriptionsAddToCartWidget'
+        ) {
+          newAppData.subscriptionData.forEach((entry) => {
+            if (entry.id === 'subscriptionsProductPageInstanceID') {
+              entry.value = instance.getAttribute('data-yotpo-instance-id')
+            }
+            if (entry.id === 'productHandle') {
+              entry.value = instance.getAttribute('product-handle')
+            }
+          })
+          newAppData.subscriptionCodeToCopy =
+            newAppData.subscriptionCodeToCopy.concat(
+              `\n
+            <div class="yotpo-widget-instance"
+              data-yotpo-instance-id="${instance.getAttribute(
+                'data-yotpo-instance-id'
+              )}"
+              product-handle="${instance.getAttribute('product-handle')}"
+              allow-out-of-form="true"
+              widget-type="SubscriptionsAddToCartWidget"
+              full-format-product-price="{{ product.price | money }}">
+            </div>
+          \n`
+            )
+        }
+        if (
+          instance.getAttribute('widget-type') === 'SubscriptionsCustomerPortal'
+        ) {
+          newAppData.subscriptionData.forEach((entry) => {
+            if (entry.id === 'subscriptionsMyAccountInstanceID') {
+              entry.value = instance.getAttribute('data-yotpo-instance-id')
+            }
+          })
+          newAppData.subscriptionCodeToCopy =
+            newAppData.subscriptionCodeToCopy.concat(
+              `\n
+            <div class="yotpo-widget-instance"
+              data-yotpo-instance-id="${instance.getAttribute(
+                'data-yotpo-instance-id'
+              )}"
+              widget-type="SubscriptionsCustomerPortal">
+            </div>
+          \n`
+            )
+        }
+      })
       break
 
     case ActionType.UpdateDataManually:

@@ -14,5 +14,6 @@ export enum ActionType {
     SetIsUpdateAllURLsModalOpen,
     AddAccount,
     RemoveAccount,
-    SetLoyaltyInstances
+    SetLoyaltyInstances,
+    SetMoreSubscriptionData
 }

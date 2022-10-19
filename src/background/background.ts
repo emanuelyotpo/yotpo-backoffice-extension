@@ -39,6 +39,13 @@ chrome.runtime.onInstalled.addListener(() => {
           },
           {
             id: 5,
+            label: 'Subscription',
+            value: 'subscription',
+            product: YotpoProducts.subscriptions,
+            tab: `<SubscriptionTab />`,
+          },
+          {
+            id: 6,
             label: 'Accounts',
             value: 'accounts',
             tab: `<AccountsTab />`,

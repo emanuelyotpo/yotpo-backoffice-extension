@@ -30,6 +30,8 @@ function getDataFromPage() {
   let reviewsWidgetVersion: any
   let myShopifyUrl: any
   let widgetRelease: any
+  let subscriptionsProductPageInstanceID: any
+  let subscriptionsMyAccountInstanceID: any
 
   scripts = document.querySelectorAll(
     "script[src*='//cdn-widgetsrepository.yotpo.com/v1/loader']"
@@ -249,6 +251,18 @@ function getDataFromPage() {
       )
     : undefined
 
+  subscriptionsProductPageInstanceID = document.querySelector(
+    '.yotpo-widget-subscriptions-add-to-cart'
+  )
+    ? true
+    : undefined
+
+  subscriptionsMyAccountInstanceID = document.querySelector(
+    '.yotpo-widget-subscriptions-customer-portal'
+  )
+    ? true
+    : undefined
+
   if (!nSMS) {
     userId = undefined
     formId = undefined
@@ -272,6 +286,7 @@ function getDataFromPage() {
       'demandware',
       'salesforce',
     ]
+
     let currentPlatform: string
 
     platformNames.forEach((platform) => {
@@ -313,6 +328,8 @@ function getDataFromPage() {
     userId: userId,
     formId: formId,
     isSMSScriptInstalled: isSMSScriptInstalled,
+    subscriptionsProductPageInstanceID: subscriptionsProductPageInstanceID,
+    subscriptionsMyAccountInstanceID: subscriptionsMyAccountInstanceID,
     myShopifyUrl: myShopifyUrl,
   }
 }

@@ -4,6 +4,10 @@
     padding: 0 10px;
 }
 
+.add-account form {
+    display: flex;
+}
+
 .add-account yotpo-button {
     margin-top: 0px;
 }
