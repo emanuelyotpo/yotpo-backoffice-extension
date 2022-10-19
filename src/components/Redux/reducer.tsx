@@ -128,9 +128,9 @@ export function reduce(
         )
       }
 
-      newAppData.subscriptionData = [...newAppData.subscriptionData]
+      newAppData.subscriptionsData = [...newAppData.subscriptionsData]
       for (let entry in action.payload) {
-        newAppData.subscriptionData.forEach(
+        newAppData.subscriptionsData.forEach(
           (data: { key: string; value: any; id: string }) => {
             if (data.id === entry) {
               data.value = action.payload[entry]
@@ -192,7 +192,7 @@ export function reduce(
          </div>
          `
 
-      newAppData.subscriptionCodeToCopy = `
+      newAppData.subscriptionsCodeToCopy = `
       <script src="https://cdn-widgetsrepository.yotpo.com/v1/loader/${action.payload.appKey}" async></script>
       <div class="yotpo-widget-instance"
           data-yotpo-instance-id="instanceID"
@@ -408,7 +408,7 @@ export function reduce(
       break
 
     case ActionType.SetMoreSubscriptionData:
-      newAppData.subscriptionData = [...newAppData.subscriptionData]
+      newAppData.subscriptionsData = [...newAppData.subscriptionsData]
       let subscriptionParser = new DOMParser()
       let subscriptionDoc = subscriptionParser.parseFromString(
         action.payload.data,
@@ -417,14 +417,14 @@ export function reduce(
       let installedSubscriptionInstances = subscriptionDoc.querySelectorAll(
         '.yotpo-widget-instance'
       )
-      newAppData.subscriptionCodeToCopy = `<script src="https://cdn-widgetsrepository.yotpo.com/v1/loader/${action.payload.appKey}" async></script>`
+      newAppData.subscriptionsCodeToCopy = `<script src="https://cdn-widgetsrepository.yotpo.com/v1/loader/${action.payload.appKey}" async></script>`
 
       installedSubscriptionInstances.forEach((instance) => {
         if (
           instance.getAttribute('widget-type') ===
           'SubscriptionsAddToCartWidget'
         ) {
-          newAppData.subscriptionData.forEach((entry) => {
+          newAppData.subscriptionsData.forEach((entry) => {
             if (entry.id === 'subscriptionsProductPageInstanceID') {
               entry.value = instance.getAttribute('data-yotpo-instance-id')
             }
@@ -432,8 +432,8 @@ export function reduce(
               entry.value = instance.getAttribute('product-handle')
             }
           })
-          newAppData.subscriptionCodeToCopy =
-            newAppData.subscriptionCodeToCopy.concat(
+          newAppData.subscriptionsCodeToCopy =
+            newAppData.subscriptionsCodeToCopy.concat(
               `\n
             <div class="yotpo-widget-instance"
               data-yotpo-instance-id="${instance.getAttribute(
@@ -450,13 +450,13 @@ export function reduce(
         if (
           instance.getAttribute('widget-type') === 'SubscriptionsCustomerPortal'
         ) {
-          newAppData.subscriptionData.forEach((entry) => {
+          newAppData.subscriptionsData.forEach((entry) => {
             if (entry.id === 'subscriptionsMyAccountInstanceID') {
               entry.value = instance.getAttribute('data-yotpo-instance-id')
             }
           })
-          newAppData.subscriptionCodeToCopy =
-            newAppData.subscriptionCodeToCopy.concat(
+          newAppData.subscriptionsCodeToCopy =
+            newAppData.subscriptionsCodeToCopy.concat(
               `\n
             <div class="yotpo-widget-instance"
               data-yotpo-instance-id="${instance.getAttribute(

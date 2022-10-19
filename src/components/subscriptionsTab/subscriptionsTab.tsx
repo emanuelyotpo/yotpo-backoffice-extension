@@ -14,15 +14,15 @@ import './subscriptionsTab.css'
 export default function SubscriptionTab() {
   let dispatch = useDispatch()
   let appKey = useSelector((state: AppData) => state.appKey)
-  let subscriptionData: IData[] = useSelector(
-    (state: AppData) => state.subscriptionData
+  let subscriptionsData: IData[] = useSelector(
+    (state: AppData) => state.subscriptionsData
   )
   let siteHref = useSelector((state: AppData) => state.siteHref)
   let buttons: IButton[] = useSelector(
-    (state: AppData) => state.subscriptionButtons
+    (state: AppData) => state.subscriptionsButtons
   )
   let codeToCopy: string = useSelector(
-    (state: AppData) => state.subscriptionCodeToCopy
+    (state: AppData) => state.subscriptionsCodeToCopy
   )
 
   let setSubscriptionData = () => {
@@ -35,15 +35,15 @@ export default function SubscriptionTab() {
           })
         })
         .catch(
-          (error: any) => console.log(error)
-          // toastAlert(
-          //   {
-          //     alertTitle: `${error}`,
-          //     status: YotpoStatus.warning,
-          //     icon: true,
-          //   },
-          //   () => {}
-          // )
+          (error: any) => 
+          toastAlert(
+            {
+              alertTitle: `${error}`,
+              status: YotpoStatus.warning,
+              icon: true,
+            },
+            () => {}
+          )
         )
     }
   }
@@ -53,9 +53,9 @@ export default function SubscriptionTab() {
   }, [appKey])
 
   return (
-    <div className="subscription yotpo-text-large yotpo-text-primary">
+    <div className="subscriptions yotpo-text-large yotpo-text-primary">
       <div className="data">
-        <DataList data={subscriptionData} />
+        <DataList data={subscriptionsData} />
       </div>
       <Buttons
         buttons={buttons}

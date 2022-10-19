@@ -42,8 +42,8 @@ let tabs: ITabData[] = [
   },
   {
     id: 5,
-    label: 'Subscription',
-    value: 'subscription',
+    label: 'Subscriptions',
+    value: 'subscriptions',
     product: YotpoProducts.subscriptions,
     tab: <SubscriptionTab />,
   },

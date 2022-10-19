@@ -3,10 +3,10 @@ import { getStoredOptions, setStoredOptions } from '../utils/storage'
 
 // Set Options on install
 chrome.runtime.onInstalled.addListener(() => {
-  getStoredOptions().then((storedOptions) => {
-    if (storedOptions) {
-      setStoredOptions(storedOptions)
-    } else {
+  // getStoredOptions().then((storedOptions) => {
+  //   if (storedOptions) {
+  //     setStoredOptions(storedOptions)
+  //   } else {
       setStoredOptions({
         tabs: [
           {
@@ -39,8 +39,8 @@ chrome.runtime.onInstalled.addListener(() => {
           },
           {
             id: 5,
-            label: 'Subscription',
-            value: 'subscription',
+            label: 'Subscriptions',
+            value: 'subscriptions',
             product: YotpoProducts.subscriptions,
             tab: `<SubscriptionTab />`,
           },
@@ -73,8 +73,8 @@ chrome.runtime.onInstalled.addListener(() => {
         ],
         accounts: [],
       })
-    }
-  })
+  //   }
+  // })
 })
 
 // Listen to messages from the main popup

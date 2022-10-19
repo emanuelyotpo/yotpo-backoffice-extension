@@ -93,6 +93,16 @@ export default function OptionsInstructions() {
             Currently, the extension can only recognize 1 form that's installed.
           </li>
         </ul>
+        <h3>Subscriptions</h3>
+        <ul>
+          <li>Retrieves app key</li>
+          <li>Retrieves on-site widgets (my account & add to cart)</li>
+        </ul>
+        <h3>Accounts</h3>
+        <ul>
+          <li>Add accounts to following list</li>
+          <li>Every account links to backoffice</li>
+        </ul>
       </YotpoModal>
     </>
   )

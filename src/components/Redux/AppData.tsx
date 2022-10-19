@@ -79,8 +79,8 @@ export class AppData {
     },
     {
       id: 5,
-      label: 'Subscription',
-      value: 'subscription',
+      label: 'Subscriptions',
+      value: 'subscriptions',
       product: YotpoProducts.subscriptions,
       tab: <SubscriptionTab />,
     },
@@ -154,7 +154,7 @@ export class AppData {
     { key: 'Shopify URL', value: '', id: 'myShopifyUrl' },
   ]
 
-  subscriptionData: IData[] = [
+  subscriptionsData: IData[] = [
     { key: 'App Key', value: '', id: 'appKey' },
     { key: 'Product Handle', value: '', id: 'productHandle' },
     {
@@ -282,7 +282,7 @@ export class AppData {
     },
   ]
 
-  subscriptionButtons: IButton[] = [
+  subscriptionsButtons: IButton[] = [
     {
       description: 'B2B',
       func: 'backoffice',
@@ -353,7 +353,7 @@ export class AppData {
       </div>
       `
 
-  subscriptionCodeToCopy: string = `
+  subscriptionsCodeToCopy: string = `
     <script src="https://cdn-widgetsrepository.yotpo.com/v1/loader/appKey" async></script>
       `
 }
