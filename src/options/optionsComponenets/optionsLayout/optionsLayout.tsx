@@ -11,7 +11,7 @@ import { YotpoButton } from '@yotpo-common/react-b2b-components/button'
 import { YotpoLogo } from '@yotpo-common/react-b2b-components/logo'
 import { YotpoDivider } from '@yotpo-common/react-b2b-components/divider'
 import { useDispatch } from 'react-redux'
-import { ActionType } from '../Redux/ActionTypes'
+import { OptionsActionType } from '../Redux/optionsActionTypes'
 import {
   getStoredOptions,
   setStoredOptions,
@@ -33,18 +33,22 @@ export default function OptionsLayout() {
 
   useEffect(() => {
     getStoredOptions().then((storedOptions) => {
-      dispatch({
-        type: ActionType.SetStoredOptions,
-        payload: storedOptions,
-      })
-      setOptions(storedOptions)
+      if (storedOptions) {
+        dispatch({
+          type: OptionsActionType.SetStoredOptions,
+          payload: storedOptions,
+        })
+        setOptions(storedOptions)
+      } else {
+        return
+      }
     })
   }, [])
 
   let handleSaveButtonClick = () => {
     try {
       dispatch({
-        type: ActionType.SetStoredOptions,
+        type: OptionsActionType.SetStoredOptions,
         payload: options,
       })
 

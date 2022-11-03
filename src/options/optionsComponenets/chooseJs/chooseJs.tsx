@@ -1,7 +1,7 @@
 import React from 'react'
 import './chooseJs.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { ActionType } from '../Redux/ActionTypes'
+import { OptionsActionType } from '../Redux/optionsActionTypes'
 import { YotpoDropdown } from '@yotpo-common/react-b2b-components/dropdown'
 import { YotpoList } from '@yotpo-common/react-b2b-components/list'
 import { YotpoListItem } from '@yotpo-common/react-b2b-components/list-item'
@@ -14,7 +14,7 @@ export default function ChooseJS() {
 
   const handleJSChange = (event: any) => {
     dispatch({
-      type: ActionType.SetJs,
+      type: OptionsActionType.SetJs,
       payload: { value: event.target.value },
     })
   }

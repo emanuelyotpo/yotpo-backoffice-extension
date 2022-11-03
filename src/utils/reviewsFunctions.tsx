@@ -1,5 +1,4 @@
 import { fetchReviewsData } from './api'
-import _ from 'lodash'
 
 export function richSnippetsResultsConnector() {
   chrome.tabs.query(

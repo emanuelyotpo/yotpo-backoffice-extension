@@ -2,12 +2,12 @@ import React, { useEffect } from 'react'
 import './reviewsTab.css'
 import { getReviewsCountsAndData } from '../../utils/reviewsFunctions'
 import { useDispatch, useSelector } from 'react-redux'
-import { AppData } from '../Redux/AppData'
+import { AppData } from '../redux/AppData'
 import Buttons from '../buttons/buttons'
 import DataList from '../dataList/dataList'
 import { IData } from '../../models/IData'
 import { fetchReviewsData } from '../../utils/api'
-import { ActionType } from '../Redux/actionTypes'
+import { ActionType } from '../redux/actionTypes'
 import NestedList from '../nestedList/nestedList'
 import { ICustomQuestion } from '../../models/ICustomQuestion'
 import { toastAlert } from '@yotpo-common/react-b2b-components/alert'
@@ -31,7 +31,7 @@ export default function ReviewsTab() {
         .then((data) => {
           if (!data.response.products[0]) {
             dispatch({
-              type: ActionType.SetMoreReviewsData,
+              type: ActionType.SetReviewsData,
               payload: {
                 bottomline: 0,
                 productName: '',
@@ -50,7 +50,7 @@ export default function ReviewsTab() {
             })
           } else {
             dispatch({
-              type: ActionType.SetMoreReviewsData,
+              type: ActionType.SetReviewsData,
               payload: {
                 productName: data.response.products[0].name,
                 productImageURL: data.response.products[0].image_url,

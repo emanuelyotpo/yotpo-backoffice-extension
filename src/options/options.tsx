@@ -1,11 +1,11 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import './options.css'
 import { Provider } from 'react-redux'
 import { YotpoAlert } from '@yotpo-common/react-b2b-components/alert'
 import '@yotpo-common/react-b2b-components/themes/theme.css'
 import OptionsLayout from './optionsComponenets/optionsLayout/optionsLayout'
 import { store } from './optionsComponenets/Redux/store'
+import { createRoot } from 'react-dom/client'
 
 export default function App() {
   return (
@@ -18,7 +18,9 @@ export default function App() {
   )
 }
 
-let root = document.createElement('div')
-root.className = 'options'
-document.body.appendChild(root)
-ReactDOM.render(<App />, root)
+let container = document.createElement('app');
+container.className = 'popup'
+document.body.appendChild(container)
+
+let root = createRoot(container!); // createRoot(container!) if you use TypeScript
+root.render(<App/>);

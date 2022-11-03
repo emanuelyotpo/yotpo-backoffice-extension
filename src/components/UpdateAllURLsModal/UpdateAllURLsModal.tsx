@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { editAllLoyaltyInstanceStaticContent } from '../../utils/loyaltyFunctions'
-import { AppData } from '../Redux/AppData'
+import { AppData } from '../redux/AppData'
 import './UpdateAllURLsModal.css'
 import { YotpoModal } from '@yotpo-common/react-b2b-components/modal'
 import { YotpoInput } from '@yotpo-common/react-b2b-components/input'
@@ -11,7 +11,7 @@ import {
   YotpoPriority,
   YotpoStatus,
 } from '@yotpo-common/react-b2b-components/enums'
-import { ActionType } from '../Redux/actionTypes'
+import { ActionType } from '../redux/actionTypes'
 import { toastAlert } from '@yotpo-common/react-b2b-components/alert'
 import { YotpoButton } from '@yotpo-common/react-b2b-components/button'
 import { YotpoTooltip } from '@yotpo-common/react-b2b-components/tooltip'

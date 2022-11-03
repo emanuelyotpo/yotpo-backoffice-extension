@@ -1,12 +1,12 @@
 import { YotpoProducts } from '@yotpo-common/react-b2b-components/enums'
-import { getStoredOptions, setStoredOptions } from '../utils/storage'
+import { setStoredOptions, getStoredOptions } from '../utils/storage'
 
-// Set Options on install
+
 chrome.runtime.onInstalled.addListener(() => {
-  // getStoredOptions().then((storedOptions) => {
-  //   if (storedOptions) {
-  //     setStoredOptions(storedOptions)
-  //   } else {
+  getStoredOptions().then((storedOptions) => {
+    if (storedOptions) {
+      setStoredOptions(storedOptions)
+    } else {
       setStoredOptions({
         tabs: [
           {
@@ -73,12 +73,13 @@ chrome.runtime.onInstalled.addListener(() => {
         ],
         accounts: [],
       })
-  //   }
-  // })
+    }
+  })
 })
 
 // Listen to messages from the main popup
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  debugger
   switch (message.init) {
     case 'go':
       sendToContent((data: any) => {

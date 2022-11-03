@@ -1,4 +1,4 @@
-export enum ActionType {
+export enum OptionsActionType {
     SetStoredOptions,
     SetJs,
     SetTabsOrder,

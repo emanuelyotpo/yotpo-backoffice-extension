@@ -3,7 +3,7 @@ import { IJS } from "../models/IJs"
 import { ITabData } from "../models/ITabData"
 
 export interface SyncStorage {
-  options?: SyncStorageOptions
+  options: SyncStorageOptions
 }
 
 export interface SyncStorageOptions {
@@ -18,6 +18,7 @@ export function setStoredOptions(options: SyncStorageOptions): Promise<void> {
   const vals: SyncStorage = {
     options,
   }
+  
   return new Promise((resolve) => {
     chrome.storage.sync.set(vals, () => {
       resolve()
@@ -28,7 +29,7 @@ export function setStoredOptions(options: SyncStorageOptions): Promise<void> {
 export function getStoredOptions(): Promise<SyncStorageOptions> {
   const keys: SyncStorageKeys[] = ['options']
   return new Promise((resolve) => {
-    chrome.storage.sync.get(keys, (res: SyncStorage) => {
+    chrome.storage.sync.get(keys, (res: SyncStorage) => {      
       resolve(res.options)
     })
   })

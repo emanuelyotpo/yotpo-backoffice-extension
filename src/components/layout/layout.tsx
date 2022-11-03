@@ -1,13 +1,18 @@
 import React, { Key, useEffect } from 'react'
 import './layout.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { ActionType } from '../Redux/actionTypes'
-import { AppData } from '../Redux/AppData'
+import { ActionType } from '../redux/actionTypes'
+import { AppData } from '../redux/AppData'
 import { ITabData } from '../../models/ITabData'
 import { getStoredOptions, setStoredOptions } from '../../utils/storage'
 import { YotpoTabGroup } from '@yotpo-common/react-b2b-components/tab-group'
 import { YotpoTabPanel } from '@yotpo-common/react-b2b-components/tab-panel'
 import { YotpoTab } from '@yotpo-common/react-b2b-components/tab'
+import { YotpoProductLogo } from '@yotpo-common/react-b2b-components/product-logo'
+import {
+  YotpoProductLogoBackGroundColor,
+  YotpoSize,
+} from '@yotpo-common/react-b2b-components/enums'
 
 export default function Layout() {
   const dispatch = useDispatch()
@@ -16,7 +21,6 @@ export default function Layout() {
   chrome.tabs.query({ active: true }, (tabs) => {
     if (tabs[0].title !== 'New Tab') {
       let urlObj = new URL(tabs[0].url)
-
       dispatch({
         type: ActionType.SetSiteDomain,
         payload: urlObj,
@@ -33,9 +37,13 @@ export default function Layout() {
   })
 
   useEffect(() => {
-    getStoredOptions().then((options) =>
-      dispatch({ type: ActionType.SetStoredOptions, payload: options })
-    )
+    getStoredOptions().then((options) => {
+      if (options) {
+        dispatch({ type: ActionType.SetStoredOptions, payload: options })
+      } else {
+        return
+      }
+    })
   }, [])
 
   return (
@@ -43,19 +51,14 @@ export default function Layout() {
       <YotpoTabGroup>
         {tabs
           .filter((tabInfo, index) => index === 0)
-          .map((tabInfo, index) => (
-            <>
-              <YotpoTab key={index} label={tabInfo.label} slot="tab" selected>
-                <span>{tabInfo.label}</span>
-              </YotpoTab>
-            </>
+          .map((tabInfo, index: Key | null | undefined) => (
+            <YotpoTab key={index} label={tabInfo.label} slot="tab" selected>
+            </YotpoTab>
           ))}
         {tabs
           .filter((tabInfo, index) => index !== 0)
-          .map((tabInfo, index) => (
-            <>
-              <YotpoTab key={index} label={tabInfo.label} slot="tab"></YotpoTab>
-            </>
+          .map((tabInfo, index: Key | null | undefined) => (
+            <YotpoTab key={index} label={tabInfo.label} slot="tab"></YotpoTab>
           ))}
 
         {tabs.map((tabInfo, index: Key | null | undefined) => (

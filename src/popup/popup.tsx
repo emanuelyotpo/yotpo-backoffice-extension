@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom'
 import './popup.css'
 import Layout from '../components/layout/layout'
 import { Provider } from 'react-redux'
-import { store } from '../components/Redux/store'
 import '@yotpo-common/react-b2b-components/themes/theme.css';
 import { YotpoAlert } from '@yotpo-common/react-b2b-components/alert';
+import { store } from '../components/redux/store'
+import { createRoot } from 'react-dom/client';
 
 export default function App() {
 
@@ -19,7 +20,12 @@ export default function App() {
   )
 }
 
-let root = document.createElement('div')
-root.className = 'popup'
-document.body.appendChild(root)
-ReactDOM.render(<App />, root)
+// let root = document.createElement('div')
+// ReactDOM.render(<App />, root)
+
+let container = document.createElement('app');
+container.className = 'popup'
+document.body.appendChild(container)
+
+let root = createRoot(container!); // createRoot(container!) if you use TypeScript
+root.render(<App/>);

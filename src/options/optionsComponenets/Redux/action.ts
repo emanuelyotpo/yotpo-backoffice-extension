@@ -1,6 +1,6 @@
-import { ActionType } from "./ActionTypes";
+import { OptionsActionType } from "./optionsActionTypes";
 
 export interface Action {
-    type: ActionType;
+    type: OptionsActionType;
     payload?: any;
 }

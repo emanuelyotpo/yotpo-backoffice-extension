@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react'
 import './addAccount.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { ActionType } from '../Redux/ActionTypes'
+import { ActionType } from '../redux/actionTypes'
 import { YotpoInput } from '@yotpo-common/react-b2b-components/input'
 import { YotpoButton } from '@yotpo-common/react-b2b-components/button'
 import { setStoredOptions } from '../../utils/storage'
-import { AppData } from '../Redux/AppData'
+import { AppData } from '../redux/AppData'
 import { YotpoDropdown } from '@yotpo-common/react-b2b-components/dropdown'
 import { YotpoList } from '@yotpo-common/react-b2b-components/list'
 import { YotpoListItem } from '@yotpo-common/react-b2b-components/list-item'
@@ -37,7 +37,7 @@ export default function AddAccount() {
       return
     }
     dispatch({
-      type: ActionType.AddAccount,
+      type: ActionType.AddAccountToList,
       payload: { accountName: accountName, key: key, type: type },
     })
     setStoredOptions(options).then(() => {

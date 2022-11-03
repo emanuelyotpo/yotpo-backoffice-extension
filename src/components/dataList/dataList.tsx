@@ -39,45 +39,38 @@ export default function DataList(props: any) {
             index: Key | null | undefined
           ) => {
             return (
-              <>
-                <div
-                  id={data.id}
-                  key={index}
-                  className="yotpo-text-large yotpo-text-secondary entry-name"
-                >
-                  {`${data.key}:\u00A0`}
-                  {data.id !== 'appKey' &&
-                  data.id !== 'productId' &&
-                  data.id !== 'guid' ? (
-                    <>
-                      <span className="yotpo-text-large yotpo-text-primary yotpo-text-bold entry-data">
-                        {!data.value ? (
-                          'N/A'
-                        ) : linkRegex.exec(data.value) ? (
-                          <a target="_blank" href={data.value}>
-                            Link
-                          </a>
-                        ) : (
-                          data.value
-                        )}
-                      </span>
-                    </>
-                  ) : (
-                    <SearchableComponenet data={data}></SearchableComponenet>
-                  )}
-                  <YotpoTooltip
-                    text="Copy"
-                    tooltipPlacement={YotpoDirection.top}
-                  >
-                    <YotpoIcon
-                      name="duplicate"
-                      onClick={() => {
-                        copyToClipboard(data.value), copiedSuccessfully()
-                      }}
-                    ></YotpoIcon>
-                  </YotpoTooltip>
-                </div>
-              </>
+              <div
+                id={data.id}
+                key={index}
+                className="yotpo-text-large yotpo-text-secondary entry-name"
+              >
+                {`${data.key}:\u00A0`}
+                {data.id !== 'appKey' &&
+                data.id !== 'productId' &&
+                data.id !== 'guid' ? (
+                  <span className="yotpo-text-large yotpo-text-primary yotpo-text-bold entry-data">
+                    {!data.value ? (
+                      'N/A'
+                    ) : linkRegex.exec(data.value) ? (
+                      <a target="_blank" href={data.value}>
+                        Link
+                      </a>
+                    ) : (
+                      data.value
+                    )}
+                  </span>
+                ) : (
+                  <SearchableComponenet data={data}></SearchableComponenet>
+                )}
+                <YotpoTooltip text="Copy" tooltipPlacement={YotpoDirection.top}>
+                  <YotpoIcon
+                    name="duplicate"
+                    onClick={() => {
+                      copyToClipboard(data.value), copiedSuccessfully()
+                    }}
+                  ></YotpoIcon>
+                </YotpoTooltip>
+              </div>
             )
           }
         )}

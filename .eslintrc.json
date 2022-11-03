@@ -1,26 +1,24 @@
 {
-    "root": true,
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
     "extends": [
         "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
         "plugin:react/recommended",
-        "plugin:react-hooks/recommended"
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "overrides": [
     ],
     "parser": "@typescript-eslint/parser",
-    "parserOptions": { "project": ["./tsconfig.json"] },
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
     "plugins": [
+        "react",
         "@typescript-eslint"
     ],
     "rules": {
-        "semi": ["error", "always"],
-        "quotes": ["error", "double"],
-        "@typescript-eslint/strict-boolean-expressions": [
-            2,
-            {
-                "allowString" : false,
-                "allowNumber" : false
-            }
-        ]
-    },
-    "ignorePatterns": ["src/**/*.test.ts", "src/frontend/generated/*"]
+    }
 }

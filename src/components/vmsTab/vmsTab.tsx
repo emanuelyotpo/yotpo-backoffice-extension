@@ -7,8 +7,8 @@ import { IData } from '../../models/IData'
 import { fetchVMSData } from '../../utils/api'
 import Buttons from '../buttons/buttons'
 import DataList from '../dataList/dataList'
-import { ActionType } from '../Redux/actionTypes'
-import { AppData } from '../Redux/AppData'
+import { ActionType } from '../redux/actionTypes'
+import { AppData } from '../redux/AppData'
 import './vmsTab.css'
 
 export default function VMSTab() {
@@ -25,7 +25,7 @@ export default function VMSTab() {
       fetchVMSData(appKey, vmsProductId)
         .then((data) => {
           dispatch({
-            type: ActionType.SetMoreVMSData,
+            type: ActionType.SetVMSData,
             payload: {
               productImages: data.response.pagination.total,
             },

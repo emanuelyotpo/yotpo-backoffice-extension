@@ -7,8 +7,8 @@ import { IData } from '../../models/IData'
 import { fetchSiteHTML } from '../../utils/api'
 import Buttons from '../buttons/buttons'
 import DataList from '../dataList/dataList'
-import { ActionType } from '../Redux/actionTypes'
-import { AppData } from '../Redux/AppData'
+import { ActionType } from '../redux/actionTypes'
+import { AppData } from '../redux/AppData'
 import './subscriptionsTab.css'
 
 export default function SubscriptionTab() {
@@ -30,7 +30,7 @@ export default function SubscriptionTab() {
       fetchSiteHTML(siteHref)
         .then((data) => {
           dispatch({
-            type: ActionType.SetMoreSubscriptionData,
+            type: ActionType.SetSubscriptionData,
             payload: { data: data, appKey: appKey },
           })
         })

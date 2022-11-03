@@ -1,4 +1,4 @@
-import { ActionType } from './ActionTypes'
+import { OptionsActionType } from './optionsActionTypes'
 import { AppData } from './AppData'
 import { Action } from './action'
 
@@ -9,7 +9,7 @@ export function reduce(
   const newOptionsAppData = { ...oldOptionsAppData }
 
   switch (action.type) {
-    case ActionType.SetStoredOptions:
+    case OptionsActionType.SetStoredOptions:
       newOptionsAppData.tabs = [...newOptionsAppData.tabs]
       newOptionsAppData.js = [...newOptionsAppData.js]
       newOptionsAppData.accounts = [...newOptionsAppData.accounts]
@@ -20,7 +20,7 @@ export function reduce(
       newOptionsAppData.accounts = action.payload.accounts
       break
 
-    case ActionType.SetJs:
+    case OptionsActionType.SetJs:
       newOptionsAppData.js = [...newOptionsAppData.js]
       for (let i = 0; i < newOptionsAppData.js.length; i++) {
         if (newOptionsAppData.js[i].value === action.payload.value) {
@@ -33,7 +33,7 @@ export function reduce(
 
       break
 
-    case ActionType.SetTabsOrder:
+    case OptionsActionType.SetTabsOrder:
       if (action.payload.newIndex >= newOptionsAppData.tabs.length) {
         var k = action.payload.newIndex - newOptionsAppData.tabs.length + 1
         while (k--) {
@@ -48,7 +48,7 @@ export function reduce(
       newOptionsAppData.options.tabs = newOptionsAppData.tabs
       break
 
-    case ActionType.AddAccount:
+    case OptionsActionType.AddAccount:
       newOptionsAppData.accounts = [...newOptionsAppData.accounts]
       newOptionsAppData.options.accounts = [
         ...newOptionsAppData.options.accounts,
@@ -57,7 +57,7 @@ export function reduce(
       newOptionsAppData.options.accounts.push(action.payload)
       break
 
-    case ActionType.RemoveAccount:
+    case OptionsActionType.RemoveAccount:
       newOptionsAppData.accounts = [...newOptionsAppData.accounts]
       newOptionsAppData.options.accounts = [
         ...newOptionsAppData.options.accounts,

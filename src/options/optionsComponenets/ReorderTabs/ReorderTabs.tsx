@@ -2,7 +2,7 @@ import React, { Key, useEffect, useMemo, useState } from 'react'
 import './ReorderTabs.css'
 import { ITabData } from '../../../models/ITabData'
 import { useDispatch, useSelector } from 'react-redux'
-import { ActionType } from '../Redux/ActionTypes'
+import { OptionsActionType } from '../Redux/optionsActionTypes'
 import {
   YotpoSize,
   YotpoProductLogoBackGroundColor,
@@ -17,7 +17,7 @@ export default function ReorderTabs(props: { tabs: ITabData[] }) {
 
   let handleTabsChange = (currentPos: any, newPos: any) => {
     dispatch({
-      type: ActionType.SetTabsOrder,
+      type: OptionsActionType.SetTabsOrder,
       payload: { newIndex: newPos, oldIndex: currentPos },
     })
   }

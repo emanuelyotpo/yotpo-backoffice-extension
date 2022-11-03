@@ -4,7 +4,7 @@ import {
   editSingleLoyaltyInstanceStaticContent,
   fetchSingleLoyaltyInstanceData,
 } from '../../utils/api'
-import { AppData } from '../Redux/AppData'
+import { AppData } from '../redux/AppData'
 import './editStaticContent.css'
 import { YotpoButton } from '@yotpo-common/react-b2b-components/button'
 import {
@@ -126,7 +126,9 @@ export default function EditStaticContent(props: any) {
             {key === 'storeAccountLoginUrl' ||
             key === 'storeAccountRegistrationUrl' ||
             key === 'storeLoginUrl' ||
-            key === 'storeRegistrationUrl' ? (
+            key === 'storeRegistrationUrl' ||
+            key === 'platformName' ||
+            key === 'baseUrl'? (
               <>
                 {toggle ? (
                   <>
@@ -146,6 +148,7 @@ export default function EditStaticContent(props: any) {
                     type={YotpoInputType.text}
                     clearable={true}
                     required={true}
+                    value={staticContent[key]}
                     placeholder={staticContent[key]}
                     onYotpoChange={(event: Event) => handleChange(key, event)}
                   />

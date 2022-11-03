@@ -3,7 +3,7 @@ import {
   fetchLoyaltyInstancesData,
   fetchSingleLoyaltyInstanceData,
 } from './api'
-import _ from 'lodash'
+import { groupBy } from 'lodash'
 import React from 'react'
 import EditStaticContent from '../components/editStaticContent/editStaticContent'
 
@@ -134,6 +134,6 @@ export function editAllLoyaltyInstanceStaticContent(
 }
 
 export function orderChildInstances(instanceArray: any) {
-  const instances = _.groupBy(instanceArray, (obj) => obj.parent_instance_id)
+  const instances = groupBy(instanceArray, (obj) => obj.parent_instance_id)
   return instances
 }

@@ -31,7 +31,7 @@ export function reduce(
       break
 
     case ActionType.SetStoredOptions:
-      newAppData.options = { ...newAppData.options }
+      newAppData.options = { ...newAppData.options }      
       newAppData.options.js = action.payload.js
       newAppData.js = action.payload.js
       newAppData.js.forEach((jsEnv: IJS) => {
@@ -209,7 +209,7 @@ export function reduce(
 
       break
 
-    case ActionType.SetMoreReviewsData:
+    case ActionType.SetReviewsData:
       newAppData.reviewsData = [...newAppData.reviewsData]
 
       for (let entry in action.payload) {
@@ -253,7 +253,7 @@ export function reduce(
       }
       break
 
-    case ActionType.SetMoreLoyaltyData:
+    case ActionType.SetLoyaltyData:
       let instances = []
 
       for (let entry in action.payload.instances[0].static_content) {
@@ -394,7 +394,7 @@ export function reduce(
       })
       break
 
-    case ActionType.SetMoreVMSData:
+    case ActionType.SetVMSData:
       newAppData.vmsData = [...newAppData.vmsData]
       for (let entry in action.payload) {
         newAppData.vmsData.forEach(
@@ -407,7 +407,7 @@ export function reduce(
       }
       break
 
-    case ActionType.SetMoreSubscriptionData:
+    case ActionType.SetSubscriptionData:
       newAppData.subscriptionsData = [...newAppData.subscriptionsData]
       let subscriptionParser = new DOMParser()
       let subscriptionDoc = subscriptionParser.parseFromString(
@@ -511,12 +511,12 @@ export function reduce(
       )
       break
 
-    case ActionType.AddAccount:
+    case ActionType.AddAccountToList:
       newAppData.options = { ...newAppData.options }
       newAppData.options.accounts.push(action.payload)
       break
 
-    case ActionType.RemoveAccount:
+    case ActionType.RemoveAccountFromList:
       newAppData.options = { ...newAppData.options }
       for (let i = 0; i < newAppData.options.accounts.length; i++) {
         if (newAppData.options.accounts[i].key === action.payload.key) {

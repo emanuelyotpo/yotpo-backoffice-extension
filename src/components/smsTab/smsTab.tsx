@@ -4,7 +4,7 @@ import { IButton } from '../../models/IButton'
 import { IData } from '../../models/IData'
 import Buttons from '../buttons/buttons'
 import DataList from '../dataList/dataList'
-import { AppData } from '../Redux/AppData'
+import { AppData } from '../redux/AppData'
 import './smsTab.css'
 
 export default function SMSTab() {

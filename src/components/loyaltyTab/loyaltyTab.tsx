@@ -1,7 +1,7 @@
 import React, { Key, useEffect } from 'react'
 import './loyaltyTab.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { AppData } from '../Redux/AppData'
+import { AppData } from '../redux/AppData'
 import DataList from '../dataList/dataList'
 import Buttons from '../buttons/buttons'
 import NestedList from '../nestedList/nestedList'
@@ -13,7 +13,7 @@ import {
   fetchLoyaltyVipTiersData,
   fetchSiteHTML,
 } from '../../utils/api'
-import { ActionType } from '../Redux/actionTypes'
+import { ActionType } from '../redux/actionTypes'
 import { toastAlert } from '@yotpo-common/react-b2b-components/alert'
 import { YotpoStatus } from '@yotpo-common/react-b2b-components/enums'
 import { IButton } from '../../models/IButton'
@@ -38,7 +38,7 @@ export default function LoyaltyTab() {
       fetchLoyaltyInstancesData(guid)
         .then((data) => {
           dispatch({
-            type: ActionType.SetMoreLoyaltyData,
+            type: ActionType.SetLoyaltyData,
             payload: data,
           })
           fetchLoyaltyCampaignsData(guid).then((data) => {
