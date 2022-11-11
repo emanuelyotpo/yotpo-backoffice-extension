@@ -22,7 +22,7 @@ export function reduce(
 
   switch (action.type) {
     case ActionType.SetSiteDomain:
-      newAppData.siteDomain = action.payload.host
+      newAppData.siteDomain = action.payload.origin
       newAppData.siteHref = action.payload.href
       break
 
@@ -31,7 +31,7 @@ export function reduce(
       break
 
     case ActionType.SetStoredOptions:
-      newAppData.options = { ...newAppData.options }      
+      newAppData.options = { ...newAppData.options }
       newAppData.options.js = action.payload.js
       newAppData.js = action.payload.js
       newAppData.js.forEach((jsEnv: IJS) => {
@@ -333,6 +333,28 @@ export function reduce(
         )
       })
 
+      break
+
+    case ActionType.SetCustomerDetails:
+      newAppData.loyaltyData = [...newAppData.loyaltyData]
+      for (let entry in action.payload) {
+        newAppData.loyaltyData.forEach(
+          (data: { key: string; value: any; id: string }) => {
+            if (data.id === 'customerEmail') {
+              data.value = action.payload['email']
+            }
+            if (data.id === 'customerId') {
+              data.value = action.payload['id']
+            }
+            if (data.id === 'customerTags') {
+              data.value = action.payload['tags']
+            }
+            if (data.id === 'isCustomerIdentificationInstalled') {
+              data.value = 'Auto injection'
+            }
+          }
+        )
+      }
       break
 
     case ActionType.SetLoyaltyCampaigns:

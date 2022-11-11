@@ -127,3 +127,12 @@ export async function fetchSiteHTML(siteURL: any) {
   const data: any = await res.text()
   return data
 }
+
+export async function fetchShopifyLoggedInCustomer(siteURL: any) {
+  const res = await fetch(`${siteURL}/apps/loggedincustomer`)
+  if (!res.ok) {
+    throw new Error('Not found')
+  }
+  const data: any = await res.json()
+  return data
+}

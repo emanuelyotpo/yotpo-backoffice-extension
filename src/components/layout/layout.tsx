@@ -8,11 +8,6 @@ import { getStoredOptions, setStoredOptions } from '../../utils/storage'
 import { YotpoTabGroup } from '@yotpo-common/react-b2b-components/tab-group'
 import { YotpoTabPanel } from '@yotpo-common/react-b2b-components/tab-panel'
 import { YotpoTab } from '@yotpo-common/react-b2b-components/tab'
-import { YotpoProductLogo } from '@yotpo-common/react-b2b-components/product-logo'
-import {
-  YotpoProductLogoBackGroundColor,
-  YotpoSize,
-} from '@yotpo-common/react-b2b-components/enums'
 
 export default function Layout() {
   const dispatch = useDispatch()
@@ -20,7 +15,7 @@ export default function Layout() {
 
   chrome.tabs.query({ active: true }, (tabs) => {
     if (tabs[0].title !== 'New Tab') {
-      let urlObj = new URL(tabs[0].url)
+      let urlObj = new URL(tabs[0].url)      
       dispatch({
         type: ActionType.SetSiteDomain,
         payload: urlObj,

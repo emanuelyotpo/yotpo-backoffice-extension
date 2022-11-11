@@ -12,6 +12,7 @@ export enum ActionType {
     SetLoyaltyRedemptions,
     SetLoyaltyVipTiers,
     SetInstalledLoylatyModules,
+    SetCustomerDetails,
     SetIsUpdateAllURLsModalOpen,
     UpdateDataManually,
     AddAccountToList,

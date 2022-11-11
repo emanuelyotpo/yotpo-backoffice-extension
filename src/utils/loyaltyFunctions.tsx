@@ -90,7 +90,7 @@ export function vipTiersForList(vipTiersArray: any[]) {
   return vipTiersArray
 }
 
-export function editAllLoyaltyInstanceStaticContent(
+export function editAllLoyaltyInstanceLoginAndRegistrationURLs(
   guid: string,
   loginURL: string,
   registrationURL: string

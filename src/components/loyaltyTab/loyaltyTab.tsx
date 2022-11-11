@@ -12,6 +12,7 @@ import {
   fetchLoyaltyRedemptionsData,
   fetchLoyaltyVipTiersData,
   fetchSiteHTML,
+  fetchShopifyLoggedInCustomer,
 } from '../../utils/api'
 import { ActionType } from '../redux/actionTypes'
 import { toastAlert } from '@yotpo-common/react-b2b-components/alert'
@@ -21,6 +22,7 @@ import { IButton } from '../../models/IButton'
 export default function LoyaltyTab() {
   let guid = useSelector((state: AppData) => state.guid)
   let siteHref = useSelector((state: AppData) => state.siteHref)
+  let siteDomain = useSelector((state: AppData) => state.siteDomain)
   let loyaltyData: IData[] = useSelector((state: AppData) => state.loyaltyData)
   let buttons: IButton[] = useSelector((state: AppData) => state.loyaltyButtons)
   let codeToCopy: string = useSelector(
@@ -30,7 +32,8 @@ export default function LoyaltyTab() {
   let campaigns = useSelector((state: AppData) => state.campaigns)
   let redemptions = useSelector((state: AppData) => state.redemptions)
   let vipTiers = useSelector((state: AppData) => state.vipTiers)
-
+  let checkPlatform = (obj) =>
+    obj.id === 'platformName' && obj.value === 'Shopify'
   let dispatch = useDispatch()
 
   let setLoyaltyData = () => {
@@ -65,6 +68,15 @@ export default function LoyaltyTab() {
               payload: data,
             })
           })
+
+          if (loyaltyData.some(checkPlatform)) {
+            fetchShopifyLoggedInCustomer(siteDomain).then((data) => {
+              dispatch({
+                type: ActionType.SetCustomerDetails,
+                payload: data,
+              })
+            })
+          }
         })
         .catch((error: any) =>
           toastAlert(
@@ -103,7 +115,11 @@ export default function LoyaltyTab() {
           </>
         )}
       </div>
-      <Buttons buttons={buttons} codeToCopy={codeToCopy} redirectUri={'https://loyalty-app.yotpo.com/'}></Buttons>
+      <Buttons
+        buttons={buttons}
+        codeToCopy={codeToCopy}
+        redirectUri={'https://loyalty-app.yotpo.com/'}
+      ></Buttons>
     </div>
   )
 }

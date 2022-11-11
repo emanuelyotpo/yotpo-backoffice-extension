@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { editAllLoyaltyInstanceStaticContent } from '../../utils/loyaltyFunctions'
+import { editAllLoyaltyInstanceLoginAndRegistrationURLs } from '../../utils/loyaltyFunctions'
 import { AppData } from '../redux/AppData'
 import './UpdateAllURLsModal.css'
 import { YotpoModal } from '@yotpo-common/react-b2b-components/modal'
@@ -42,7 +42,7 @@ export default function UpdateAllURLsModal() {
 
   let handleSave = (event: any) => {
     try {
-      editAllLoyaltyInstanceStaticContent(guid, loginURL, registrationURL)
+      editAllLoyaltyInstanceLoginAndRegistrationURLs(guid, loginURL, registrationURL)
       handleModalHide('')
       toastAlert(
         {
