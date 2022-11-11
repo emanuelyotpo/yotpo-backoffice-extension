@@ -304,7 +304,7 @@ function getDataFromPage() {
     return currentPlatform
   }
 
-  if (platform() === 'shopify') {    
+  if (platform() === 'shopify') {
     myShopifyUrl = window.origin
   } else {
     myShopifyUrl = undefined

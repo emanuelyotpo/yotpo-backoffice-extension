@@ -100,6 +100,13 @@ let sendToContent = (data: any) => {
           data(response.data)
         }
       })
+      
+      // chrome.scripting.executeScript(
+      //   {
+      //     target: {tabId: tabs[0].id},
+      //     files: ['inject.js'],
+      //   },
+      //   (injectionResults) => { console.log('injection results: ', injectionResults) });
     }
   })
   // })

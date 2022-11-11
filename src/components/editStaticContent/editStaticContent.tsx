@@ -23,13 +23,10 @@ export default function EditStaticContent(props: any) {
   let guid = useSelector((state: AppData) => state.guid)
   const [modalOpen, setModalOpen] = useState(false)
   const handleOpen = () => setModalOpen(true)
-  const handleModalHide = (event: any) => {
-    setModalOpen(false)
-  }
 
   const [toggle, setToggle] = useState(true)
 
-  function toggleInput() {
+  let toggleInput = () => {
     setToggle(false)
   }
 
@@ -37,16 +34,13 @@ export default function EditStaticContent(props: any) {
     if (!event.target.value) {
       return
     }
-    staticContent[key] = event.target.value
+    staticContent[key] = event.target.value.toLowerCase()
   }
 
   let [staticContent, setStaticContent] = useState({})
 
   const onMainActionClicked = (event: any) => {
     handleSave()
-  }
-  const onSecondaryActionClicked = (event: any) => {
-    handleModalHide('')
   }
 
   const handleSave = () => {
@@ -57,7 +51,7 @@ export default function EditStaticContent(props: any) {
         staticContent
       ).then((response) => {
         setToggle(false)
-        handleModalHide('')
+        setModalOpen(false)
         toastAlert(
           {
             alertTitle: 'Saved',
@@ -114,11 +108,9 @@ export default function EditStaticContent(props: any) {
       <YotpoModal
         open={modalOpen}
         modalTitle={`Static Content for ${props.instance.id}`}
-        onYotpoHide={(event) => handleModalHide(event)}
+        onYotpoHide={(event) => setModalOpen(false)}
         onYotpoMainAction={(event: Event) => onMainActionClicked(event)}
-        onYotpoSecondaryAction={(event: Event) =>
-          onSecondaryActionClicked(event)
-        }
+        onYotpoSecondaryAction={(event: Event) => setModalOpen(false)}
       >
         {Object.keys(staticContent).map((key, i) => (
           <p key={i}>
@@ -128,7 +120,7 @@ export default function EditStaticContent(props: any) {
             key === 'storeLoginUrl' ||
             key === 'storeRegistrationUrl' ||
             key === 'platformName' ||
-            key === 'baseUrl'? (
+            key === 'baseUrl' ? (
               <>
                 {toggle ? (
                   <>

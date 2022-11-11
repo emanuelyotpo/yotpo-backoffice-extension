@@ -32,16 +32,19 @@
     "permissions": [
         "search",
         "tabs",
-        "storage"
+        "storage",
+        "scripting"
     ],
     "host_permissions": [
         "https://cdn-widgetsrepository.yotpo.com/v1/loader/*",
-        "https://cdn-ui-assets.yotpo.com/*"
+        "https://cdn-ui-assets.yotpo.com/*",
+        "http://*/",
+        "https://*/"
     ],
     "web_accessible_resources": [
         {
             "resources": [
-                "script.js"
+                "inject.js"
             ],
             "matches": [
                 "<all_urls>"

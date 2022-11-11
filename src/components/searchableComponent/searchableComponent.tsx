@@ -70,6 +70,9 @@ export default function SearchableComponenet(props: { data: any }) {
               }}
             />
           </span>
+          <YotpoTooltip text="Cancel" tooltipPlacement={YotpoDirection.top}>
+            <YotpoIcon name="close" onClick={() => toggleInput()}></YotpoIcon>
+          </YotpoTooltip>
         </>
       )}
     </>
