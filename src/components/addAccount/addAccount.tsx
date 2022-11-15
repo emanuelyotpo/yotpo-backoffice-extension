@@ -28,7 +28,7 @@ export default function AddAccount() {
   const handleOrgKeyChange = (event: any) => {
     setOrgKey(event.detail)
   }
-  const handleTypeChange = (event: any) => {
+  const handleTypeChange = (event: any) => {    
     setType(event.target.value)
   }
 
@@ -36,6 +36,7 @@ export default function AddAccount() {
     if (!accountName || !key || !type) {
       return
     }
+    
     dispatch({
       type: ActionType.AddAccountToList,
       payload: { accountName: accountName, key: key, type: type },
@@ -83,7 +84,7 @@ export default function AddAccount() {
           <YotpoDropdown
             clearable
             helpText="Search Key Type"
-            onYotpoSelect={(e: Event) => handleTypeChange(e)}
+            onYotpoChange={(e: Event) => handleTypeChange(e)}
             ref={typeRef}
             required={true}
           >

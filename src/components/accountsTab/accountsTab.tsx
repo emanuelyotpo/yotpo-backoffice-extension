@@ -1,8 +1,19 @@
 import React, { useEffect } from 'react'
 import { toastAlert } from '@yotpo-common/react-b2b-components/alert'
-import { YotpoStatus, YotpoTableCellSize, YotpoAlignment, YotpoColor, YotpoPriority } from '@yotpo-common/react-b2b-components/enums'
+import {
+  YotpoStatus,
+  YotpoTableCellSize,
+  YotpoAlignment,
+  YotpoColor,
+  YotpoPriority,
+} from '@yotpo-common/react-b2b-components/enums'
 import { YotpoIconButton } from '@yotpo-common/react-b2b-components/icon-button'
-import { YotpoTable, YotpoTableHeaderCell, YotpoTableRow, YotpoTableCell } from '@yotpo-common/react-b2b-components/table'
+import {
+  YotpoTable,
+  YotpoTableHeaderCell,
+  YotpoTableRow,
+  YotpoTableCell,
+} from '@yotpo-common/react-b2b-components/table'
 import { useSelector, useDispatch } from 'react-redux'
 import { IAccount } from '../../models/IAccount'
 import { setStoredOptions, getStoredOptions } from '../../utils/storage'
@@ -53,9 +64,10 @@ export default function AccountsTab() {
     getStoredOptions().then((options) => {
       if (options) {
         dispatch({ type: ActionType.SetStoredOptions, payload: options })
-      } else {
-        return
       }
+      // else {
+      //   return
+      // }
     })
   }, [])
 
@@ -83,37 +95,51 @@ export default function AccountsTab() {
               {tableColumn.toUpperCase().replace(/_/g, ' ')}
             </YotpoTableHeaderCell>
           ))}
-          {tableRecords.map((account, index) => (
-            <YotpoTableRow key={index} className="accounts-row">
-              <YotpoTableCell
-                size={YotpoTableCellSize.small}
-                alignment={YotpoAlignment.left}
-                onClick={() => openBackoffice(account.key, account.type)}
-              >
-                {account.accountName}
-              </YotpoTableCell>
+          {tableRecords.length > 0 && (
+            <>
+              {tableRecords.map((account, index) => (
+                <YotpoTableRow key={index} className="accounts-row">
+                  <YotpoTableCell
+                    size={YotpoTableCellSize.small}
+                    alignment={YotpoAlignment.left}
+                    onClick={() => openBackoffice(account.key, account.type)}
+                  >
+                    {account.accountName}
+                  </YotpoTableCell>
 
+                  <YotpoTableCell
+                    size={YotpoTableCellSize.stretch}
+                    alignment={YotpoAlignment.left}
+                    onClick={() => openBackoffice(account.key, account.type)}
+                  >
+                    {account.key}
+                  </YotpoTableCell>
+                  <YotpoTableCell
+                    size={YotpoTableCellSize.tiny}
+                    alignment={YotpoAlignment.center}
+                  >
+                    <YotpoIconButton
+                      color={YotpoColor.destructive}
+                      priority={YotpoPriority.tertiary}
+                      name="close"
+                      tooltipText="Delete"
+                      onClick={() => removeFromAccountsList(account.key)}
+                    ></YotpoIconButton>
+                  </YotpoTableCell>
+                </YotpoTableRow>
+              ))}
+            </>
+          )}
+          {tableRecords.length <= 0 && (
+            <YotpoTableRow className="accounts-row">
               <YotpoTableCell
                 size={YotpoTableCellSize.stretch}
-                alignment={YotpoAlignment.left}
-                onClick={() => openBackoffice(account.key, account.type)}
-              >
-                {account.key}
-              </YotpoTableCell>
-              <YotpoTableCell
-                size={YotpoTableCellSize.tiny}
                 alignment={YotpoAlignment.center}
               >
-                <YotpoIconButton
-                  color={YotpoColor.destructive}
-                  priority={YotpoPriority.tertiary}
-                  name="close"
-                  tooltipText="Delete"
-                  onClick={() => removeFromAccountsList(account.key)}
-                ></YotpoIconButton>
+                No customers on this list
               </YotpoTableCell>
             </YotpoTableRow>
-          ))}
+          )}
         </YotpoTable>
       </div>
       <AddAccount />

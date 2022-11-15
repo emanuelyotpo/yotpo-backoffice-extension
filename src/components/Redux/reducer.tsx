@@ -534,7 +534,7 @@ export function reduce(
       break
 
     case ActionType.AddAccountToList:
-      newAppData.options = { ...newAppData.options }
+      newAppData.options = { ...newAppData.options }      
       newAppData.options.accounts.push(action.payload)
       break
 
@@ -545,6 +545,8 @@ export function reduce(
           newAppData.options.accounts.splice(i, 1)
         }
       }
+      console.log(newAppData.options);
+      
       break
   }
 
