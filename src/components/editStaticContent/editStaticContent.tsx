@@ -96,15 +96,9 @@ export default function EditStaticContent(props: any) {
 
   return (
     <>
-      <YotpoTooltip
-        text="View & Edit Static Content"
-        tooltipPlacement={YotpoDirection.top}
-        visibilityEnabled={!modalOpen}
-      >
         <YotpoButton priority={YotpoPriority.tertiary} onClick={handleOpen}>
           VIEW/EDIT
         </YotpoButton>
-      </YotpoTooltip>
       <YotpoModal
         open={modalOpen}
         modalTitle={`Static Content for ${props.instance.id}`}

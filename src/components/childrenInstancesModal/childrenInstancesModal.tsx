@@ -22,15 +22,9 @@ export default function ChildrenInstancesModal(props: any) {
     <>
       {props.children.length > 0 ? (
         <>
-          <YotpoTooltip
-            text="View Child Modules"
-            tooltipPlacement={YotpoDirection.top}
-            visibilityEnabled={!modalOpen}
-          >
-            <YotpoButton priority={YotpoPriority.primary} onClick={handleOpen}>
-              View Children
-            </YotpoButton>
-          </YotpoTooltip>
+          <YotpoButton priority={YotpoPriority.primary} onClick={handleOpen}>
+            View Children
+          </YotpoButton>
           <YotpoModal
             open={modalOpen}
             modalTitle={`Children Modals For - ${props.id}`}

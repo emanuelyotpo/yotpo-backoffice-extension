@@ -95,7 +95,7 @@ export default function AccountsTab() {
               {tableColumn.toUpperCase().replace(/_/g, ' ')}
             </YotpoTableHeaderCell>
           ))}
-          {tableRecords.length > 0 && (
+          {tableRecords.length > 0 ? (
             <>
               {tableRecords.map((account, index) => (
                 <YotpoTableRow key={index} className="accounts-row">
@@ -129,8 +129,7 @@ export default function AccountsTab() {
                 </YotpoTableRow>
               ))}
             </>
-          )}
-          {tableRecords.length <= 0 && (
+          ) : (
             <YotpoTableRow className="accounts-row">
               <YotpoTableCell
                 size={YotpoTableCellSize.stretch}
