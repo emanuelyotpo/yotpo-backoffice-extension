@@ -2,24 +2,14 @@ import React, { Key, useEffect } from 'react'
 import copyToClipboard from 'copy-to-clipboard'
 import './dataList.css'
 import { YotpoTooltip } from '@yotpo-common/react-b2b-components/tooltip'
-import {
-  YotpoDirection,
-  YotpoStatus,
-} from '@yotpo-common/react-b2b-components/enums'
+import { YotpoDirection } from '@yotpo-common/react-b2b-components/enums'
 import SearchableComponenet from '../searchableComponent/searchableComponent'
 import { YotpoIcon } from '@yotpo-common/react-b2b-components/icon'
-import { toastAlert } from '@yotpo-common/react-b2b-components/alert'
+import { toast } from '../../utils/generalFunctions'
 
 export default function DataList(props: any) {
   function copiedSuccessfully() {
-    toastAlert(
-      {
-        alertTitle: 'Copied',
-        status: YotpoStatus.success,
-        icon: true,
-      },
-      () => {}
-    )
+    toast('success', 'Copied')
   }
 
   let linkRegex =

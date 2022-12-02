@@ -1,23 +1,19 @@
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { editAllLoyaltyInstanceLoginAndRegistrationURLs } from '../../utils/loyaltyFunctions'
 import { AppData } from '../redux/AppData'
 import './UpdateAllURLsModal.css'
 import { YotpoModal } from '@yotpo-common/react-b2b-components/modal'
 import { YotpoInput } from '@yotpo-common/react-b2b-components/input'
 import {
-  YotpoDirection,
   YotpoInputType,
   YotpoPriority,
-  YotpoStatus,
 } from '@yotpo-common/react-b2b-components/enums'
-import { ActionType } from '../redux/actionTypes'
-import { toastAlert } from '@yotpo-common/react-b2b-components/alert'
 import { YotpoButton } from '@yotpo-common/react-b2b-components/button'
-import { YotpoTooltip } from '@yotpo-common/react-b2b-components/tooltip'
+import '@yotpo-common/react-b2b-components/themes/theme.css'
+import { toast } from '../../utils/generalFunctions'
 
 export default function UpdateAllURLsModal() {
-  let dispatch = useDispatch()
   let guid = useSelector((state: AppData) => state.guid)
   let [loginURL, setLoginURL] = useState('')
   let [registrationURL, setRegistrationURL] = useState('')
@@ -43,23 +39,9 @@ export default function UpdateAllURLsModal() {
         registrationURL
       )
       handleClose()
-      toastAlert(
-        {
-          alertTitle: `Saved`,
-          status: YotpoStatus.success,
-          icon: true,
-        },
-        () => {}
-      )
+      toast('success', 'Saved') 
     } catch (error) {
-      toastAlert(
-        {
-          alertTitle: `${error}`,
-          status: YotpoStatus.danger,
-          icon: true,
-        },
-        () => {}
-      )
+      toast('danger', error) 
     }
   }
 
@@ -69,6 +51,7 @@ export default function UpdateAllURLsModal() {
         Update URLs
       </YotpoButton>
       <YotpoModal
+        className="yotpo-theme-light"
         open={modalOpen}
         modalTitle="Update Login & Registration URLs"
         onYotpoHide={handleClose}

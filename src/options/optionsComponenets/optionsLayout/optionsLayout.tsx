@@ -5,7 +5,6 @@ import {
   YotpoGridMargins,
   YotpoLogoColor,
   YotpoSpacing,
-  YotpoStatus,
 } from '@yotpo-common/react-b2b-components/enums'
 import { YotpoButton } from '@yotpo-common/react-b2b-components/button'
 import { YotpoLogo } from '@yotpo-common/react-b2b-components/logo'
@@ -25,7 +24,7 @@ import {
   YotpoGridRow,
   YotpoGridItem,
 } from '@yotpo-common/react-b2b-components/grid'
-import { toastAlert } from '@yotpo-common/react-b2b-components/alert'
+import { toast } from '../../../utils/generalFunctions'
 
 export default function OptionsLayout() {
   const dispatch = useDispatch()
@@ -53,24 +52,10 @@ export default function OptionsLayout() {
       })
 
       setStoredOptions(options).then(() => {
-        toastAlert(
-          {
-            alertTitle: `Saved`,
-            status: YotpoStatus.success,
-            icon: true,
-          },
-          () => {}
-        )
+        toast('success', 'Saved') 
       })
     } catch (error) {
-      toastAlert(
-        {
-          alertTitle: `${error}`,
-          status: YotpoStatus.danger,
-          icon: true,
-        },
-        () => {}
-      )
+      toast('danger', error) 
     }
   }
 

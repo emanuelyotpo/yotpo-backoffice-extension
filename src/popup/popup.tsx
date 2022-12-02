@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import './popup.css'
 import Layout from '../components/layout/layout'
 import { Provider } from 'react-redux'
@@ -20,12 +19,9 @@ export default function App() {
   )
 }
 
-// let root = document.createElement('div')
-// ReactDOM.render(<App />, root)
-
 let container = document.createElement('app');
 container.className = 'popup'
 document.body.appendChild(container)
 
-let root = createRoot(container!); // createRoot(container!) if you use TypeScript
+let root = createRoot(container!);
 root.render(<App/>);

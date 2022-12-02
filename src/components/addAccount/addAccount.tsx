@@ -9,8 +9,7 @@ import { AppData } from '../redux/AppData'
 import { YotpoDropdown } from '@yotpo-common/react-b2b-components/dropdown'
 import { YotpoList } from '@yotpo-common/react-b2b-components/list'
 import { YotpoListItem } from '@yotpo-common/react-b2b-components/list-item'
-import { toastAlert } from '@yotpo-common/react-b2b-components/alert'
-import { YotpoStatus } from '@yotpo-common/react-b2b-components/enums'
+import { toast } from '../../utils/generalFunctions'
 
 export default function AddAccount() {
   const dispatch = useDispatch()
@@ -42,14 +41,7 @@ export default function AddAccount() {
       payload: { accountName: accountName, key: key, type: type },
     })
     setStoredOptions(options).then(() => {
-      toastAlert(
-        {
-          alertTitle: 'Saved',
-          status: YotpoStatus.success,
-          icon: true,
-        },
-        () => {}
-      )
+      toast('success', 'Saved') 
       accountNameRef.current.value = ''
       keyRef.current.value = ''
       typeRef.current.value = ''

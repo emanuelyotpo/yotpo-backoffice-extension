@@ -15,9 +15,8 @@ import {
   fetchShopifyLoggedInCustomer,
 } from '../../utils/api'
 import { ActionType } from '../redux/actionTypes'
-import { toastAlert } from '@yotpo-common/react-b2b-components/alert'
-import { YotpoStatus } from '@yotpo-common/react-b2b-components/enums'
 import { IButton } from '../../models/IButton'
+import { toast } from '../../utils/generalFunctions'
 
 export default function LoyaltyTab() {
   let guid = useSelector((state: AppData) => state.guid)
@@ -81,16 +80,7 @@ export default function LoyaltyTab() {
             })
           }
         })
-        .catch((error: any) =>
-          toastAlert(
-            {
-              alertTitle: `${error}`,
-              status: YotpoStatus.danger,
-              icon: true,
-            },
-            () => {}
-          )
-        )
+        .catch((error: any) => toast('danger', error))
     }
   }
 

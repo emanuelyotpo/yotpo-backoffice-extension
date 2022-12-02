@@ -11,13 +11,12 @@ import {
   YotpoDirection,
   YotpoInputType,
   YotpoPriority,
-  YotpoStatus,
 } from '@yotpo-common/react-b2b-components/enums'
 import { YotpoModal } from '@yotpo-common/react-b2b-components/modal'
 import { YotpoInput } from '@yotpo-common/react-b2b-components/input'
 import { YotpoIcon } from '@yotpo-common/react-b2b-components/icon'
 import { YotpoTooltip } from '@yotpo-common/react-b2b-components/tooltip'
-import { toastAlert } from '@yotpo-common/react-b2b-components/alert'
+import { toast } from '../../utils/generalFunctions'
 
 export default function EditStaticContent(props: any) {
   let guid = useSelector((state: AppData) => state.guid)
@@ -46,24 +45,10 @@ export default function EditStaticContent(props: any) {
       ).then((response) => {
         setToggle(false)
         handleClose()
-        toastAlert(
-          {
-            alertTitle: 'Saved',
-            status: YotpoStatus.success,
-            icon: true,
-          },
-          () => {}
-        )
+        toast('success', 'Saved')
       })
     } catch (error) {
-      toastAlert(
-        {
-          alertTitle: `${error}`,
-          status: YotpoStatus.success,
-          icon: true,
-        },
-        () => {}
-      )
+      toast('danger', error)
     }
   }
 
@@ -72,16 +57,7 @@ export default function EditStaticContent(props: any) {
       .then((response) => {
         setStaticContent(response.instance.static_content)
       })
-      .catch((error: any) =>
-        toastAlert(
-          {
-            alertTitle: `${error}`,
-            status: YotpoStatus.success,
-            icon: true,
-          },
-          () => {}
-        )
-      )
+      .catch((error: any) => toast('danger', error))
   }
 
   useEffect(() => {

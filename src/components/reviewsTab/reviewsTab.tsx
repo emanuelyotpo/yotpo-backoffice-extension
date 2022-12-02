@@ -10,9 +10,8 @@ import { fetchReviewsData } from '../../utils/api'
 import { ActionType } from '../redux/actionTypes'
 import NestedList from '../nestedList/nestedList'
 import { ICustomQuestion } from '../../models/ICustomQuestion'
-import { toastAlert } from '@yotpo-common/react-b2b-components/alert'
-import { YotpoStatus } from '@yotpo-common/react-b2b-components/enums'
 import { IButton } from '../../models/IButton'
+import { toast } from '../../utils/generalFunctions'
 
 export default function ReviewsTab() {
   let appKey = useSelector((state: AppData) => state.appKey)
@@ -79,16 +78,7 @@ export default function ReviewsTab() {
             })
           }
         })
-        .catch((error: any) =>
-          toastAlert(
-            {
-              alertTitle: `${error}`,
-              status: YotpoStatus.warning,
-              icon: true,
-            },
-            () => {}
-          )
-        )
+        .catch((error: any) => toast('danger', error))
     }
   }
 
@@ -110,7 +100,11 @@ export default function ReviewsTab() {
           />
         )}
       </div>
-      <Buttons buttons={buttons} codeToCopy={codeToCopy} redirectUri={'https://reviews.yotpo.com/'}></Buttons>
+      <Buttons
+        buttons={buttons}
+        codeToCopy={codeToCopy}
+        redirectUri={'https://reviews.yotpo.com/'}
+      ></Buttons>
     </div>
   )
 }

@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react'
-import { toastAlert } from '@yotpo-common/react-b2b-components/alert'
 import {
-  YotpoStatus,
   YotpoTableCellSize,
   YotpoAlignment,
   YotpoColor,
@@ -21,6 +19,7 @@ import AddAccount from '../addAccount/addAccount'
 import { ActionType } from '../redux/actionTypes'
 import { AppData } from '../redux/AppData'
 import './accountsTab.css'
+import { toast } from '../../utils/generalFunctions'
 
 export default function AccountsTab() {
   let options = useSelector((state: AppData) => state.options)
@@ -49,14 +48,7 @@ export default function AccountsTab() {
       payload: { key: key },
     })
     setStoredOptions(options).then(() => {
-      toastAlert(
-        {
-          alertTitle: 'Removed',
-          status: YotpoStatus.success,
-          icon: true,
-        },
-        () => {}
-      )
+      toast('success', 'Removed') 
     })
   }
 
