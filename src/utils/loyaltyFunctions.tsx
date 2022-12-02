@@ -103,22 +103,21 @@ export function editAllLoyaltyInstanceLoginAndRegistrationURLs(
         fetchSingleLoyaltyInstanceData(guid, instance.widget_instance_id).then(
           (response) => {
             staticContent = response.instance.static_content
-
             for (let property in staticContent) {
-              if (property === 'storeAccountLoginUrl') {
+              if (
+                property === 'storeAccountLoginUrl' ||
+                property === 'storeLoginUrl'
+              ) {
                 staticContent[property] = loginURL
-              }
-              else if (property === 'storeAccountRegistrationUrl') {
-                staticContent[property] = registrationURL
-              }
-              else if (property === 'storeLoginUrl') {
-                staticContent[property] = loginURL
-              }
-              else if (property === 'storeRegistrationUrl') {
+              } else if (
+                property === 'storeAccountRegistrationUrl' ||
+                property === 'storeRegistrationUrl'
+              ) {
                 staticContent[property] = registrationURL
               }
             }
-            
+            console.log(staticContent)
+
             editSingleLoyaltyInstanceStaticContent(
               guid,
               instance.widget_instance_id,

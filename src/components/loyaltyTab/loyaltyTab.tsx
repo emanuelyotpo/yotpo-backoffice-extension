@@ -69,7 +69,10 @@ export default function LoyaltyTab() {
             })
           })
 
-          if (loyaltyData.some(checkPlatform)) {
+          if (
+            loyaltyData.some(checkPlatform) &&
+            siteDomain.includes('myshopify')
+          ) {
             fetchShopifyLoggedInCustomer(siteDomain).then((data) => {
               dispatch({
                 type: ActionType.SetCustomerDetails,
@@ -96,10 +99,7 @@ export default function LoyaltyTab() {
   }, [guid])
 
   return (
-    <div
-      className="tab-content yotpo-text-large yotpo-text-primary"
-      id="loyalty"
-    >
+    <div className="tab-content yotpo-text-large yotpo-text-primary">
       <div className="data">
         <DataList data={loyaltyData} />
         {guid && (

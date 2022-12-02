@@ -23,12 +23,7 @@ export default function UpdateAllURLsModal() {
   let [registrationURL, setRegistrationURL] = useState('')
   const [modalOpen, setModalOpen] = useState(false)
   let handleOpen = () => setModalOpen(true)
-  const handleModalHide = (event: any) => {
-    dispatch({
-      type: ActionType.SetIsUpdateAllURLsModalOpen,
-    })
-    setModalOpen(false)
-  }
+  let handleClose = () => setModalOpen(false)
 
   const handleUrlChange = (event: any) => {
     if (!event.target.value) {
@@ -42,8 +37,12 @@ export default function UpdateAllURLsModal() {
 
   let handleSave = (event: any) => {
     try {
-      editAllLoyaltyInstanceLoginAndRegistrationURLs(guid, loginURL, registrationURL)
-      handleModalHide('')
+      editAllLoyaltyInstanceLoginAndRegistrationURLs(
+        guid,
+        loginURL,
+        registrationURL
+      )
+      handleClose()
       toastAlert(
         {
           alertTitle: `Saved`,
@@ -66,21 +65,15 @@ export default function UpdateAllURLsModal() {
 
   return (
     <>
-      <YotpoTooltip
-        text="Update All Login & Registration URLs"
-        tooltipPlacement={YotpoDirection.top}
-        visibilityEnabled={!modalOpen}
-      >
-        <YotpoButton priority={YotpoPriority.primary} onClick={handleOpen}>
-          Edit URLs
-        </YotpoButton>
-      </YotpoTooltip>
+      <YotpoButton priority={YotpoPriority.primary} onClick={handleOpen}>
+        Update URLs
+      </YotpoButton>
       <YotpoModal
         open={modalOpen}
         modalTitle="Update Login & Registration URLs"
-        onYotpoHide={(event: Event) => handleModalHide(event)}
+        onYotpoHide={handleClose}
         onYotpoMainAction={(event: Event) => handleSave(event)}
-        onYotpoSecondaryAction={(event: Event) => handleModalHide(event)}
+        onYotpoSecondaryAction={handleClose}
       >
         <YotpoInput
           type={YotpoInputType.text}

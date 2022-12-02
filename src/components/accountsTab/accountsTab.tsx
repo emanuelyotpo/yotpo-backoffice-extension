@@ -72,7 +72,7 @@ export default function AccountsTab() {
   }, [])
 
   return (
-    <div className="accounts">
+    <div className="tab-content yotpo-text-large yotpo-text-primary">
       <div className="data">
         <YotpoTable hasBorder={false}>
           {tableColumns.map((tableColumn, index) => (
@@ -103,6 +103,7 @@ export default function AccountsTab() {
                     size={YotpoTableCellSize.small}
                     alignment={YotpoAlignment.left}
                     onClick={() => openBackoffice(account.key, account.type)}
+                    className="account on click"
                   >
                     {account.accountName}
                   </YotpoTableCell>
@@ -111,6 +112,7 @@ export default function AccountsTab() {
                     size={YotpoTableCellSize.stretch}
                     alignment={YotpoAlignment.left}
                     onClick={() => openBackoffice(account.key, account.type)}
+                    className="account on click"
                   >
                     {account.key}
                   </YotpoTableCell>

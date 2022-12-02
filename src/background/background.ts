@@ -1,7 +1,6 @@
 import { YotpoProducts } from '@yotpo-common/react-b2b-components/enums'
 import { setStoredOptions, getStoredOptions } from '../utils/storage'
 
-
 chrome.runtime.onInstalled.addListener(() => {
   getStoredOptions().then((storedOptions) => {
     if (storedOptions) {

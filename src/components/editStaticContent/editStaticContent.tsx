@@ -21,14 +21,14 @@ import { toastAlert } from '@yotpo-common/react-b2b-components/alert'
 
 export default function EditStaticContent(props: any) {
   let guid = useSelector((state: AppData) => state.guid)
-  const [modalOpen, setModalOpen] = useState(false)
-  const handleOpen = () => setModalOpen(true)
-
-  const [toggle, setToggle] = useState(true)
-
+  let [modalOpen, setModalOpen] = useState(false)
+  let handleOpen = () => setModalOpen(true)
+  let handleClose = () => setModalOpen(false)
+  let [toggle, setToggle] = useState(true)
   let toggleInput = () => {
     setToggle(false)
   }
+  let [staticContent, setStaticContent] = useState({})
 
   function handleChange(key: any, event: any) {
     if (!event.target.value) {
@@ -37,13 +37,7 @@ export default function EditStaticContent(props: any) {
     staticContent[key] = event.target.value.toLowerCase()
   }
 
-  let [staticContent, setStaticContent] = useState({})
-
-  const onMainActionClicked = (event: any) => {
-    handleSave()
-  }
-
-  const handleSave = () => {
+  let handleSave = () => {
     try {
       editSingleLoyaltyInstanceStaticContent(
         props.instance.guid,
@@ -51,7 +45,7 @@ export default function EditStaticContent(props: any) {
         staticContent
       ).then((response) => {
         setToggle(false)
-        setModalOpen(false)
+        handleClose()
         toastAlert(
           {
             alertTitle: 'Saved',
@@ -96,15 +90,15 @@ export default function EditStaticContent(props: any) {
 
   return (
     <>
-        <YotpoButton priority={YotpoPriority.tertiary} onClick={handleOpen}>
-          VIEW/EDIT
-        </YotpoButton>
+      <YotpoButton priority={YotpoPriority.tertiary} onClick={handleOpen}>
+        VIEW/EDIT
+      </YotpoButton>
       <YotpoModal
         open={modalOpen}
         modalTitle={`Static Content for ${props.instance.id}`}
-        onYotpoHide={(event) => setModalOpen(false)}
-        onYotpoMainAction={(event: Event) => onMainActionClicked(event)}
-        onYotpoSecondaryAction={(event: Event) => setModalOpen(false)}
+        onYotpoHide={handleClose}
+        onYotpoMainAction={handleSave}
+        onYotpoSecondaryAction={handleClose}
       >
         {Object.keys(staticContent).map((key, i) => (
           <p key={i}>

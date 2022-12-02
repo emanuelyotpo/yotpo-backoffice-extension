@@ -46,10 +46,11 @@ export async function fetchSingleLoyaltyInstanceData(
 export async function editSingleLoyaltyInstanceStaticContent(
   guid: string,
   instanceId: number,
-  staticContent: any
+  staticContent: any,
 ): Promise<any> {
   const body = {
     instance: {
+      "partial_update": true,
       widget_instance_id: instanceId,
       static_content: staticContent,
     },
@@ -129,7 +130,7 @@ export async function fetchSiteHTML(siteURL: any) {
 }
 
 export async function fetchShopifyLoggedInCustomer(siteURL: any) {
-  const res = await fetch(`${siteURL}/apps/loggedincustomer`)
+  const res = await fetch(`https://${siteURL}/apps/loggedincustomer`)
   if (!res.ok) {
     throw new Error('Not found')
   }

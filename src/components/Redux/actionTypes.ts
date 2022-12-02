@@ -1,6 +1,5 @@
 export enum ActionType {
     SetStoredOptions,
-    SetSiteDomain,
     SetInitialData,
     SetReviewsData,
     SetLoyaltyData,

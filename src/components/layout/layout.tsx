@@ -15,11 +15,6 @@ export default function Layout() {
 
   chrome.tabs.query({ active: true }, (tabs) => {
     if (tabs[0].title !== 'New Tab') {
-      let urlObj = new URL(tabs[0].url)      
-      dispatch({
-        type: ActionType.SetSiteDomain,
-        payload: urlObj,
-      })
       chrome.runtime.sendMessage({ init: 'go' }, async (response: any) => {
         if (response) {
           dispatch({

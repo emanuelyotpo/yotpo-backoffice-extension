@@ -21,15 +21,6 @@ export function reduce(
   const newAppData = { ...oldAppData }
 
   switch (action.type) {
-    case ActionType.SetSiteDomain:
-      newAppData.siteDomain = action.payload.origin
-      newAppData.siteHref = action.payload.href
-      break
-
-    case ActionType.SetIsUpdateAllURLsModalOpen:
-      newAppData.isUpdateAllURLsModalOpen = !newAppData.isUpdateAllURLsModalOpen
-      break
-
     case ActionType.SetStoredOptions:
       newAppData.options = { ...newAppData.options }
       newAppData.options.js = action.payload.js
@@ -73,6 +64,8 @@ export function reduce(
       break
 
     case ActionType.SetInitialData:
+      newAppData.siteDomain = action.payload.siteDomain
+      newAppData.siteHref = action.payload.siteHref
       newAppData.appKey = action.payload.appKey
       newAppData.guid = action.payload.guid
       newAppData.productId = action.payload.productId
@@ -534,7 +527,7 @@ export function reduce(
       break
 
     case ActionType.AddAccountToList:
-      newAppData.options = { ...newAppData.options }      
+      newAppData.options = { ...newAppData.options }
       newAppData.options.accounts.push(action.payload)
       break
 
@@ -545,8 +538,7 @@ export function reduce(
           newAppData.options.accounts.splice(i, 1)
         }
       }
-      console.log(newAppData.options);
-      
+
       break
   }
 

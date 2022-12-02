@@ -32,6 +32,8 @@ function getDataFromPage() {
   let widgetRelease: any
   let subscriptionsProductPageInstanceID: any
   let subscriptionsMyAccountInstanceID: any
+  let siteDomain: any
+  let siteHref: any
 
   scripts = document.querySelectorAll(
     "script[src*='//cdn-widgetsrepository.yotpo.com/v1/loader']"
@@ -310,6 +312,9 @@ function getDataFromPage() {
     myShopifyUrl = undefined
   }
 
+  siteDomain = window.location.hostname
+  siteHref = window.location.href
+
   return {
     appKey: appKey,
     widgetRelease: widgetRelease,
@@ -331,6 +336,8 @@ function getDataFromPage() {
     subscriptionsProductPageInstanceID: subscriptionsProductPageInstanceID,
     subscriptionsMyAccountInstanceID: subscriptionsMyAccountInstanceID,
     myShopifyUrl: myShopifyUrl,
+    siteDomain: siteDomain,
+    siteHref: siteHref,
   }
 }
 
