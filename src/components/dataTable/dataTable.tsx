@@ -13,13 +13,21 @@ import {
   YotpoTableRow,
 } from '@yotpo-common/react-b2b-components/table'
 import { YotpoBadge } from '@yotpo-common/react-b2b-components/badge'
+import { useSelector } from 'react-redux'
+import { AppData } from '../redux/AppData'
 
 export default function DataTable(props: { data: any }) {
   let tableColumns = Object.keys(props.data[0] || {})
   let tableRecords = props.data
+  let darkMode: boolean = useSelector((state: AppData) => state.darkMode)
 
   return (
-    <YotpoTable hasBorder={false}>
+    <YotpoTable
+      hasBorder={false}
+      // className={
+      //   darkMode ? 'yotpo-theme-dark-bg yotpo-theme-dark' : 'yotpo-theme-light'
+      // }
+    >
       {tableColumns.map((tableColumn, index) => {
         if (tableColumn === 'children') {
           return

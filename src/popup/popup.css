@@ -3,6 +3,10 @@ body {
     height: 600px;
 }
 
+.yotpo-theme-dark-bg {
+    background: var(--yotpo-color-brand-100);
+}
+
 .popup,
 .layout {
     height: 100%;

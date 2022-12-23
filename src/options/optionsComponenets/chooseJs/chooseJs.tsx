@@ -6,11 +6,11 @@ import { YotpoDropdown } from '@yotpo-common/react-b2b-components/dropdown'
 import { YotpoList } from '@yotpo-common/react-b2b-components/list'
 import { YotpoListItem } from '@yotpo-common/react-b2b-components/list-item'
 import { IJS } from '../../../models/IJs'
-import { AppData } from '../Redux/AppData'
+import { OptionsAppData } from '../Redux/OptionsAppData'
 
 export default function ChooseJS() {
   const dispatch = useDispatch()
-  let js: IJS[] = useSelector((state: AppData) => state.options.js)
+  let js: IJS[] = useSelector((state: OptionsAppData) => state.options.js)
 
   const handleJSChange = (event: any) => {
     dispatch({

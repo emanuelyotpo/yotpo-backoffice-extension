@@ -1,6 +1,6 @@
-import { IAccount } from "../models/IAccount"
-import { IJS } from "../models/IJs"
-import { ITabData } from "../models/ITabData"
+import { IAccount } from '../models/IAccount'
+import { IJS } from '../models/IJs'
+import { ITabData } from '../models/ITabData'
 
 export interface SyncStorage {
   options: SyncStorageOptions
@@ -10,6 +10,7 @@ export interface SyncStorageOptions {
   tabs: ITabData[]
   js: IJS[]
   accounts: IAccount[]
+  darkMode: boolean
 }
 
 export type SyncStorageKeys = keyof SyncStorage
@@ -18,7 +19,6 @@ export function setStoredOptions(options: SyncStorageOptions): Promise<void> {
   const vals: SyncStorage = {
     options,
   }
-  
   return new Promise((resolve) => {
     chrome.storage.sync.set(vals, () => {
       resolve()
@@ -29,7 +29,7 @@ export function setStoredOptions(options: SyncStorageOptions): Promise<void> {
 export function getStoredOptions(): Promise<SyncStorageOptions> {
   const keys: SyncStorageKeys[] = ['options']
   return new Promise((resolve) => {
-    chrome.storage.sync.get(keys, (res: SyncStorage) => {      
+    chrome.storage.sync.get(keys, (res: SyncStorage) => {
       resolve(res.options)
     })
   })
@@ -47,7 +47,6 @@ export function moveArrayItemToNewIndex(
     }
   }
   array.splice(new_index, 0, array.splice(old_index, 1)[0])
-
   return array
 }
 
@@ -59,6 +58,23 @@ export function setDefaultJs(array: IJS[], value: string) {
       array[i].isDefault = false
     }
   }
-  
   return array
+}
+
+export function isEquivalent(a: object, b: object) {
+  var aProps = Object.getOwnPropertyNames(a)
+  var bProps = Object.getOwnPropertyNames(b)
+
+  if (aProps.length != bProps.length) {
+    return false
+  }
+
+  for (var i = 0; i < aProps.length; i++) {
+    var propName = aProps[i]
+    if (a[propName] !== b[propName]) {
+      return false
+    }
+  }
+
+  return true
 }

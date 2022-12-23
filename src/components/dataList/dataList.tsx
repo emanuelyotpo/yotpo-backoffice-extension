@@ -34,7 +34,7 @@ export default function DataList(props: any) {
                 key={index}
                 className="yotpo-text-large yotpo-text-secondary entry-name"
               >
-                {`${data.key}:\u00A0`}
+                <span className={'data-key'}>{`${data.key}:\u00A0`}</span>
                 {data.id !== 'appKey' &&
                 data.id !== 'productId' &&
                 data.id !== 'guid' ? (

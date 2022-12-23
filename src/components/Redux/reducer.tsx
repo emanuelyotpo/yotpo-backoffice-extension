@@ -60,7 +60,8 @@ export function reduce(
       newAppData.options.accounts = action.payload.accounts
       newAppData.accounts = [...newAppData.accounts]
       newAppData.accounts = action.payload.accounts
-
+      newAppData.options.darkMode = action.payload.darkMode
+      newAppData.darkMode = action.payload.darkMode
       break
 
     case ActionType.SetInitialData:

@@ -3,5 +3,6 @@ export enum OptionsActionType {
     SetJs,
     SetTabsOrder,
     AddAccount,
-    RemoveAccount
+    RemoveAccount,
+    SetDarkMode
 }

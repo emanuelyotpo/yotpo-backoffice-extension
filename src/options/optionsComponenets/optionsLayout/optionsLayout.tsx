@@ -9,7 +9,7 @@ import {
 import { YotpoButton } from '@yotpo-common/react-b2b-components/button'
 import { YotpoLogo } from '@yotpo-common/react-b2b-components/logo'
 import { YotpoDivider } from '@yotpo-common/react-b2b-components/divider'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { OptionsActionType } from '../Redux/optionsActionTypes'
 import {
   getStoredOptions,
@@ -25,10 +25,28 @@ import {
   YotpoGridItem,
 } from '@yotpo-common/react-b2b-components/grid'
 import { toast } from '../../../utils/generalFunctions'
+import ChooseDarkMode from '../chooseDarkMode/chooseDarkMode'
+import { OptionsAppData } from '../Redux/OptionsAppData'
 
 export default function OptionsLayout() {
   const dispatch = useDispatch()
   let [options, setOptions] = useState<SyncStorageOptions | null>(null)
+  let darkMode: boolean = useSelector((state: OptionsAppData) => state.darkMode)
+
+  let handleSaveButtonClick = () => {
+    try {
+      dispatch({
+        type: OptionsActionType.SetStoredOptions,
+        payload: options,
+      })
+
+      setStoredOptions(options).then(() => {
+        toast('success', 'Saved')
+      })
+    } catch (error) {
+      toast('danger', error)
+    }
+  }
 
   useEffect(() => {
     getStoredOptions().then((storedOptions) => {
@@ -42,32 +60,26 @@ export default function OptionsLayout() {
         return
       }
     })
-  }, [])
-
-  let handleSaveButtonClick = () => {
-    try {
-      dispatch({
-        type: OptionsActionType.SetStoredOptions,
-        payload: options,
-      })
-
-      setStoredOptions(options).then(() => {
-        toast('success', 'Saved') 
-      })
-    } catch (error) {
-      toast('danger', error) 
-    }
-  }
+  }, [darkMode])
 
   if (!options) {
     return null
   }
 
+  // if(darkMode){
+  //   document.body.className = 'yotpo-theme-dark-bg'
+  // }
+
   return (
     <YotpoGridContainer pageGrid margins={YotpoGridMargins.page}>
       <YotpoGridRow>
         <YotpoGridItem columns={12}>
-          <div className="options-page yotpo-theme-light">
+          <div
+            className={'yotpo-theme-light'}
+            // className={
+            //   darkMode ? 'yotpo-theme-dark' : 'yotpo-theme-light'
+            // }
+          >
             <h1>
               Yotpo Backoffice Extension Options
               <OptionsInstructions />
@@ -78,6 +90,8 @@ export default function OptionsLayout() {
             <YotpoDivider spacing={YotpoSpacing.medium}></YotpoDivider>
             <ChooseJS />
             <YotpoDivider spacing={YotpoSpacing.medium}></YotpoDivider>
+            {/* <ChooseDarkMode />
+            <YotpoDivider spacing={YotpoSpacing.medium}></YotpoDivider> */}
             <YotpoButton
               className="options-save-button"
               onClick={() => handleSaveButtonClick()}

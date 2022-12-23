@@ -1,11 +1,11 @@
 import { OptionsActionType } from './optionsActionTypes'
-import { AppData } from './AppData'
+import { OptionsAppData } from './OptionsAppData'
 import { Action } from './action'
 
 export function reduce(
-  oldOptionsAppData: AppData = new AppData(),
+  oldOptionsAppData: OptionsAppData = new OptionsAppData(),
   action: Action
-): AppData {
+): OptionsAppData {
   const newOptionsAppData = { ...oldOptionsAppData }
 
   switch (action.type) {
@@ -18,6 +18,7 @@ export function reduce(
       newOptionsAppData.js = action.payload.js
       newOptionsAppData.options = action.payload
       newOptionsAppData.accounts = action.payload.accounts
+      newOptionsAppData.darkMode = action.payload.darkMode
       break
 
     case OptionsActionType.SetJs:
@@ -73,6 +74,11 @@ export function reduce(
       }
       newOptionsAppData.options.accounts = newOptionsAppData.accounts
       break
+
+      case OptionsActionType.SetDarkMode:
+        newOptionsAppData.darkMode = action.payload.value
+        newOptionsAppData.options.darkMode = newOptionsAppData.darkMode
+        break
   }
 
   return newOptionsAppData

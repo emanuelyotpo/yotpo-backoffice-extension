@@ -9,11 +9,11 @@ import {
 } from '@yotpo-common/react-b2b-components/enums'
 import { YotpoProductLogo } from '@yotpo-common/react-b2b-components/product-logo'
 import { Draggable } from 'react-drag-reorder'
-import { AppData } from '../Redux/AppData'
+import { OptionsAppData } from '../Redux/OptionsAppData'
 
 export default function ReorderTabs(props: { tabs: ITabData[] }) {
   const dispatch = useDispatch()
-  let tabs: ITabData[] = useSelector((state: AppData) => state.options.tabs)
+  let tabs: ITabData[] = useSelector((state: OptionsAppData) => state.options.tabs)
 
   let handleTabsChange = (currentPos: any, newPos: any) => {
     dispatch({

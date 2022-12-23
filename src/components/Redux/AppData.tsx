@@ -46,6 +46,7 @@ export class AppData {
     tabs: [],
     js: [],
     accounts: [],
+    darkMode: false,
   }
 
   tabs: ITabData[] = [
@@ -110,6 +111,8 @@ export class AppData {
   accounts: IAccount[] = []
 
   defaultJs: string = ''
+
+  darkMode: boolean = false
 
   reviewsData: IData[] = [
     { key: 'App Key', value: '', id: 'appKey' },

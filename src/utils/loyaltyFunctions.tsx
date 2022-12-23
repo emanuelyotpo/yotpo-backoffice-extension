@@ -105,13 +105,15 @@ export function editAllLoyaltyInstanceLoginAndRegistrationURLs(
             staticContent = response.instance.static_content
             for (let property in staticContent) {
               if (
-                property === 'storeAccountLoginUrl' ||
-                property === 'storeLoginUrl'
+                (property === 'storeAccountLoginUrl' ||
+                  property === 'storeLoginUrl') &&
+                loginURL.length > 0
               ) {
                 staticContent[property] = loginURL
               } else if (
-                property === 'storeAccountRegistrationUrl' ||
-                property === 'storeRegistrationUrl'
+                (property === 'storeAccountRegistrationUrl' ||
+                  property === 'storeRegistrationUrl') &&
+                registrationURL.length > 0
               ) {
                 staticContent[property] = registrationURL
               }

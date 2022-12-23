@@ -1,0 +1,7 @@
+body {
+    height: 100%;
+}
+
+.yotpo-theme-dark-bg {
+    background: var(--yotpo-color-brand-100);
+}

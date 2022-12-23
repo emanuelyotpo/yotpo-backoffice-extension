@@ -22,5 +22,6 @@ let container = document.createElement('app');
 container.className = 'popup'
 document.body.appendChild(container)
 
-let root = createRoot(container!); // createRoot(container!) if you use TypeScript
+
+let root = createRoot(container!);
 root.render(<App/>);

@@ -15,6 +15,7 @@ import { toast } from '../../utils/generalFunctions'
 
 export default function UpdateAllURLsModal() {
   let guid = useSelector((state: AppData) => state.guid)
+  let darkMode: boolean = useSelector((state: AppData) => state.darkMode)
   let [loginURL, setLoginURL] = useState('')
   let [registrationURL, setRegistrationURL] = useState('')
   const [modalOpen, setModalOpen] = useState(false)
@@ -22,9 +23,7 @@ export default function UpdateAllURLsModal() {
   let handleClose = () => setModalOpen(false)
 
   const handleUrlChange = (event: any) => {
-    if (!event.target.value) {
-      return
-    } else if (event.target.name === 'login') {
+    if (event.target.name === 'login') {
       setLoginURL(event.target.value)
     } else if (event.target.name === 'register') {
       setRegistrationURL(event.target.value)
@@ -39,9 +38,9 @@ export default function UpdateAllURLsModal() {
         registrationURL
       )
       handleClose()
-      toast('success', 'Saved') 
+      toast('success', 'Saved')
     } catch (error) {
-      toast('danger', error) 
+      toast('danger', error)
     }
   }
 
@@ -51,12 +50,18 @@ export default function UpdateAllURLsModal() {
         Update URLs
       </YotpoButton>
       <YotpoModal
-        className="yotpo-theme-light"
+        className={'yotpo-theme-light'}
+        // className={
+        //   'layout' + darkMode
+        //     ? 'yotpo-theme-dark-bg yotpo-theme-dark'
+        //     : 'yotpo-theme-light'
+        // }
         open={modalOpen}
         modalTitle="Update Login & Registration URLs"
         onYotpoHide={handleClose}
         onYotpoMainAction={(event: Event) => handleSave(event)}
         onYotpoSecondaryAction={handleClose}
+        mainActionDisabled={!loginURL.length && !registrationURL.length}
       >
         <YotpoInput
           type={YotpoInputType.text}
