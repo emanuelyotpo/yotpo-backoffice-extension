@@ -93,15 +93,18 @@ export function vipTiersForList(vipTiersArray: any[]) {
 export function editAllLoyaltyInstanceLoginAndRegistrationURLs(
   guid: string,
   loginURL: string,
-  registrationURL: string
+  registrationURL: string,
+  baseURL: string
 ) {
   try {
     fetchLoyaltyInstancesData(guid).then((response) => {
       let instances: Array<any> = response.instances
       instances.forEach((instance: any) => {
         let staticContent: any
+        let widgetType
         fetchSingleLoyaltyInstanceData(guid, instance.widget_instance_id).then(
           (response) => {
+            widgetType = response.instance.widget_type_name
             staticContent = response.instance.static_content
             for (let property in staticContent) {
               if (
@@ -116,10 +119,17 @@ export function editAllLoyaltyInstanceLoginAndRegistrationURLs(
                 registrationURL.length > 0
               ) {
                 staticContent[property] = registrationURL
+              } else if (
+                (widgetType === 'MyRewardsWidget' ||
+                  widgetType === 'ProductsRedemptionWidget' ||
+                  widgetType === 'CouponsRedemptionWidget' ||
+                  widgetType === 'CheckoutRedemptionsWidget') &&
+                baseURL.length > 0
+              ) {
+                staticContent.baseUrl = baseURL
               }
             }
             console.log(staticContent)
-
             editSingleLoyaltyInstanceStaticContent(
               guid,
               instance.widget_instance_id,

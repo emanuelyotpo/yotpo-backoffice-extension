@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Yotpo Backoffice",
     "description": "Guarenteed to make your life better!",
-    "version": "1.6.4",
+    "version": "1.6.5",
     "icons": {
         "16": "icon.png",
         "48": "icon.png",
@@ -32,7 +32,9 @@
     "permissions": [
         "search",
         "tabs",
-        "storage"
+        "storage",
+        "identity",
+        "identity.email"
     ],
     "host_permissions": [
         "https://cdn-widgetsrepository.yotpo.com/v1/loader/*",

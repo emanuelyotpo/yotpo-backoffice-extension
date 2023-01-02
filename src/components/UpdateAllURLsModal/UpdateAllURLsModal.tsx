@@ -16,8 +16,12 @@ import { toast } from '../../utils/generalFunctions'
 export default function UpdateAllURLsModal() {
   let guid = useSelector((state: AppData) => state.guid)
   let darkMode: boolean = useSelector((state: AppData) => state.darkMode)
+  let loyaltyPlatforms: string[] = useSelector(
+    (state: AppData) => state.loyaltyPlatforms
+  )
   let [loginURL, setLoginURL] = useState('')
   let [registrationURL, setRegistrationURL] = useState('')
+  let [baseURL, setBaseURL] = useState('')
   const [modalOpen, setModalOpen] = useState(false)
   let handleOpen = () => setModalOpen(true)
   let handleClose = () => setModalOpen(false)
@@ -27,6 +31,8 @@ export default function UpdateAllURLsModal() {
       setLoginURL(event.target.value)
     } else if (event.target.name === 'register') {
       setRegistrationURL(event.target.value)
+    } else if (event.target.name === 'base') {
+      setBaseURL(event.target.value)
     }
   }
 
@@ -35,10 +41,11 @@ export default function UpdateAllURLsModal() {
       editAllLoyaltyInstanceLoginAndRegistrationURLs(
         guid,
         loginURL,
-        registrationURL
+        registrationURL,
+        baseURL
       )
       handleClose()
-      toast('success', 'Saved')
+      toast('success', "Saving, please don't close this dialog")
     } catch (error) {
       toast('danger', error)
     }
@@ -57,16 +64,17 @@ export default function UpdateAllURLsModal() {
         //     : 'yotpo-theme-light'
         // }
         open={modalOpen}
-        modalTitle="Update Login & Registration URLs"
+        modalTitle={'Update URLs'}
         onYotpoHide={handleClose}
         onYotpoMainAction={(event: Event) => handleSave(event)}
         onYotpoSecondaryAction={handleClose}
-        mainActionDisabled={!loginURL.length && !registrationURL.length}
+        mainActionDisabled={
+          !loginURL.length && !registrationURL.length && !baseURL.length
+        }
       >
         <YotpoInput
           type={YotpoInputType.text}
           clearable={true}
-          required={true}
           label="Login URL"
           name="login"
           onYotpoChange={(event: Event) => handleUrlChange(event)}
@@ -75,11 +83,25 @@ export default function UpdateAllURLsModal() {
         <YotpoInput
           type={YotpoInputType.text}
           clearable={true}
-          required={true}
           label="Registration URL"
           name="register"
           onYotpoChange={(event: Event) => handleUrlChange(event)}
         ></YotpoInput>
+        {loyaltyPlatforms.includes('magento2') && (
+          <>
+            <br />
+            <YotpoInput
+              type={YotpoInputType.url}
+              clearable={true}
+              label="Base URL"
+              name="base"
+              pattern={'.+(?=/rest/V1$).+'}
+              helpText={'Pattern: http(s)://domain.com/rest/V1'}
+              errorText={'Invalid pattern'}
+              onYotpoChange={(event: Event) => handleUrlChange(event)}
+            ></YotpoInput>
+          </>
+        )}
       </YotpoModal>
     </>
   )

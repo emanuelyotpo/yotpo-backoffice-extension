@@ -39,6 +39,7 @@ export default function EditStaticContent(props: any) {
   let [registrationURL, setRegistrationURL] = useState('')
   let [platformName, setPlatformName] = useState('')
   let [baseUrl, setBaseUrl] = useState('')
+  let [currency, setCurrency] = useState('')
   let platformList = [
     'bigcommerce',
     'commerce_cloud',
@@ -63,8 +64,18 @@ export default function EditStaticContent(props: any) {
       setPlatformName(event.target.value)
     } else if (key === 'baseUrl') {
       setBaseUrl(event.target.value)
+    } else if (key === 'currency') {
+      setCurrency(event.target.value)
     }
-    staticContent[key] = event.target.value.toLowerCase()
+    saveToStaticContent(key, event.target.value)
+  }
+
+  let saveToStaticContent = (key: string, value: string) => {
+    if (key === 'currency') {
+      staticContent[key] = value.toUpperCase()
+    } else {
+      staticContent[key] = value.toLowerCase()
+    }
   }
 
   let handleSave = () => {
@@ -73,11 +84,10 @@ export default function EditStaticContent(props: any) {
         props.instance.guid,
         props.instance.id,
         staticContent
-      ).then((response) => {
-        setToggle(false)
-        handleClose()
-        toast('success', 'Saved')
-      })
+      )
+      setToggle(false)
+      handleClose()
+      toast('success', "Saving, please don't close this dialog")
     } catch (error) {
       toast('danger', error)
     }
@@ -99,6 +109,7 @@ export default function EditStaticContent(props: any) {
         )
         setPlatformName(response.instance.static_content.platformName || '')
         setBaseUrl(response.instance.static_content.baseUrl || '')
+        setCurrency(response.instance.static_content.currency || '')
       })
       .catch((error: any) => toast('danger', error))
   }
@@ -123,7 +134,8 @@ export default function EditStaticContent(props: any) {
           !loginURL.length &&
           !registrationURL.length &&
           !platformName.length &&
-          !baseUrl.length
+          !baseUrl.length &&
+          !currency.length
         }
       >
         {Object.keys(staticContent).map((key, i) => (
@@ -134,7 +146,8 @@ export default function EditStaticContent(props: any) {
             key === 'storeLoginUrl' ||
             key === 'storeRegistrationUrl' ||
             key === 'platformName' ||
-            key === 'baseUrl' ? (
+            key === 'baseUrl' ||
+            key === 'currency' ? (
               <>
                 {!toggle ? (
                   <>

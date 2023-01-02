@@ -23,7 +23,7 @@ export class AppData {
   guid: string = ''
   merchantId: number = undefined
   companyName: string = ''
-  loyaltyPlatforms: string = ''
+  loyaltyPlatforms: string[] = ['']
   customerEmail: string = ''
   customerId: string = ''
   customerTags: string = ''
@@ -41,6 +41,7 @@ export class AppData {
   siteDomain: string = ''
   siteHref: string = ''
   isUpdateAllURLsModalOpen: boolean = false
+  isLoggedInUserAYotpoAddress: boolean = false
 
   options: SyncStorageOptions = {
     tabs: [],

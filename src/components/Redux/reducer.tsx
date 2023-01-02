@@ -21,6 +21,14 @@ export function reduce(
   const newAppData = { ...oldAppData }
 
   switch (action.type) {
+    case ActionType.SetLoggedInUer:
+      newAppData.isLoggedInUserAYotpoAddress = action.payload.email.endsWith(
+        '@yotpo.com'
+      )
+        ? true
+        : false
+      break
+
     case ActionType.SetStoredOptions:
       newAppData.options = { ...newAppData.options }
       newAppData.options.js = action.payload.js
@@ -133,20 +141,34 @@ export function reduce(
         )
       }
 
-      newAppData.reviewsCodeToCopy = `<script type="text/javascript" src="//staticw2.yotpo.com/${action.payload.appKey}/widget.js" async></script>
+      newAppData.reviewsCodeToCopy = `<script type="text/javascript" src="//staticw2.yotpo.com/${
+        action.payload.appKey
+      }/widget.js" async></script>
           <div class="yotpo bottomLine"
-              data-product-id="${action.payload.productId}">
+              data-product-id="${
+                action.payload.productId ? action.payload.productId : ''
+              }">
           </div>	
           <div class="yotpo yotpo-main-widget"
-              data-product-id="${action.payload.productId}">
+              data-product-id="${
+                action.payload.productId ? action.payload.productId : ''
+              }">
           </div>`
 
-      newAppData.loyaltyCodeToCopy = `<script src="https://cdn-widgetsrepository.yotpo.com/v1/loader/${action.payload.guid}" async></script>
+      newAppData.loyaltyCodeToCopy = `<script src="https://cdn-widgetsrepository.yotpo.com/v1/loader/${
+        action.payload.guid
+      }" async></script>
           <div id="swell-customer-identification"
               data-authenticated="true"
-              data-email="${action.payload.customerEmail}"
-              data-id="${action.payload.customerId}"
-              data-tags="${action.payload.customerTags}"
+              data-email="${
+                action.payload.customerEmail ? action.payload.customerEmail : ''
+              }"
+              data-id="${
+                action.payload.customerId ? action.payload.customerId : ''
+              }"
+              data-tags="${
+                action.payload.customerTags ? action.payload.customerTags : ''
+              }"
               style="display:none;">
           </div>
           <div id="yotpo-loyalty-checkout-data"
@@ -158,12 +180,20 @@ export function reduce(
           <!-- Instances -->
           `
       newAppData.vmsCodeToCopy = `
-         <script type="text/javascript" src="//staticw2.yotpo.com/${action.payload.appKey}/widget.js">
+         <script type="text/javascript" src="//staticw2.yotpo.com/${
+           action.payload.appKey
+         }/widget.js">
          </script>
          <!-- Product Gallery -->
          <div class="yotpo yotpo-pictures-widget"
-          data-gallery-id="${action.payload.productGalleryId}"
-          data-product-id="${action.payload.vmsProductId}">
+          data-gallery-id="${
+            action.payload.productGalleryId
+              ? action.payload.productGalleryId
+              : ''
+          }"
+          data-product-id="${
+            action.payload.vmsProductId ? action.payload.vmsProductId : ''
+          }">
          </div>
    
          <!-- Custom Galleries -->
@@ -178,6 +208,14 @@ export function reduce(
               '\n'
           )
         })
+      } else if (!action.payload.customGalleryIds) {
+        newAppData.vmsCodeToCopy = newAppData.vmsCodeToCopy.concat(
+          '\n' +
+            `<div class="yotpo yotpo-pictures-widget"
+                   data-gallery-id="">
+                 </div>` +
+            '\n'
+        )
       }
 
       newAppData.smsCodeToCopy = `
@@ -268,6 +306,9 @@ export function reduce(
         if (instance.static_content.companyName) {
           newAppData.companyName = instance.static_content.companyName
         }
+        if (instance.static_content.platformName) {
+          newAppData.loyaltyPlatforms.push(instance.static_content.platformName)
+        }
         if (instance.static_content.merchantId) {
           newAppData.loyaltyData.map((entry) => {
             if (entry.id === 'merchantId') {
@@ -300,12 +341,18 @@ export function reduce(
       })
 
       newAppData.loyaltyCodeToCopy = `
-      <script src="https://cdn-widgetsrepository.yotpo.com/v1/loader/${newAppData.guid}" async></script>
+      <script src="https://cdn-widgetsrepository.yotpo.com/v1/loader/${
+        newAppData.guid
+      }" async></script>
         <div id="swell-customer-identification"
              data-authenticated="true"
-             data-email="${newAppData.customerEmail}"
-             data-id="${newAppData.customerId}"
-             data-tags="${newAppData.customerTags}"
+             data-email="${
+               newAppData.customerEmail ? newAppData.customerEmail : ''
+             }"
+             data-id="${newAppData.customerId ? newAppData.customerId : ''}"
+             data-tags="${
+               newAppData.customerTags ? newAppData.customerTags : ''
+             }"
              style="display:none;">
          </div>
          <div id="yotpo-loyalty-checkout-data"
