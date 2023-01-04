@@ -13,6 +13,7 @@ import { ICustomQuestion } from '../../models/ICustomQuestion'
 import { IAccount } from '../../models/IAccount'
 import AccountsTab from '../accountsTab/accountsTab'
 import SubscriptionTab from '../subscriptionsTab/subscriptionsTab'
+import { ICurrency } from '../../models/ICurrency'
 
 export class AppData {
   // Reviews
@@ -360,4 +361,913 @@ export class AppData {
   subscriptionsCodeToCopy: string = `
     <script src="https://cdn-widgetsrepository.yotpo.com/v1/loader/appKey" async></script>
       `
+
+  currencies: ICurrency[] = [
+    {
+      value: 'ADP',
+    },
+    {
+      value: 'AED',
+    },
+    {
+      value: 'AFA',
+    },
+    {
+      value: 'AFN',
+    },
+    {
+      value: 'ALK',
+    },
+    {
+      value: 'ALL',
+    },
+    {
+      value: 'AMD',
+    },
+    {
+      value: 'ANG',
+    },
+    {
+      value: 'AOA',
+    },
+    {
+      value: 'AOK',
+    },
+    {
+      value: 'AON',
+    },
+    {
+      value: 'AOR',
+    },
+    {
+      value: 'ARA',
+    },
+    {
+      value: 'ARP',
+    },
+    {
+      value: 'ARS',
+    },
+    {
+      value: 'ARY',
+    },
+    {
+      value: 'ATS',
+    },
+    {
+      value: 'AUD',
+    },
+    {
+      value: 'AWG',
+    },
+    {
+      value: 'AYM',
+    },
+    {
+      value: 'AZM',
+    },
+    {
+      value: 'AZN',
+    },
+    {
+      value: 'BAD',
+    },
+    {
+      value: 'BAM',
+    },
+    {
+      value: 'BBD',
+    },
+    {
+      value: 'BDT',
+    },
+    {
+      value: 'BEC',
+    },
+    {
+      value: 'BEF',
+    },
+    {
+      value: 'BEL',
+    },
+    {
+      value: 'BGJ',
+    },
+    {
+      value: 'BGK',
+    },
+    {
+      value: 'BGL',
+    },
+    {
+      value: 'BGN',
+    },
+    {
+      value: 'BHD',
+    },
+    {
+      value: 'BIF',
+    },
+    {
+      value: 'BMD',
+    },
+    {
+      value: 'BND',
+    },
+    {
+      value: 'BOB',
+    },
+    {
+      value: 'BOP',
+    },
+    {
+      value: 'BOV',
+    },
+    {
+      value: 'BRB',
+    },
+    {
+      value: 'BRC',
+    },
+    {
+      value: 'BRE',
+    },
+    {
+      value: 'BRL',
+    },
+    {
+      value: 'BRN',
+    },
+    {
+      value: 'BRR',
+    },
+    {
+      value: 'BSD',
+    },
+    {
+      value: 'BTN',
+    },
+    {
+      value: 'BUK',
+    },
+    {
+      value: 'BWP',
+    },
+    {
+      value: 'BYB',
+    },
+    {
+      value: 'BYN',
+    },
+    {
+      value: 'BYR',
+    },
+    {
+      value: 'BZD',
+    },
+    {
+      value: 'CAD',
+    },
+    {
+      value: 'CDF',
+    },
+    {
+      value: 'CHC',
+    },
+    {
+      value: 'CHE',
+    },
+    {
+      value: 'CHF',
+    },
+    {
+      value: 'CHW',
+    },
+    {
+      value: 'CLF',
+    },
+    {
+      value: 'CLP',
+    },
+    {
+      value: 'CNY',
+    },
+    {
+      value: 'COP',
+    },
+    {
+      value: 'COU',
+    },
+    {
+      value: 'CRC',
+    },
+    {
+      value: 'CSD',
+    },
+    {
+      value: 'CSJ',
+    },
+    {
+      value: 'CSK',
+    },
+    {
+      value: 'CUC',
+    },
+    {
+      value: 'CUP',
+    },
+    {
+      value: 'CVE',
+    },
+    {
+      value: 'CYP',
+    },
+    {
+      value: 'CZK',
+    },
+    {
+      value: 'DDM',
+    },
+    {
+      value: 'DEM',
+    },
+    {
+      value: 'DJF',
+    },
+    {
+      value: 'DKK',
+    },
+    {
+      value: 'DOP',
+    },
+    {
+      value: 'DZD',
+    },
+    {
+      value: 'ECS',
+    },
+    {
+      value: 'ECV',
+    },
+    {
+      value: 'EEK',
+    },
+    {
+      value: 'EGP',
+    },
+    {
+      value: 'ERN',
+    },
+    {
+      value: 'ESA',
+    },
+    {
+      value: 'ESB',
+    },
+    {
+      value: 'ESP',
+    },
+    {
+      value: 'ETB',
+    },
+    {
+      value: 'EUR',
+    },
+    {
+      value: 'FIM',
+    },
+    {
+      value: 'FJD',
+    },
+    {
+      value: 'FKP',
+    },
+    {
+      value: 'FRF',
+    },
+    {
+      value: 'GBP',
+    },
+    {
+      value: 'GEK',
+    },
+    {
+      value: 'GEL',
+    },
+    {
+      value: 'GHC',
+    },
+    {
+      value: 'GHP',
+    },
+    {
+      value: 'GHS',
+    },
+    {
+      value: 'GIP',
+    },
+    {
+      value: 'GMD',
+    },
+    {
+      value: 'GNE',
+    },
+    {
+      value: 'GNF',
+    },
+    {
+      value: 'GNS',
+    },
+    {
+      value: 'GQE',
+    },
+    {
+      value: 'GRD',
+    },
+    {
+      value: 'GTQ',
+    },
+    {
+      value: 'GWE',
+    },
+    {
+      value: 'GWP',
+    },
+    {
+      value: 'GYD',
+    },
+    {
+      value: 'HKD',
+    },
+    {
+      value: 'HNL',
+    },
+    {
+      value: 'HRD',
+    },
+    {
+      value: 'HRK',
+    },
+    {
+      value: 'HTG',
+    },
+    {
+      value: 'HUF',
+    },
+    {
+      value: 'IDR',
+    },
+    {
+      value: 'IEP',
+    },
+    {
+      value: 'ILP',
+    },
+    {
+      value: 'ILR',
+    },
+    {
+      value: 'ILS',
+    },
+    {
+      value: 'INR',
+    },
+    {
+      value: 'IQD',
+    },
+    {
+      value: 'IRR',
+    },
+    {
+      value: 'ISJ',
+    },
+    {
+      value: 'ISK',
+    },
+    {
+      value: 'ITL',
+    },
+    {
+      value: 'JMD',
+    },
+    {
+      value: 'JOD',
+    },
+    {
+      value: 'JPY',
+    },
+    {
+      value: 'KES',
+    },
+    {
+      value: 'KGS',
+    },
+    {
+      value: 'KHR',
+    },
+    {
+      value: 'KMF',
+    },
+    {
+      value: 'KPW',
+    },
+    {
+      value: 'KRW',
+    },
+    {
+      value: 'KWD',
+    },
+    {
+      value: 'KYD',
+    },
+    {
+      value: 'KZT',
+    },
+    {
+      value: 'LAJ',
+    },
+    {
+      value: 'LAK',
+    },
+    {
+      value: 'LBP',
+    },
+    {
+      value: 'LKR',
+    },
+    {
+      value: 'LRD',
+    },
+    {
+      value: 'LSL',
+    },
+    {
+      value: 'LSM',
+    },
+    {
+      value: 'LTL',
+    },
+    {
+      value: 'LTT',
+    },
+    {
+      value: 'LUC',
+    },
+    {
+      value: 'LUF',
+    },
+    {
+      value: 'LUL',
+    },
+    {
+      value: 'LVL',
+    },
+    {
+      value: 'LVR',
+    },
+    {
+      value: 'LYD',
+    },
+    {
+      value: 'MAD',
+    },
+    {
+      value: 'MDL',
+    },
+    {
+      value: 'MGA',
+    },
+    {
+      value: 'MGF',
+    },
+    {
+      value: 'MKD',
+    },
+    {
+      value: 'MLF',
+    },
+    {
+      value: 'MMK',
+    },
+    {
+      value: 'MNT',
+    },
+    {
+      value: 'MOP',
+    },
+    {
+      value: 'MRO',
+    },
+    {
+      value: 'MRU',
+    },
+    {
+      value: 'MTL',
+    },
+    {
+      value: 'MTP',
+    },
+    {
+      value: 'MUR',
+    },
+    {
+      value: 'MVQ',
+    },
+    {
+      value: 'MVR',
+    },
+    {
+      value: 'MWK',
+    },
+    {
+      value: 'MXN',
+    },
+    {
+      value: 'MXP',
+    },
+    {
+      value: 'MXV',
+    },
+    {
+      value: 'MYR',
+    },
+    {
+      value: 'MZE',
+    },
+    {
+      value: 'MZM',
+    },
+    {
+      value: 'MZN',
+    },
+    {
+      value: 'NAD',
+    },
+    {
+      value: 'NGN',
+    },
+    {
+      value: 'NIC',
+    },
+    {
+      value: 'NIO',
+    },
+    {
+      value: 'NLG',
+    },
+    {
+      value: 'NOK',
+    },
+    {
+      value: 'NPR',
+    },
+    {
+      value: 'NZD',
+    },
+    {
+      value: 'OMR',
+    },
+    {
+      value: 'PAB',
+    },
+    {
+      value: 'PEH',
+    },
+    {
+      value: 'PEI',
+    },
+    {
+      value: 'PEN',
+    },
+    {
+      value: 'PES',
+    },
+    {
+      value: 'PGK',
+    },
+    {
+      value: 'PHP',
+    },
+    {
+      value: 'PKR',
+    },
+    {
+      value: 'PLN',
+    },
+    {
+      value: 'PLZ',
+    },
+    {
+      value: 'PTE',
+    },
+    {
+      value: 'PYG',
+    },
+    {
+      value: 'QAR',
+    },
+    {
+      value: 'RHD',
+    },
+    {
+      value: 'ROK',
+    },
+    {
+      value: 'ROL',
+    },
+    {
+      value: 'RON',
+    },
+    {
+      value: 'RSD',
+    },
+    {
+      value: 'RUB',
+    },
+    {
+      value: 'RUR',
+    },
+    {
+      value: 'RWF',
+    },
+    {
+      value: 'SAR',
+    },
+    {
+      value: 'SBD',
+    },
+    {
+      value: 'SCR',
+    },
+    {
+      value: 'SDD',
+    },
+    {
+      value: 'SDG',
+    },
+    {
+      value: 'SDP',
+    },
+    {
+      value: 'SEK',
+    },
+    {
+      value: 'SGD',
+    },
+    {
+      value: 'SHP',
+    },
+    {
+      value: 'SIT',
+    },
+    {
+      value: 'SKK',
+    },
+    {
+      value: 'SLL',
+    },
+    {
+      value: 'SOS',
+    },
+    {
+      value: 'SRD',
+    },
+    {
+      value: 'SRG',
+    },
+    {
+      value: 'SSP',
+    },
+    {
+      value: 'STD',
+    },
+    {
+      value: 'STN',
+    },
+    {
+      value: 'SUR',
+    },
+    {
+      value: 'SVC',
+    },
+    {
+      value: 'SYP',
+    },
+    {
+      value: 'SZL',
+    },
+    {
+      value: 'THB',
+    },
+    {
+      value: 'TJR',
+    },
+    {
+      value: 'TJS',
+    },
+    {
+      value: 'TMM',
+    },
+    {
+      value: 'TMT',
+    },
+    {
+      value: 'TND',
+    },
+    {
+      value: 'TOP',
+    },
+    {
+      value: 'TPE',
+    },
+    {
+      value: 'TRL',
+    },
+    {
+      value: 'TRY',
+    },
+    {
+      value: 'TTD',
+    },
+    {
+      value: 'TWD',
+    },
+    {
+      value: 'TZS',
+    },
+    {
+      value: 'UAH',
+    },
+    {
+      value: 'UAK',
+    },
+    {
+      value: 'UGS',
+    },
+    {
+      value: 'UGW',
+    },
+    {
+      value: 'UGX',
+    },
+    {
+      value: 'USD',
+    },
+    {
+      value: 'USN',
+    },
+    {
+      value: 'USS',
+    },
+    {
+      value: 'UYI',
+    },
+    {
+      value: 'UYN',
+    },
+    {
+      value: 'UYP',
+    },
+    {
+      value: 'UYU',
+    },
+    {
+      value: 'UYW',
+    },
+    {
+      value: 'UZS',
+    },
+    {
+      value: 'VEB',
+    },
+    {
+      value: 'VEF',
+    },
+    {
+      value: 'VES',
+    },
+    {
+      value: 'VNC',
+    },
+    {
+      value: 'VND',
+    },
+    {
+      value: 'VUV',
+    },
+    {
+      value: 'WST',
+    },
+    {
+      value: 'XAF',
+    },
+    {
+      value: 'XAG',
+    },
+    {
+      value: 'XAU',
+    },
+    {
+      value: 'XBA',
+    },
+    {
+      value: 'XBB',
+    },
+    {
+      value: 'XBC',
+    },
+    {
+      value: 'XBD',
+    },
+    {
+      value: 'XCD',
+    },
+    {
+      value: 'XDR',
+    },
+    {
+      value: 'XEU',
+    },
+    {
+      value: 'XFO',
+    },
+    {
+      value: 'XFU',
+    },
+    {
+      value: 'XOF',
+    },
+    {
+      value: 'XPD',
+    },
+    {
+      value: 'XPF',
+    },
+    {
+      value: 'XPT',
+    },
+    {
+      value: 'XRE',
+    },
+    {
+      value: 'XSU',
+    },
+    {
+      value: 'XTS',
+    },
+    {
+      value: 'XUA',
+    },
+    {
+      value: 'XXX',
+    },
+    {
+      value: 'YDD',
+    },
+    {
+      value: 'YER',
+    },
+    {
+      value: 'YUD',
+    },
+    {
+      value: 'YUM',
+    },
+    {
+      value: 'YUN',
+    },
+    {
+      value: 'ZAL',
+    },
+    {
+      value: 'ZAR',
+    },
+    {
+      value: 'ZMK',
+    },
+    {
+      value: 'ZMW',
+    },
+    {
+      value: 'ZRN',
+    },
+    {
+      value: 'ZRZ',
+    },
+    {
+      value: 'ZWC',
+    },
+    {
+      value: 'ZWD',
+    },
+    {
+      value: 'ZWL',
+    },
+    {
+      value: 'ZWN',
+    },
+    {
+      value: 'ZWR',
+    },
+  ]
 }

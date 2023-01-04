@@ -1,0 +1,12 @@
+.autoContainer {
+    z-index: 999;
+    position: absolute;
+    width: 72%;
+    overflow-y: scroll;
+    height: auto;
+    max-height: 200px;
+    background-color: white;
+    margin-top: 3px;
+    box-shadow: 2px 2px 4px 0px #4E5163;
+    border-radius: 5px;
+}

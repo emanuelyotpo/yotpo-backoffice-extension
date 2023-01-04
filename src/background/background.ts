@@ -80,7 +80,7 @@ chrome.runtime.onInstalled.addListener((details) => {
     getStoredOptions().then((storedOptions: any) => {
       if (storedOptions) {
         !('darkMode' in storedOptions) && (storedOptions.darkMode = false)
-        console.log(storedOptions)
+        // console.log(storedOptions)
         setStoredOptions(storedOptions)
       } else {
         setStoredOptions(options)

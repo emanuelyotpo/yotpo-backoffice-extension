@@ -20,6 +20,7 @@ import { toast } from '../../utils/generalFunctions'
 import { YotpoDropdown } from '@yotpo-common/react-b2b-components/dropdown'
 import { YotpoList } from '@yotpo-common/react-b2b-components/list'
 import { YotpoListItem } from '@yotpo-common/react-b2b-components/list-item'
+import CurrencyAutocomplete from '../currencyAutocomplete/currencyAutocomplete'
 
 export default function EditStaticContent(props: any) {
   let guid = useSelector((state: AppData) => state.guid)
@@ -31,15 +32,13 @@ export default function EditStaticContent(props: any) {
     setToggle(false)
   }
   let [toggle, setToggle] = useState(false)
-  let toggleInput = () => {
-    setToggle(false)
-  }
   let [staticContent, setStaticContent] = useState({})
   let [loginURL, setLoginURL] = useState('')
   let [registrationURL, setRegistrationURL] = useState('')
   let [platformName, setPlatformName] = useState('')
   let [baseUrl, setBaseUrl] = useState('')
   let [currency, setCurrency] = useState('')
+  let [disabled, setDisabled] = useState(false)
   let platformList = [
     'bigcommerce',
     'commerce_cloud',
@@ -50,32 +49,48 @@ export default function EditStaticContent(props: any) {
   ]
 
   function handleChange(key: any, event: any) {
+    // let value = event.target.value
     if (!event.target.value) {
       return
     }
-    if (key === 'storeAccountLoginUrl' || key === 'storeLoginUrl') {
-      setLoginURL(event.target.value)
-    } else if (
-      key === 'storeAccountRegistrationUrl' ||
-      key === 'storeRegistrationUrl'
-    ) {
-      setRegistrationURL(event.target.value)
-    } else if (key === 'platformName') {
-      setPlatformName(event.target.value)
-    } else if (key === 'baseUrl') {
-      setBaseUrl(event.target.value)
-    } else if (key === 'currency') {
-      setCurrency(event.target.value)
+    // if (key === 'storeAccountLoginUrl' || key === 'storeLoginUrl') {
+    //   setLoginURL(event.target.value)
+    // } else if (
+    //   key === 'storeAccountRegistrationUrl' ||
+    //   key === 'storeRegistrationUrl'
+    // ) {
+    //   setRegistrationURL(event.target.value)
+    // } else if (key === 'platformName') {
+    //   setPlatformName(event.target.value)
+    // } else if (key === 'baseUrl') {
+    //   setBaseUrl(event.target.value)
+    // }
+    // saveToStaticContent(key, event.target.value)
+    staticContent[key] = event.target.value
+  }
+
+  let getData = (value: string) => {
+    if (value.length === 3) {
+      staticContent['currency'] = value
     }
-    saveToStaticContent(key, event.target.value)
   }
 
   let saveToStaticContent = (key: string, value: string) => {
-    if (key === 'currency') {
-      staticContent[key] = value.toUpperCase()
-    } else {
-      staticContent[key] = value.toLowerCase()
-    }
+    // if (key === 'currency') {
+    //   staticContent[key] = value.toUpperCase()
+    // } else {
+    //   staticContent[key] = value.toLowerCase()
+    // }
+    // console.log(
+    //   'disable? ',
+    //   !loginURL.length &&
+    //     !registrationURL.length &&
+    //     !platformName.length &&
+    //     !baseUrl.length &&
+    //     !(currency.length === 3)
+    // )
+    // console.log(!(currency.length === 3))
+    // console.log(staticContent)
   }
 
   let handleSave = () => {
@@ -116,6 +131,7 @@ export default function EditStaticContent(props: any) {
 
   useEffect(() => {
     setLoyaltyInstanceStaticContent()
+    getData = getData.bind(this)
   }, [])
 
   return (
@@ -130,13 +146,13 @@ export default function EditStaticContent(props: any) {
         onYotpoHide={handleClose}
         onYotpoMainAction={handleSave}
         onYotpoSecondaryAction={handleClose}
-        mainActionDisabled={
-          !loginURL.length &&
-          !registrationURL.length &&
-          !platformName.length &&
-          !baseUrl.length &&
-          !currency.length
-        }
+        // mainActionDisabled={
+        //   !loginURL.length &&
+        //   !registrationURL.length &&
+        //   !platformName.length &&
+        //   !baseUrl.length &&
+        //   !(currency.length === 3)
+        // }
       >
         {Object.keys(staticContent).map((key, i) => (
           <p key={i}>
@@ -163,33 +179,45 @@ export default function EditStaticContent(props: any) {
                     </YotpoTooltip>
                   </>
                 ) : key === 'platformName' ? (
-                  <YotpoDropdown
-                    clearable
-                    required
-                    placeholder={platformName}
-                    value={staticContent[key]}
-                    onYotpoSelect={(event: Event) => handleChange(key, event)}
-                    onYotpoChange={(event: Event) => handleChange(key, event)}
-                  >
-                    <YotpoIcon name="chevron-down-big" slot="suffix" />
-                    <YotpoList>
-                      {platformList.map((name, i) => (
-                        <YotpoListItem
-                          label={name}
-                          value={name}
-                        ></YotpoListItem>
-                      ))}
-                    </YotpoList>
-                  </YotpoDropdown>
+                  <span>
+                    <YotpoDropdown
+                      clearable
+                      required
+                      placeholder={platformName}
+                      value={staticContent[key]}
+                      onYotpoSelect={(event: Event) => handleChange(key, event)}
+                      onYotpoChange={(event: Event) => handleChange(key, event)}
+                    >
+                      <YotpoIcon name="chevron-down-big" slot="suffix" />
+                      <YotpoList>
+                        {platformList.map((name, i) => (
+                          <YotpoListItem
+                            label={name}
+                            value={name}
+                          ></YotpoListItem>
+                        ))}
+                      </YotpoList>
+                    </YotpoDropdown>
+                  </span>
+                ) : key === 'currency' ? (
+                  <span>
+                    <CurrencyAutocomplete
+                      key={key}
+                      value={staticContent[key]}
+                      sendData={getData}
+                    />
+                  </span>
                 ) : (
-                  <YotpoInput
-                    type={YotpoInputType.text}
-                    clearable={true}
-                    required={true}
-                    value={staticContent[key]}
-                    placeholder={staticContent[key]}
-                    onYotpoChange={(event: Event) => handleChange(key, event)}
-                  />
+                  <span>
+                    <YotpoInput
+                      type={YotpoInputType.text}
+                      clearable={true}
+                      required={true}
+                      value={staticContent[key]}
+                      placeholder={staticContent[key]}
+                      onYotpoChange={(event: Event) => handleChange(key, event)}
+                    />
+                  </span>
                 )}
               </>
             ) : (
