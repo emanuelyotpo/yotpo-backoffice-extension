@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { editAllLoyaltyInstanceLoginAndRegistrationURLs } from '../../utils/loyaltyFunctions'
 import { AppData } from '../redux/AppData'
@@ -96,9 +96,8 @@ export default function UpdateAllURLsModal() {
               label="Base URL"
               name="base"
               pattern={'.+(?=/rest/V1$).+'}
-              helpText={'Pattern: http(s)://domain.com/rest/V1'}
-              errorText={'Invalid pattern'}
-              onYotpoChange={(event: Event) => handleUrlChange(event)}
+              errorText={'Invalid format'}
+              onYotpoChange={(event: any) => handleUrlChange(event)}
             ></YotpoInput>
           </>
         )}

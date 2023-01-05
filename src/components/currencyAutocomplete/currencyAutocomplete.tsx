@@ -35,10 +35,6 @@ export default function CurrencyAutocomplete(props: {
   useEffect(() => {
     setOptions(currencies)
     setSearch(props.value)
-    // console.log('props ', props.value)
-    // console.log('search ',search);
-    
-
   }, [props.value])
 
   return (

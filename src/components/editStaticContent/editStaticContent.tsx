@@ -38,7 +38,6 @@ export default function EditStaticContent(props: any) {
   let [platformName, setPlatformName] = useState('')
   let [baseUrl, setBaseUrl] = useState('')
   let [currency, setCurrency] = useState('')
-  let [disabled, setDisabled] = useState(false)
   let platformList = [
     'bigcommerce',
     'commerce_cloud',
@@ -49,23 +48,9 @@ export default function EditStaticContent(props: any) {
   ]
 
   function handleChange(key: any, event: any) {
-    // let value = event.target.value
     if (!event.target.value) {
       return
     }
-    // if (key === 'storeAccountLoginUrl' || key === 'storeLoginUrl') {
-    //   setLoginURL(event.target.value)
-    // } else if (
-    //   key === 'storeAccountRegistrationUrl' ||
-    //   key === 'storeRegistrationUrl'
-    // ) {
-    //   setRegistrationURL(event.target.value)
-    // } else if (key === 'platformName') {
-    //   setPlatformName(event.target.value)
-    // } else if (key === 'baseUrl') {
-    //   setBaseUrl(event.target.value)
-    // }
-    // saveToStaticContent(key, event.target.value)
     staticContent[key] = event.target.value
   }
 
@@ -73,24 +58,6 @@ export default function EditStaticContent(props: any) {
     if (value.length === 3) {
       staticContent['currency'] = value
     }
-  }
-
-  let saveToStaticContent = (key: string, value: string) => {
-    // if (key === 'currency') {
-    //   staticContent[key] = value.toUpperCase()
-    // } else {
-    //   staticContent[key] = value.toLowerCase()
-    // }
-    // console.log(
-    //   'disable? ',
-    //   !loginURL.length &&
-    //     !registrationURL.length &&
-    //     !platformName.length &&
-    //     !baseUrl.length &&
-    //     !(currency.length === 3)
-    // )
-    // console.log(!(currency.length === 3))
-    // console.log(staticContent)
   }
 
   let handleSave = () => {
@@ -146,13 +113,13 @@ export default function EditStaticContent(props: any) {
         onYotpoHide={handleClose}
         onYotpoMainAction={handleSave}
         onYotpoSecondaryAction={handleClose}
-        // mainActionDisabled={
-        //   !loginURL.length &&
-        //   !registrationURL.length &&
-        //   !platformName.length &&
-        //   !baseUrl.length &&
-        //   !(currency.length === 3)
-        // }
+        mainActionDisabled={
+          !loginURL.length &&
+          !registrationURL.length &&
+          !platformName.length &&
+          !baseUrl.length &&
+          !currency.length
+        }
       >
         {Object.keys(staticContent).map((key, i) => (
           <p key={i}>
