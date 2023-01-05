@@ -10,41 +10,20 @@ import { YotpoTabPanel } from '@yotpo-common/react-b2b-components/tab-panel'
 import { YotpoTab } from '@yotpo-common/react-b2b-components/tab'
 import '@yotpo-common/react-b2b-components/themes/theme.css'
 import NotLoggedIn from '../notLoggedIn/notLoggedIn'
+import Tabs from '../tabs/tabs'
 
 export default function Layout() {
   let dispatch = useDispatch()
-  let tabs: ITabData[] = useSelector((state: AppData) => state.tabs)
+  let darkMode: boolean = useSelector((state: AppData) => state.darkMode)
   let isLoggedInUserAYotpoAddress: boolean = useSelector(
     (state: AppData) => state.isLoggedInUserAYotpoAddress
   )
-  let darkMode: boolean = useSelector((state: AppData) => state.darkMode)
 
   chrome.identity.getProfileUserInfo((userInfo) => {
     dispatch({ type: ActionType.SetLoggedInUer, payload: userInfo })
   })
 
-  chrome.tabs.query({ active: true }, (tabs) => {
-    if (tabs[0].title !== 'New Tab') {
-      chrome.runtime.sendMessage({ init: 'go' }, async (response: any) => {
-        if (response) {
-          dispatch({
-            type: ActionType.SetInitialData,
-            payload: response,
-          })
-        }
-      })
-    }
-  })
-
-  useEffect(() => {
-    getStoredOptions().then((options) => {
-      if (options) {
-        dispatch({ type: ActionType.SetStoredOptions, payload: options })
-      } else {
-        return
-      }
-    })
-  }, [darkMode])
+  useEffect(() => {}, [darkMode, isLoggedInUserAYotpoAddress])
 
   // if(darkMode){
   //   document.body.className = 'yotpo-theme-dark-bg'
@@ -57,26 +36,7 @@ export default function Layout() {
       //   darkMode ? 'yotpo-theme-dark layout' : 'yotpo-theme-light layout'
       // }
     >
-      {isLoggedInUserAYotpoAddress ? (
-        <YotpoTabGroup>
-          {tabs.map((tabInfo, index: Key | null | undefined) => (
-            <YotpoTab
-              key={index}
-              label={tabInfo.label}
-              slot="tab"
-              selected={index === 0 ? true : false}
-            ></YotpoTab>
-          ))}
-
-          {tabs.map((tabInfo, index: Key | null | undefined) => (
-            <YotpoTabPanel key={index} tab={tabInfo.label}>
-              {tabInfo.tab}
-            </YotpoTabPanel>
-          ))}
-        </YotpoTabGroup>
-      ) : (
-        <NotLoggedIn />
-      )}
+      {isLoggedInUserAYotpoAddress ? <Tabs /> : <NotLoggedIn />}
     </div>
   )
 }
