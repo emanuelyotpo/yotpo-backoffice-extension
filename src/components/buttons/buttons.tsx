@@ -30,47 +30,36 @@ export default function Buttons(props: {
 
   return (
     <div className="buttons">
-      {props.buttons.map(
-        (
-          button: {
-            description: string
-            func?: any
-            href?: string
-            target?: string
-            toolTip: string
-          },
-          index: Key | null | undefined
-        ) => {
-          if (button.func === 'updateURLs') {
-            return <UpdateAllURLsModal key={index} />
-          } else {
-            return (
-              <YotpoTooltip
-                key={index}
-                text={button.toolTip}
-                visibilityEnabled={!isUpdateAllURLsModalOpen}
+      {props.buttons.map((button: IButton, index: Key | null | undefined) => {
+        if (button.func === 'updateURLs') {
+          return <UpdateAllURLsModal key={index} />
+        } else {
+          return (
+            <YotpoTooltip
+              key={index}
+              text={button.toolTip}
+              visibilityEnabled={!isUpdateAllURLsModalOpen}
+            >
+              <YotpoButton
+                onClick={() => {
+                  button.func === 'richSnippets'
+                    ? richSnippetsResultsConnector()
+                    : button.func === 'inspectClean'
+                    ? (copyToClipboard(props.codeToCopy),
+                      window.open(defaultJs, '_blank'))
+                    : button.func === 'backoffice'
+                    ? window.open(backofficeUrl, '_blank')
+                    : button.func === 'loader'
+                    ? window.open(button.href + guid, '_blank')
+                    : window.open(button.href, '_blank')
+                }}
               >
-                <YotpoButton
-                  onClick={() => {
-                    button.func === 'richSnippets'
-                      ? richSnippetsResultsConnector()
-                      : button.func === 'inspectClean'
-                      ? (copyToClipboard(props.codeToCopy),
-                        window.open(defaultJs, '_blank'))
-                      : button.func === 'backoffice'
-                      ? window.open(backofficeUrl, '_blank')
-                      : button.func === 'loader'
-                      ? window.open(button.href + guid, '_blank')
-                      : window.open(button.href, '_blank')
-                  }}
-                >
-                  {button.description}
-                </YotpoButton>
-              </YotpoTooltip>
-            )
-          }
+                {button.description}
+              </YotpoButton>
+            </YotpoTooltip>
+          )
         }
-      )}
+      })}
     </div>
   )
 }

@@ -1,4 +1,5 @@
 import { YotpoProducts } from '@yotpo-common/react-b2b-components/enums'
+import { ITabData } from '../models/ITabData'
 import {
   setStoredOptions,
   getStoredOptions,
@@ -13,6 +14,7 @@ let options: SyncStorageOptions = {
       value: 'reviews',
       product: YotpoProducts.reviews,
       tab: `<ReviewsTab />`,
+      visible: true,
     },
     {
       id: 2,
@@ -20,6 +22,7 @@ let options: SyncStorageOptions = {
       value: 'loyalty',
       product: YotpoProducts.loyalty,
       tab: `<LoyaltyTab />`,
+      visible: true,
     },
     {
       id: 3,
@@ -27,6 +30,7 @@ let options: SyncStorageOptions = {
       value: 'vms',
       product: YotpoProducts.vugc,
       tab: `<VMSTab />`,
+      visible: true,
     },
     {
       id: 4,
@@ -34,6 +38,7 @@ let options: SyncStorageOptions = {
       value: 'sms',
       product: YotpoProducts.smsbump,
       tab: `<SMSTab />`,
+      visible: true,
     },
     {
       id: 5,
@@ -41,12 +46,14 @@ let options: SyncStorageOptions = {
       value: 'subscriptions',
       product: YotpoProducts.subscriptions,
       tab: `<SubscriptionTab />`,
+      visible: true,
     },
     {
       id: 6,
       label: 'Accounts',
       value: 'accounts',
       tab: `<AccountsTab />`,
+      visible: true,
     },
   ],
   js: [
@@ -78,9 +85,12 @@ chrome.runtime.onInstalled.addListener((details) => {
     setStoredOptions(options)
   } else {
     getStoredOptions().then((storedOptions: any) => {
+      console.log(storedOptions)
+      storedOptions.tabs.forEach((tab: ITabData) => {
+        tab.visible = true
+      })
       if (storedOptions) {
-        !('darkMode' in storedOptions) && (storedOptions.darkMode = false)
-        // console.log(storedOptions)
+        console.log(storedOptions)
         setStoredOptions(storedOptions)
       } else {
         setStoredOptions(options)

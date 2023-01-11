@@ -25,6 +25,7 @@ export default function Tabs() {
       })
     }
   })
+
   useEffect(() => {
     getStoredOptions().then((options) => {
       if (options) {
@@ -34,18 +35,18 @@ export default function Tabs() {
       }
     })
   }, [darkMode])
+
   return (
     <YotpoTabGroup>
-      {tabs.map((tabInfo, index: Key | null | undefined) => (
+      {tabs.map((tabInfo: ITabData, index: Key | null | undefined) => (
         <YotpoTab
           key={index}
           label={tabInfo.label}
-          slot="tab"
+          slot={'tab'}
           selected={index === 0 ? true : false}
         ></YotpoTab>
       ))}
-
-      {tabs.map((tabInfo, index: Key | null | undefined) => (
+      {tabs.map((tabInfo: ITabData, index: Key | null | undefined) => (
         <YotpoTabPanel key={index} tab={tabInfo.label}>
           {tabInfo.tab}
         </YotpoTabPanel>

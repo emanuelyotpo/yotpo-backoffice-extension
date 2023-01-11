@@ -19,6 +19,7 @@ export class OptionsAppData {
       value: 'reviews',
       product: YotpoProducts.reviews,
       tab: <ReviewsTab />,
+      visible: true
     },
     {
       id: 2,
@@ -26,6 +27,7 @@ export class OptionsAppData {
       value: 'loyalty',
       product: YotpoProducts.loyalty,
       tab: <LoyaltyTab />,
+      visible: true
     },
     {
       id: 3,
@@ -33,6 +35,7 @@ export class OptionsAppData {
       value: 'vms',
       product: YotpoProducts.vugc,
       tab: <VMSTab />,
+      visible: true
     },
     {
       id: 4,
@@ -40,6 +43,7 @@ export class OptionsAppData {
       value: 'sms',
       product: YotpoProducts.smsbump,
       tab: <SMSTab />,
+      visible: true
     },
     {
       id: 5,
@@ -47,12 +51,14 @@ export class OptionsAppData {
       value: 'subscriptions',
       product: YotpoProducts.subscriptions,
       tab: <SubscriptionTab />,
+      visible: true
     },
     {
       id: 6,
       label: 'Accounts',
       value: 'accounts',
       tab: <AccountsTab />,
+      visible: true
     },
   ]
 

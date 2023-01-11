@@ -1,0 +1,34 @@
+.large-product-logo {
+    display: inline-flex;
+    flex-direction: row;
+    font-family: var(--yotpo-font-graphie);
+    font-weight: var(--yotpo-font-weight-bold);
+    color: var(--yotpo-color-brand-70);
+}
+
+.gray-bg {
+    background: var(--yotpo-color-general-10);
+}
+
+.large-product-logo .icon-container {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-icon {
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+}
+
+.large-product-logo .product-label {
+    margin: 10px 10px 10px 0px;
+}
+
+.large-product-logo {
+    border-radius: 3px;
+    font-size: 12px;
+}

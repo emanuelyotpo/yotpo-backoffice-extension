@@ -57,9 +57,6 @@ export default function AccountsTab() {
       if (options) {
         dispatch({ type: ActionType.SetStoredOptions, payload: options })
       }
-      // else {
-      //   return
-      // }
     })
   }, [])
 

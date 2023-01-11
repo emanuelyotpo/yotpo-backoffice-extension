@@ -58,17 +58,13 @@ function getDataFromPage() {
   }
 
   if (!appKey) {
-    let n = document.querySelector("script[src*='//staticw2.yotpo.com']")
+    appKey = document.querySelector("script[src*='//staticw2.yotpo.com']")
       ? oldReviewsJSPattern.exec(
           document
             .querySelector("script[src*='//staticw2.yotpo.com']")
             .getAttribute('src')
-        )
+        )[1]
       : undefined
-
-    if (n) {
-      appKey = n[1]
-    }
   }
 
   if (appKey) {
@@ -205,22 +201,27 @@ function getDataFromPage() {
   }
 
   if (!guid) {
-    let n = document.querySelector(
+    guid = document.querySelector(
       "script[src*='//cdn-loyalty.yotpo.com/loader/']"
     )
       ? document
           .querySelector("script[src*='//cdn-loyalty.yotpo.com/loader/']")
           .getAttribute('src')
+          .substring(
+            document
+              .querySelector("script[src*='//cdn-loyalty.yotpo.com/loader/']")
+              .getAttribute('src')
+              .lastIndexOf('/')
+          )
+          .split('.js')[0]
+          .replace('/', '')
       : undefined
-
-    if (n) {
-      guid = n.substring(n.lastIndexOf('/')).split('.js')[0].replace('/', '')
-    }
   }
 
   let customerIdentificationDiv = document.querySelectorAll(
     '#swell-customer-identification'
   )
+
   if (customerIdentificationDiv.length === 0) {
     isCustomerIdentificationInstalled = 'Not Installed'
     customerId = undefined
@@ -228,22 +229,17 @@ function getDataFromPage() {
     customerTags = undefined
   } else {
     isCustomerIdentificationInstalled = 'Installed'
-    if (customerIdentificationDiv[0].getAttribute('data-id')) {
-      customerId = customerIdentificationDiv[0].getAttribute('data-id')
-    } else {
-      customerId = undefined
-    }
-    if (customerIdentificationDiv[0].getAttribute('data-email')) {
-      customerEmail = customerIdentificationDiv[0].getAttribute('data-email')
-    } else {
-      customerEmail = undefined
-    }
+    customerId = customerIdentificationDiv[0].getAttribute('data-id')
+      ? customerIdentificationDiv[0].getAttribute('data-id')
+      : undefined
 
-    if (customerIdentificationDiv[0].getAttribute('data-tags')) {
-      customerTags = customerIdentificationDiv[0].getAttribute('data-tags')
-    } else {
-      customerTags = undefined
-    }
+    customerEmail = customerIdentificationDiv[0].getAttribute('data-email')
+      ? customerIdentificationDiv[0].getAttribute('data-email')
+      : undefined
+
+    customerTags = customerIdentificationDiv[0].getAttribute('data-tags')
+      ? customerIdentificationDiv[0].getAttribute('data-tags')
+      : undefined
   }
   nSMS = document.querySelector("script[src*='//forms.smsbump.com/']")
     ? patternSMS.exec(
@@ -307,6 +303,13 @@ function getDataFromPage() {
   }
 
   if (platform() === 'shopify') {
+    // injectScript(chrome.runtime.getURL('content.js'), 'body')
+    // window.addEventListener('message', async (event: any) => {
+    //   if (event.data.type && event.data.type == 'FROM_PAGE') {
+    //     const data = event.data.data
+    //     myShopifyUrl = data.shop
+    //   }
+    // })
     myShopifyUrl = window.origin
   } else {
     myShopifyUrl = undefined
@@ -339,6 +342,14 @@ function getDataFromPage() {
     siteDomain: siteDomain,
     siteHref: siteHref,
   }
+}
+
+function injectScript(file_path: string, tag: string) {
+  var node = document.getElementsByTagName(tag)[0]
+  var script = document.createElement('script')
+  script.setAttribute('type', 'text/javascript')
+  script.setAttribute('src', file_path)
+  node.appendChild(script)
 }
 
 function getStringBetween(str: string, start: string, end: string) {
@@ -379,14 +390,9 @@ function DOMtoString(document_root) {
 }
 
 function docReady(fn: any) {
-  if (
-    document.readyState === 'complete' ||
-    document.readyState === 'interactive'
-  ) {
-    setTimeout(fn, 1)
-  } else {
-    document.addEventListener('DOMContentLoaded', fn)
-  }
+  document.readyState === 'complete' || document.readyState === 'interactive'
+    ? setTimeout(fn, 1)
+    : document.addEventListener('DOMContentLoaded', fn)
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {

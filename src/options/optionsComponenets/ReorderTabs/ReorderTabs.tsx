@@ -10,10 +10,14 @@ import {
 import { YotpoProductLogo } from '@yotpo-common/react-b2b-components/product-logo'
 import { Draggable } from 'react-drag-reorder'
 import { OptionsAppData } from '../Redux/OptionsAppData'
+import { YotpoIcon } from '@yotpo-common/react-b2b-components/icon'
+import TabCard from '../tabCard/tabCard'
 
 export default function ReorderTabs(props: { tabs: ITabData[] }) {
   const dispatch = useDispatch()
-  let tabs: ITabData[] = useSelector((state: OptionsAppData) => state.options.tabs)
+  let tabs: ITabData[] = useSelector(
+    (state: OptionsAppData) => state.options.tabs
+  )
 
   let handleTabsChange = (currentPos: any, newPos: any) => {
     dispatch({
@@ -22,8 +26,7 @@ export default function ReorderTabs(props: { tabs: ITabData[] }) {
     })
   }
 
-  useEffect(() => {
-  }, [tabs])
+  useEffect(() => {}, [tabs])
 
   return (
     <>
@@ -36,19 +39,8 @@ export default function ReorderTabs(props: { tabs: ITabData[] }) {
           }
         >
           {tabs.map((tab: ITabData, index: Key | undefined | null) => {
-            if (!tab.product) {
-              return
-            } else {
-              return (
-                <div key={tab.id}>
-                  <YotpoProductLogo
-                    productName={tab.product}
-                    size={YotpoSize.large}
-                    bgColor={YotpoProductLogoBackGroundColor.gray}
-                    showProductName={true}
-                  ></YotpoProductLogo>
-                </div>
-              )
+            if(tab.visible) {
+              return(<TabCard key={index} tab={tab} index={tab.id} />)
             }
           })}
         </Draggable>
